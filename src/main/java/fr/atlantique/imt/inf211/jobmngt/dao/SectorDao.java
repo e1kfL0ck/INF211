@@ -27,7 +27,7 @@ public class SectorDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
+   /* @Transactional
     public void persist(Sector transientInstance) {
         logger.log(Level.INFO, "persisting Sector instance");
         try {
@@ -49,7 +49,7 @@ public class SectorDao {
             logger.log(Level.SEVERE, "remove failed", re);
             throw re;
         }
-    }
+    }*/
 
     @Transactional
     public Sector merge(Sector detachedInstance) {
@@ -94,6 +94,14 @@ public class SectorDao {
             r += " DESC";
         }
         TypedQuery<Sector> q = entityManager.createQuery(r, Sector.class);
+        return q.getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Sector> findByLabel(String label) {
+        String r = "SELECT sector FROM Sector sector WHERE sector.label = :label";
+        TypedQuery<Sector> q = entityManager.createQuery(r, Sector.class);
+        q.setParameter("label", label);
         return q.getResultList();
     }
 }
