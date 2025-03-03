@@ -25,6 +25,7 @@ public class AppUser implements java.io.Serializable {
     private String mail;
     private String password;
     private String usertype;
+    private String city;
     private Set<Candidate> candidates = new HashSet<Candidate>(0);
     private Set<Company> companies = new HashSet<Company>(0);
 
@@ -38,11 +39,12 @@ public class AppUser implements java.io.Serializable {
         this.password = password;
     }
 
-    public AppUser(int id, String mail, String password, String usertype, Set<Candidate> candidates, Set<Company> companies) {
+    public AppUser(int id, String mail, String password, String usertype, String city, Set<Candidate> candidates, Set<Company> companies) {
         this.id = id;
         this.mail = mail;
         this.password = password;
         this.usertype = usertype;
+        this.city = city;
         this.candidates = candidates;
         this.companies = companies;
     }
@@ -89,6 +91,15 @@ public class AppUser implements java.io.Serializable {
 
     public void setUsertype(String usertype) {
         this.usertype = usertype;
+    }
+
+    @Column(name="city")
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "appuser")

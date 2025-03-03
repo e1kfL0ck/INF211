@@ -34,7 +34,6 @@ public class Company  implements java.io.Serializable {
      private AppUser appuser;
      private String name;
      private String description;
-     private String city;
      private Set<JobOffer> jobOffers = new HashSet<JobOffer>(0);
 
     public Company() {
@@ -45,12 +44,11 @@ public class Company  implements java.io.Serializable {
         this.id = id;
         this.name = name;
     }
-    public Company(int id, AppUser appuser, String name, String description, String city, Set<JobOffer> jobOffers) {
+    public Company(int id, AppUser appuser, String name, String description, Set<JobOffer> jobOffers) {
        this.id = id;
        this.appuser = appuser;
        this.name = name;
        this.description = description;
-       this.city = city;
        this.jobOffers = jobOffers;
     }
    
@@ -98,16 +96,6 @@ public class Company  implements java.io.Serializable {
         this.description = description;
     }
 
-    
-    @Column(name="city")
-    public String getCity() {
-        return this.city;
-    }
-    
-    public void setCity(String city) {
-        this.city = city;
-    }
-
 @OneToMany(fetch=FetchType.LAZY, mappedBy="company")
     public Set<JobOffer> getJoboffers() {
         return this.jobOffers;
@@ -116,9 +104,6 @@ public class Company  implements java.io.Serializable {
     public void setJoboffers(Set<JobOffer> jobOffers) {
         this.jobOffers = jobOffers;
     }
-
-
-
 
 }
 
