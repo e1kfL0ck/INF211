@@ -1,27 +1,29 @@
-// default package
+package fr.atlantique.imt.inf211.jobmngt.dao;
 // Generated 3 mars 2025, 15:44:52 by Hibernate Tools 5.6.15.Final
 
 
+import fr.atlantique.imt.inf211.jobmngt.entity.*;
+ import org.springframework.transaction.annotation.Transactional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 /**
- * Home object for domain model class Appuser.
- * @see .Appuser
+ * Home object for domain model class Candidate.
+ * @see .Candidate
  * @author Hibernate Tools
  */
-@Stateless
-public class AppuserHome {
+@Repository
+public class CandidateDao {
 
-    private static final Logger logger = Logger.getLogger(AppuserHome.class.getName());
+    private static final Logger logger = Logger.getLogger(CandidateDao.class.getName());
 
     @PersistenceContext private EntityManager entityManager;
     
-    public void persist(Appuser transientInstance) {
-        logger.log(Level.INFO, "persisting Appuser instance");
+    public void persist(Candidate transientInstance) {
+        logger.log(Level.INFO, "persisting Candidate instance");
         try {
             entityManager.persist(transientInstance);
             logger.log(Level.INFO, "persist successful");
@@ -32,8 +34,8 @@ public class AppuserHome {
         }
     }
     
-    public void remove(Appuser persistentInstance) {
-        logger.log(Level.INFO, "removing Appuser instance");
+    public void remove(Candidate persistentInstance) {
+        logger.log(Level.INFO, "removing Candidate instance");
         try {
             entityManager.remove(persistentInstance);
             logger.log(Level.INFO, "remove successful");
@@ -44,10 +46,10 @@ public class AppuserHome {
         }
     }
     
-    public Appuser merge(Appuser detachedInstance) {
-        logger.log(Level.INFO, "merging Appuser instance");
+    public Candidate merge(Candidate detachedInstance) {
+        logger.log(Level.INFO, "merging Candidate instance");
         try {
-            Appuser result = entityManager.merge(detachedInstance);
+            Candidate result = entityManager.merge(detachedInstance);
             logger.log(Level.INFO, "merge successful");
             return result;
         }
@@ -57,10 +59,10 @@ public class AppuserHome {
         }
     }
     
-    public Appuser findById( int id) {
-        logger.log(Level.INFO, "getting Appuser instance with id: " + id);
+    public Candidate findById( int id) {
+        logger.log(Level.INFO, "getting Candidate instance with id: " + id);
         try {
-            Appuser instance = entityManager.find(Appuser.class, id);
+            Candidate instance = entityManager.find(Candidate.class, id);
             logger.log(Level.INFO, "get successful");
             return instance;
         }
