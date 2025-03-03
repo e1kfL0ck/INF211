@@ -3,27 +3,29 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 
 
 import fr.atlantique.imt.inf211.jobmngt.entity.*;
- import org.springframework.transaction.annotation.Transactional;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Home object for domain model class Joboffermessage.
- * @see .Joboffermessage
+ * Home object for domain model class Applicationmessage.
+ * @see .Applicationmessage
  * @author Hibernate Tools
  */
 @Repository
-public class JoboffermessageDao {
+public class ApplicationMessageDao {
 
-    private static final Logger logger = Logger.getLogger(JoboffermessageDao.class.getName());
+    private static final Logger logger = Logger.getLogger(ApplicationMessageDao.class.getName());
 
     @PersistenceContext private EntityManager entityManager;
-    
-    public void persist(Joboffermessage transientInstance) {
-        logger.log(Level.INFO, "persisting Joboffermessage instance");
+
+    @Transactional
+    public void persist(ApplicationMessage transientInstance) {
+        logger.log(Level.INFO, "persisting Applicationmessage instance");
         try {
             entityManager.persist(transientInstance);
             logger.log(Level.INFO, "persist successful");
@@ -33,9 +35,10 @@ public class JoboffermessageDao {
             throw re;
         }
     }
-    
-    public void remove(Joboffermessage persistentInstance) {
-        logger.log(Level.INFO, "removing Joboffermessage instance");
+
+    @Transactional
+    public void remove(ApplicationMessage persistentInstance) {
+        logger.log(Level.INFO, "removing Applicationmessage instance");
         try {
             entityManager.remove(persistentInstance);
             logger.log(Level.INFO, "remove successful");
@@ -45,11 +48,12 @@ public class JoboffermessageDao {
             throw re;
         }
     }
-    
-    public Joboffermessage merge(Joboffermessage detachedInstance) {
-        logger.log(Level.INFO, "merging Joboffermessage instance");
+
+    @Transactional
+    public ApplicationMessage merge(ApplicationMessage detachedInstance) {
+        logger.log(Level.INFO, "merging Applicationmessage instance");
         try {
-            Joboffermessage result = entityManager.merge(detachedInstance);
+            ApplicationMessage result = entityManager.merge(detachedInstance);
             logger.log(Level.INFO, "merge successful");
             return result;
         }
@@ -58,11 +62,12 @@ public class JoboffermessageDao {
             throw re;
         }
     }
-    
-    public Joboffermessage findById( int id) {
-        logger.log(Level.INFO, "getting Joboffermessage instance with id: " + id);
+
+    @Transactional(readOnly = true)
+    public ApplicationMessage findById(int id) {
+        logger.log(Level.INFO, "getting Applicationmessage instance with id: " + id);
         try {
-            Joboffermessage instance = entityManager.find(Joboffermessage.class, id);
+            ApplicationMessage instance = entityManager.find(ApplicationMessage.class, id);
             logger.log(Level.INFO, "get successful");
             return instance;
         }

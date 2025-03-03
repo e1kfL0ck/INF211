@@ -2,74 +2,124 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 // Generated 3 mars 2025, 15:44:52 by Hibernate Tools 5.6.15.Final
 
 
-import fr.atlantique.imt.inf211.jobmngt.entity.*;
- import org.springframework.transaction.annotation.Transactional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.stereotype.Repository;
+import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Home object for domain model class Appuser.
- * @see .Appuser
+ *
  * @author Hibernate Tools
+ * @see .Appuser
  */
 @Repository
-public class AppuserDao {
+public class AppUserDao {
 
-    private static final Logger logger = Logger.getLogger(AppuserDao.class.getName());
+    private static final Logger logger = Logger.getLogger(AppUserDao.class.getName());
 
-    @PersistenceContext private EntityManager entityManager;
-    
-    public void persist(Appuser transientInstance) {
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
+    public void persist(AppUser transientInstance) {
         logger.log(Level.INFO, "persisting Appuser instance");
         try {
             entityManager.persist(transientInstance);
             logger.log(Level.INFO, "persist successful");
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "persist failed", re);
             throw re;
         }
     }
-    
-    public void remove(Appuser persistentInstance) {
+
+    @Transactional
+    public void remove(AppUser persistentInstance) {
         logger.log(Level.INFO, "removing Appuser instance");
         try {
             entityManager.remove(persistentInstance);
             logger.log(Level.INFO, "remove successful");
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "remove failed", re);
             throw re;
         }
     }
-    
-    public Appuser merge(Appuser detachedInstance) {
+
+    @Transactional
+    public AppUser merge(AppUser detachedInstance) {
         logger.log(Level.INFO, "merging Appuser instance");
         try {
-            Appuser result = entityManager.merge(detachedInstance);
+            AppUser result = entityManager.merge(detachedInstance);
             logger.log(Level.INFO, "merge successful");
             return result;
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "merge failed", re);
             throw re;
         }
     }
-    
-    public Appuser findById( int id) {
+
+    @Transactional(readOnly = true)
+    public AppUser findById(int id) {
         logger.log(Level.INFO, "getting Appuser instance with id: " + id);
         try {
-            Appuser instance = entityManager.find(Appuser.class, id);
+            AppUser instance = entityManager.find(AppUser.class, id);
             logger.log(Level.INFO, "get successful");
             return instance;
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "get failed", re);
             throw re;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Long count() {
+        String r = "select count(*) from AppUser user";
+        TypedQuery<Long> q = entityManager.createQuery(r, Long.class);
+        return q.getSingleResult();
+    }
+
+    @Transactional(readOnly = true)
+    public List<AppUser> findAll(String sort, String order) {
+        String r = "SELECT user FROM AppUser user ORDER BY user." + sort;
+        if (order.equals("asc")) {
+            r += " ASC";
+        }
+        else {
+            r += " DESC";
+        }
+        TypedQuery<AppUser> q = entityManager.createQuery(r, AppUser.class);
+        return q.getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<AppUser> checkLogin(AppUser user) {
+        String r = "SELECT s FROM AppUser s WHERE s.mail = :login AND s.password = :pwd";
+        TypedQuery<AppUser> q = entityManager.createQuery(r, AppUser.class);
+        q.setParameter("login", user.getMail());
+        q.setParameter("pwd", user.getPassword());
+        if (q.getResultList().size() == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(q.getResultList().get(0));
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<AppUser> findByMail(String mail) {
+        String r = "SELECT s FROM AppUser s WHERE s.mail = :mail";
+        TypedQuery<AppUser> q = entityManager.createQuery(r, AppUser.class);
+        q.setParameter("mail", mail);
+        List<AppUser> res = q.getResultList();
+        if (res.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(res.get(0));
     }
 }
 

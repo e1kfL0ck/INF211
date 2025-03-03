@@ -21,7 +21,8 @@ public class CandidateDao {
     private static final Logger logger = Logger.getLogger(CandidateDao.class.getName());
 
     @PersistenceContext private EntityManager entityManager;
-    
+
+    @Transactional
     public void persist(Candidate transientInstance) {
         logger.log(Level.INFO, "persisting Candidate instance");
         try {
@@ -33,7 +34,8 @@ public class CandidateDao {
             throw re;
         }
     }
-    
+
+    @Transactional
     public void remove(Candidate persistentInstance) {
         logger.log(Level.INFO, "removing Candidate instance");
         try {
@@ -45,7 +47,8 @@ public class CandidateDao {
             throw re;
         }
     }
-    
+
+    @Transactional
     public Candidate merge(Candidate detachedInstance) {
         logger.log(Level.INFO, "merging Candidate instance");
         try {
@@ -58,7 +61,8 @@ public class CandidateDao {
             throw re;
         }
     }
-    
+
+    @Transactional(readOnly = true)
     public Candidate findById( int id) {
         logger.log(Level.INFO, "getting Candidate instance with id: " + id);
         try {

@@ -31,7 +31,7 @@ public class Candidate  implements java.io.Serializable {
 
 
      private int id;
-     private Appuser appuser;
+     private AppUser appuser;
      private String lastname;
      private String firstname;
      private String city;
@@ -46,7 +46,7 @@ public class Candidate  implements java.io.Serializable {
         this.lastname = lastname;
         this.firstname = firstname;
     }
-    public Candidate(int id, Appuser appuser, String lastname, String firstname, String city, Set<Application> applications) {
+    public Candidate(int id, AppUser appuser, String lastname, String firstname, String city, Set<Application> applications) {
        this.id = id;
        this.appuser = appuser;
        this.lastname = lastname;
@@ -71,11 +71,11 @@ public class Candidate  implements java.io.Serializable {
 
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id", unique=true)
-    public Appuser getAppuser() {
+    public AppUser getAppuser() {
         return this.appuser;
     }
     
-    public void setAppuser(Appuser appuser) {
+    public void setAppuser(AppUser appuser) {
         this.appuser = appuser;
     }
 

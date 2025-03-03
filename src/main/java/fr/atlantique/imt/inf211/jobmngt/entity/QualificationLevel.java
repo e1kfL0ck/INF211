@@ -25,26 +25,26 @@ import jakarta.persistence.UniqueConstraint;
     , uniqueConstraints = @UniqueConstraint(columnNames="label") 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-public class Qualificationlevel  implements java.io.Serializable {
+public class QualificationLevel implements java.io.Serializable {
 
 
      private int id;
      private String label;
-     private Set<Joboffer> joboffers = new HashSet<Joboffer>(0);
+     private Set<JobOffer> jobOffers = new HashSet<JobOffer>(0);
      private Set<Application> applications = new HashSet<Application>(0);
 
-    public Qualificationlevel() {
+    public QualificationLevel() {
     }
 
 	
-    public Qualificationlevel(int id, String label) {
+    public QualificationLevel(int id, String label) {
         this.id = id;
         this.label = label;
     }
-    public Qualificationlevel(int id, String label, Set<Joboffer> joboffers, Set<Application> applications) {
+    public QualificationLevel(int id, String label, Set<JobOffer> jobOffers, Set<Application> applications) {
        this.id = id;
        this.label = label;
-       this.joboffers = joboffers;
+       this.jobOffers = jobOffers;
        this.applications = applications;
     }
    
@@ -73,12 +73,12 @@ public class Qualificationlevel  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="qualificationlevel")
-    public Set<Joboffer> getJoboffers() {
-        return this.joboffers;
+    public Set<JobOffer> getJoboffers() {
+        return this.jobOffers;
     }
     
-    public void setJoboffers(Set<Joboffer> joboffers) {
-        this.joboffers = joboffers;
+    public void setJoboffers(Set<JobOffer> jobOffers) {
+        this.jobOffers = jobOffers;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="qualificationlevel")

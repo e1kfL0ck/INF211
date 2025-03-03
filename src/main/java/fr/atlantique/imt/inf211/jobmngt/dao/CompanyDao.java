@@ -21,7 +21,8 @@ public class CompanyDao {
     private static final Logger logger = Logger.getLogger(CompanyDao.class.getName());
 
     @PersistenceContext private EntityManager entityManager;
-    
+
+    @Transactional
     public void persist(Company transientInstance) {
         logger.log(Level.INFO, "persisting Company instance");
         try {
@@ -33,7 +34,8 @@ public class CompanyDao {
             throw re;
         }
     }
-    
+
+    @Transactional
     public void remove(Company persistentInstance) {
         logger.log(Level.INFO, "removing Company instance");
         try {
@@ -45,7 +47,8 @@ public class CompanyDao {
             throw re;
         }
     }
-    
+
+    @Transactional
     public Company merge(Company detachedInstance) {
         logger.log(Level.INFO, "merging Company instance");
         try {
@@ -58,7 +61,8 @@ public class CompanyDao {
             throw re;
         }
     }
-    
+
+    @Transactional(readOnly = true)
     public Company findById( int id) {
         logger.log(Level.INFO, "getting Company instance with id: " + id);
         try {

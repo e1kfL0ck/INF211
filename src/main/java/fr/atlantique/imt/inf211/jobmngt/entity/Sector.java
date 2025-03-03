@@ -33,7 +33,7 @@ public class Sector  implements java.io.Serializable {
      private int id;
      private String label;
      private Set<Application> applications = new HashSet<Application>(0);
-     private Set<Joboffer> joboffers = new HashSet<Joboffer>(0);
+     private Set<JobOffer> jobOffers = new HashSet<JobOffer>(0);
 
     public Sector() {
     }
@@ -43,11 +43,11 @@ public class Sector  implements java.io.Serializable {
         this.id = id;
         this.label = label;
     }
-    public Sector(int id, String label, Set<Application> applications, Set<Joboffer> joboffers) {
+    public Sector(int id, String label, Set<Application> applications, Set<JobOffer> jobOffers) {
        this.id = id;
        this.label = label;
        this.applications = applications;
-       this.joboffers = joboffers;
+       this.jobOffers = jobOffers;
     }
    
      @Id
@@ -90,12 +90,12 @@ public class Sector  implements java.io.Serializable {
     @JoinTable(name="joboffersector", schema="public", joinColumns = { 
         @JoinColumn(name="sector_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
         @JoinColumn(name="job_offer_id", nullable=false, updatable=false) })
-    public Set<Joboffer> getJoboffers() {
-        return this.joboffers;
+    public Set<JobOffer> getJoboffers() {
+        return this.jobOffers;
     }
     
-    public void setJoboffers(Set<Joboffer> joboffers) {
-        this.joboffers = joboffers;
+    public void setJoboffers(Set<JobOffer> jobOffers) {
+        this.jobOffers = jobOffers;
     }
 
 

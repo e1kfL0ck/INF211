@@ -28,7 +28,7 @@
         <a th:href="@{/companies}" class="btn btn-danger" title="go back"><i class="bi bi-x-square"></i></a>
     </form>
 
-    <aside th:if="${#lists.size(company.joboffers)} > 0">
+    <aside th:if="${#lists.size(company.jobOffers)} > 0">
         <h2>List of associated job offers</h2>
         <table class="table table-striped">
             <thead>
@@ -43,7 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="job : ${company.joboffers}">
+                <tr th:each="job : ${company.jobOffers}">
                     <th scope="row" th:text="${job.id}" />
                     <td th:text="${job.title}" />
                     <td th:text="${job.taskdescription}" />

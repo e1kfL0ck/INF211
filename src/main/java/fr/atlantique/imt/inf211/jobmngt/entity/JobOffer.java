@@ -30,30 +30,30 @@ import jakarta.persistence.TemporalType;
     ,schema="public"
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-public class Joboffer  implements java.io.Serializable {
+public class JobOffer implements java.io.Serializable {
 
 
      private int id;
      private Company company;
-     private Qualificationlevel qualificationlevel;
+     private QualificationLevel qualificationlevel;
      private String title;
      private Date publicationdate;
      private String description;
      private Set<Sector> sectors = new HashSet<Sector>(0);
-     private Set<Applicationmessage> applicationmessages = new HashSet<Applicationmessage>(0);
-     private Set<Joboffermessage> joboffermessages = new HashSet<Joboffermessage>(0);
+     private Set<ApplicationMessage> applicationmessages = new HashSet<ApplicationMessage>(0);
+     private Set<JobOfferMessage> jobOfferMessages = new HashSet<JobOfferMessage>(0);
 
-    public Joboffer() {
+    public JobOffer() {
     }
 
 	
-    public Joboffer(int id, Company company, String title, Date publicationdate) {
+    public JobOffer(int id, Company company, String title, Date publicationdate) {
         this.id = id;
         this.company = company;
         this.title = title;
         this.publicationdate = publicationdate;
     }
-    public Joboffer(int id, Company company, Qualificationlevel qualificationlevel, String title, Date publicationdate, String description, Set<Sector> sectors, Set<Applicationmessage> applicationmessages, Set<Joboffermessage> joboffermessages) {
+    public JobOffer(int id, Company company, QualificationLevel qualificationlevel, String title, Date publicationdate, String description, Set<Sector> sectors, Set<ApplicationMessage> applicationmessages, Set<JobOfferMessage> jobOfferMessages) {
        this.id = id;
        this.company = company;
        this.qualificationlevel = qualificationlevel;
@@ -62,7 +62,7 @@ public class Joboffer  implements java.io.Serializable {
        this.description = description;
        this.sectors = sectors;
        this.applicationmessages = applicationmessages;
-       this.joboffermessages = joboffermessages;
+       this.jobOfferMessages = jobOfferMessages;
     }
    
      @Id
@@ -91,11 +91,11 @@ public class Joboffer  implements java.io.Serializable {
 
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="qualification_level_id")
-    public Qualificationlevel getQualificationlevel() {
+    public QualificationLevel getQualificationlevel() {
         return this.qualificationlevel;
     }
     
-    public void setQualificationlevel(Qualificationlevel qualificationlevel) {
+    public void setQualificationlevel(QualificationLevel qualificationlevel) {
         this.qualificationlevel = qualificationlevel;
     }
 
@@ -142,21 +142,21 @@ public class Joboffer  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="joboffer")
-    public Set<Applicationmessage> getApplicationmessages() {
+    public Set<ApplicationMessage> getApplicationmessages() {
         return this.applicationmessages;
     }
     
-    public void setApplicationmessages(Set<Applicationmessage> applicationmessages) {
+    public void setApplicationmessages(Set<ApplicationMessage> applicationmessages) {
         this.applicationmessages = applicationmessages;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="joboffer")
-    public Set<Joboffermessage> getJoboffermessages() {
-        return this.joboffermessages;
+    public Set<JobOfferMessage> getJoboffermessages() {
+        return this.jobOfferMessages;
     }
     
-    public void setJoboffermessages(Set<Joboffermessage> joboffermessages) {
-        this.joboffermessages = joboffermessages;
+    public void setJoboffermessages(Set<JobOfferMessage> jobOfferMessages) {
+        this.jobOfferMessages = jobOfferMessages;
     }
 
 

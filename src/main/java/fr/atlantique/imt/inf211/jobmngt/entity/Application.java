@@ -35,12 +35,12 @@ public class Application  implements java.io.Serializable {
 
      private int id;
      private Candidate candidate;
-     private Qualificationlevel qualificationlevel;
+     private QualificationLevel qualificationlevel;
      private String cv;
      private Date applicationdate;
      private Set<Sector> sectors = new HashSet<Sector>(0);
-     private Set<Joboffermessage> joboffermessages = new HashSet<Joboffermessage>(0);
-     private Set<Applicationmessage> applicationmessages = new HashSet<Applicationmessage>(0);
+     private Set<JobOfferMessage> jobOfferMessages = new HashSet<JobOfferMessage>(0);
+     private Set<ApplicationMessage> applicationmessages = new HashSet<ApplicationMessage>(0);
 
     public Application() {
     }
@@ -52,14 +52,14 @@ public class Application  implements java.io.Serializable {
         this.cv = cv;
         this.applicationdate = applicationdate;
     }
-    public Application(int id, Candidate candidate, Qualificationlevel qualificationlevel, String cv, Date applicationdate, Set<Sector> sectors, Set<Joboffermessage> joboffermessages, Set<Applicationmessage> applicationmessages) {
+    public Application(int id, Candidate candidate, QualificationLevel qualificationlevel, String cv, Date applicationdate, Set<Sector> sectors, Set<JobOfferMessage> jobOfferMessages, Set<ApplicationMessage> applicationmessages) {
        this.id = id;
        this.candidate = candidate;
        this.qualificationlevel = qualificationlevel;
        this.cv = cv;
        this.applicationdate = applicationdate;
        this.sectors = sectors;
-       this.joboffermessages = joboffermessages;
+       this.jobOfferMessages = jobOfferMessages;
        this.applicationmessages = applicationmessages;
     }
    
@@ -89,11 +89,11 @@ public class Application  implements java.io.Serializable {
 
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="qualification_level_id")
-    public Qualificationlevel getQualificationlevel() {
+    public QualificationLevel getQualificationlevel() {
         return this.qualificationlevel;
     }
     
-    public void setQualificationlevel(Qualificationlevel qualificationlevel) {
+    public void setQualificationlevel(QualificationLevel qualificationlevel) {
         this.qualificationlevel = qualificationlevel;
     }
 
@@ -130,20 +130,20 @@ public class Application  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="application")
-    public Set<Joboffermessage> getJoboffermessages() {
-        return this.joboffermessages;
+    public Set<JobOfferMessage> getJoboffermessages() {
+        return this.jobOfferMessages;
     }
     
-    public void setJoboffermessages(Set<Joboffermessage> joboffermessages) {
-        this.joboffermessages = joboffermessages;
+    public void setJoboffermessages(Set<JobOfferMessage> jobOfferMessages) {
+        this.jobOfferMessages = jobOfferMessages;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="application")
-    public Set<Applicationmessage> getApplicationmessages() {
+    public Set<ApplicationMessage> getApplicationmessages() {
         return this.applicationmessages;
     }
     
-    public void setApplicationmessages(Set<Applicationmessage> applicationmessages) {
+    public void setApplicationmessages(Set<ApplicationMessage> applicationmessages) {
         this.applicationmessages = applicationmessages;
     }
 
