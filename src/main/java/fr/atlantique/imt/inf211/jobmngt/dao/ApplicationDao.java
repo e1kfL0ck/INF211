@@ -4,6 +4,7 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.*;
 import jakarta.persistence.TypedQuery;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import jakarta.persistence.PersistenceContext;
 public class ApplicationDao {
 
     private static final Logger logger = Logger.getLogger(ApplicationDao.class.getName());
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ApplicationDao.class);
 
     @PersistenceContext private EntityManager entityManager;
 
@@ -82,6 +84,7 @@ public class ApplicationDao {
 
     @Transactional(readOnly = true)
     public Optional<Application> getApplications(int idQalificationLevel, int idSector) {
+        logger.log(Level.INFO, "getting Application instance with idQualificationLevel: " + idQalificationLevel + " and idSector: " + idSector);
         String r = "SELECT a FROM Application a " +
                 "JOIN a.qualificationlevel q " +
                 "JOIN a.sectors s " +
@@ -96,6 +99,7 @@ public class ApplicationDao {
         if (res.isEmpty()) {
             return Optional.empty();
         }
+        logger.log(Level.INFO, "get successful");
         return Optional.of(res.get(0));
     }
 }
