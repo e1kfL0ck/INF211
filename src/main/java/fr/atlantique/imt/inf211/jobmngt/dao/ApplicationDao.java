@@ -3,7 +3,11 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 
 
 import fr.atlantique.imt.inf211.jobmngt.entity.*;
- import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.TypedQuery;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Repository;
@@ -74,6 +78,25 @@ public class ApplicationDao {
             logger.log(Level.SEVERE, "get failed", re);
             throw re;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Application> getApplications(int idQalificationLevel, int idSector) {
+        String r = "SELECT a FROM Application a " +
+                "JOIN a.qualificationlevel q " +
+                "JOIN a.sectors s " +
+                "WHERE q.id = :idQualificationLevel AND s.id = :idSector";
+
+        TypedQuery<Application> q = entityManager.createQuery(r, Application.class);
+
+        q.setParameter("idQualificationLevel", idQalificationLevel);
+        q.setParameter("idSector", idSector);
+        List<Application> res = q.getResultList();
+
+        if (res.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(res.get(0));
     }
 }
 
