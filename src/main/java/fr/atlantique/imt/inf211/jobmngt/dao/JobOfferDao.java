@@ -96,5 +96,27 @@ public class JobOfferDao {
         logger.log(Level.INFO, "get successful");
         return Optional.of(res.get(0));
     }
+
+    //Ajout d’une méthode pour l’obtention de la liste des offres d’emploi qui correspond à un secteur d’activité et un niveau de qualiﬁcation donnés.
+    @Transactional
+    public Optional<JobOffer> getJobOffers(int idQalificationLevel, int idSector) {
+        logger.log(Level.INFO, "getting Joboffer instance with idQualificationLevel: " + idQalificationLevel + " and idSector: " + idSector);
+        String r = "SELECT j FROM JobOffer j " +
+                "JOIN j.qualificationlevel q " +
+                "JOIN j.sectors s " +
+                "WHERE q.id = :idQualificationLevel AND s.id = :idSector";
+
+        TypedQuery<JobOffer> q = entityManager.createQuery(r, JobOffer.class);
+
+        q.setParameter("idQualificationLevel", idQalificationLevel);
+        q.setParameter("idSector", idSector);
+        List<JobOffer> res = q.getResultList();
+
+        if (res.isEmpty()) {
+            return Optional.empty();
+        }
+        logger.log(Level.INFO, "get successful");
+        return Optional.of(res.get(0));
+    }
 }
 
