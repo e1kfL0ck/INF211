@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: pguser
       POSTGRES_PASSWORD: pgpwd
-      POSTGRES_MULTIPLE_DATABASES: "jobmngt_db,/docker-entrypoint-initdb.d/create_db_jobmngt.sql"
+      POSTGRES_DB: jobmngt_db
     ports:
       - "5432:5432"
     networks:
