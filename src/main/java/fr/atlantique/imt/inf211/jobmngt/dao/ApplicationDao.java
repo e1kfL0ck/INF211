@@ -24,7 +24,6 @@ import jakarta.persistence.PersistenceContext;
 public class ApplicationDao {
 
     private static final Logger logger = Logger.getLogger(ApplicationDao.class.getName());
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ApplicationDao.class);
 
     @PersistenceContext private EntityManager entityManager;
 

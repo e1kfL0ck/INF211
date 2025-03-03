@@ -97,7 +97,6 @@ public class JobOfferDao {
         return Optional.of(res.get(0));
     }
 
-    //Ajout d’une méthode pour l’obtention de la liste des offres d’emploi qui correspond à un secteur d’activité et un niveau de qualiﬁcation donnés.
     @Transactional
     public Optional<JobOffer> getJobOffers(int idQalificationLevel, int idSector) {
         logger.log(Level.INFO, "getting Joboffer instance with idQualificationLevel: " + idQalificationLevel + " and idSector: " + idSector);
