@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS JobOffer;
 DROP TABLE IF EXISTS Candidate;
 DROP TABLE IF EXISTS Company;
 DROP TABLE IF EXISTS ActivitySector;
-DROP TABLE IF EXISTS qualificationlevel;
+DROP TABLE IF EXISTS QualificationLevel;
 
 -- +----------------------------------------------------------------------------------------------+
 -- | Tables creation                                                                              |
@@ -54,18 +54,6 @@ CREATE TABLE Candidate
     FOREIGN KEY (user_id) REFERENCES appuser (id) ON DELETE CASCADE
 );
 
-CREATE TABLE JobOffer
-(
-    id                     SERIAL PRIMARY KEY,
-    title                  VARCHAR(255) NOT NULL,
-    publicationDate        DATE         NOT NULL DEFAULT CURRENT_DATE,
-    description            TEXT,
-    company_id             INT          NOT NULL,
-    qualification_level_id INT,
-    FOREIGN KEY (company_id) REFERENCES Company (id) ON DELETE CASCADE,
-    FOREIGN KEY (qualification_level_id) REFERENCES QualificationLevel (id) ON DELETE SET NULL
-);
-
 create table sector
 (
     id    serial primary key,
@@ -76,6 +64,18 @@ create table QualificationLevel
 (
     id    serial primary key,
     label varchar(50) not null unique
+);
+
+CREATE TABLE JobOffer
+(
+    id                     SERIAL PRIMARY KEY,
+    title                  VARCHAR(255) NOT NULL,
+    publicationDate        DATE         NOT NULL DEFAULT CURRENT_DATE,
+    description            TEXT,
+    company_id             INT          NOT NULL,
+    qualification_level_id INT,
+    FOREIGN KEY (company_id) REFERENCES Company (id) ON DELETE CASCADE,
+    FOREIGN KEY (qualification_level_id) REFERENCES QualificationLevel (id) ON DELETE SET NULL
 );
 
 CREATE TABLE Application
