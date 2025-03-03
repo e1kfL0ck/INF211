@@ -2,7 +2,6 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 // Generated 3 mars 2025, 15:44:52 by Hibernate Tools 5.6.15.Final
 
 
-import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.QualificationLevel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -28,7 +27,7 @@ public class QualificationLevelDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
+    /*@Transactional
     public void persist(QualificationLevel transientInstance) {
         logger.log(Level.INFO, "persisting Qualificationlevel instance");
         try {
@@ -50,7 +49,7 @@ public class QualificationLevelDao {
             logger.log(Level.SEVERE, "remove failed", re);
             throw re;
         }
-    }
+    }*/
 
     @Transactional
     public QualificationLevel merge(QualificationLevel detachedInstance) {
@@ -90,10 +89,19 @@ public class QualificationLevelDao {
         String r = "SELECT qualif FROM QualificationLevel qualif ORDER BY qualif." + sort;
         if (order.equals("asc")) {
             r += " ASC";
-        } else {
+        }
+        else {
             r += " DESC";
         }
         TypedQuery<QualificationLevel> q = entityManager.createQuery(r, QualificationLevel.class);
+        return q.getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<QualificationLevel> findByLabel(String label) {
+        String r = "SELECT ql FROM QualificationLevel ql WHERE ql.label = :label";
+        TypedQuery<QualificationLevel> q = entityManager.createQuery(r, QualificationLevel.class);
+        q.setParameter("label", label);
         return q.getResultList();
     }
 }
