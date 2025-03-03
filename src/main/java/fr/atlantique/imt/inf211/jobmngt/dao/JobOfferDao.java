@@ -4,8 +4,12 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -75,6 +79,22 @@ public class JobOfferDao {
             logger.log(Level.SEVERE, "get failed", re);
             throw re;
         }
+    }
+
+    @Transactional
+    public Optional<JobOffer> findByCompany(int companyId) {
+        logger.log(Level.INFO, "getting Joboffer instance with company id: " + companyId);
+        String r = "SELECT j FROM JobOffer j WHERE j.company.id = :companyId";
+
+        TypedQuery<JobOffer> q = entityManager.createQuery(r, JobOffer.class);
+        q.setParameter("companyId", companyId);
+        List<JobOffer> res = q.getResultList();
+
+        if (res.isEmpty()) {
+            return Optional.empty();
+        }
+        logger.log(Level.INFO, "get successful");
+        return Optional.of(res.get(0));
     }
 }
 
