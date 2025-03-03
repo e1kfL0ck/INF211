@@ -30,6 +30,7 @@ create table appuser
 (
     id       serial primary key,
     mail     varchar(50) not null unique,
+    city     VARCHAR(30),
     password varchar(50) not null check (length(password) >= 4),
     usertype varchar(50) check (usertype in ('company', 'candidate'))
 );
@@ -37,9 +38,8 @@ create table appuser
 CREATE TABLE Company
 (
     id          SERIAL PRIMARY KEY,
-    name        VARCHAR(255) NOT NULL,
+    name        VARCHAR(50) NOT NULL,
     description TEXT,
-    city        VARCHAR(255),
     user_id     INT UNIQUE,
     FOREIGN KEY (user_id) REFERENCES appuser (id) ON DELETE CASCADE
 );
@@ -47,9 +47,8 @@ CREATE TABLE Company
 CREATE TABLE Candidate
 (
     id        SERIAL PRIMARY KEY,
-    lastName  VARCHAR(255) NOT NULL,
-    firstName VARCHAR(255) NOT NULL,
-    city      VARCHAR(255),
+    lastName  VARCHAR(50) NOT NULL,
+    firstName VARCHAR(50) NOT NULL,
     user_id   INT UNIQUE,
     FOREIGN KEY (user_id) REFERENCES appuser (id) ON DELETE CASCADE
 );
@@ -69,7 +68,7 @@ create table QualificationLevel
 CREATE TABLE JobOffer
 (
     id                     SERIAL PRIMARY KEY,
-    title                  VARCHAR(255) NOT NULL,
+    title                  VARCHAR(50) NOT NULL,
     publicationDate        DATE         NOT NULL DEFAULT CURRENT_DATE,
     description            TEXT,
     company_id             INT          NOT NULL,
