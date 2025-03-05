@@ -97,12 +97,21 @@ public class QualificationLevelDao {
         return q.getResultList();
     }
 
+    /*
     @Transactional(readOnly = true)
     public List<QualificationLevel> findByLabel(String label) {
         String r = "SELECT ql FROM QualificationLevel ql WHERE ql.label = :label";
         TypedQuery<QualificationLevel> q = entityManager.createQuery(r, QualificationLevel.class);
         q.setParameter("label", label);
         return q.getResultList();
+    }*/
+
+    @Transactional(readOnly = true)
+    public QualificationLevel findByLabel(String label) {
+        String r = "SELECT ql FROM QualificationLevel ql WHERE ql.label = :label";
+        TypedQuery<QualificationLevel> q = entityManager.createQuery(r, QualificationLevel.class);
+        q.setParameter("label", label);
+        return q.getSingleResult();
     }
 }
 

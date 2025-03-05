@@ -2,29 +2,31 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 // Generated 3 mars 2025, 15:44:52 by Hibernate Tools 5.6.15.Final
 
 
-import fr.atlantique.imt.inf211.jobmngt.entity.*;
+import fr.atlantique.imt.inf211.jobmngt.entity.Application;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.stereotype.Repository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 
 /**
  * Home object for domain model class Application.
- * @see .Application
+ *
  * @author Hibernate Tools
+ * @see .Application
  */
 @Repository
 public class ApplicationDao {
 
     private static final Logger logger = Logger.getLogger(ApplicationDao.class.getName());
 
-    @PersistenceContext private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Transactional
     public void persist(Application transientInstance) {
@@ -32,8 +34,7 @@ public class ApplicationDao {
         try {
             entityManager.persist(transientInstance);
             logger.log(Level.INFO, "persist successful");
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "persist failed", re);
             throw re;
         }
@@ -45,8 +46,7 @@ public class ApplicationDao {
         try {
             entityManager.remove(persistentInstance);
             logger.log(Level.INFO, "remove successful");
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "remove failed", re);
             throw re;
         }
@@ -59,34 +59,44 @@ public class ApplicationDao {
             Application result = entityManager.merge(detachedInstance);
             logger.log(Level.INFO, "merge successful");
             return result;
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "merge failed", re);
             throw re;
         }
     }
 
     @Transactional(readOnly = true)
-    public Application findById( int id) {
+    public Application findById(int id) {
         logger.log(Level.INFO, "getting Application instance with id: " + id);
         try {
             Application instance = entityManager.find(Application.class, id);
             logger.log(Level.INFO, "get successful");
             return instance;
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "get failed", re);
             throw re;
         }
     }
 
     @Transactional(readOnly = true)
+    public List<Application> findAll() {
+        logger.log(Level.INFO, "getting all Application instances");
+        try {
+            TypedQuery<Application> query = entityManager.createQuery("SELECT a FROM Application a", Application.class);
+            List<Application> res = query.getResultList();
+            logger.log(Level.INFO, "get successful");
+            return res;
+        } catch (RuntimeException e) {
+            logger.log(Level.SEVERE, "get failed", e);
+            throw e;
+        }
+    }
+
+
+    @Transactional(readOnly = true)
     public Optional<Application> getApplications(int idQalificationLevel, int idSector) {
         logger.log(Level.INFO, "getting Application instance with idQualificationLevel: " + idQalificationLevel + " and idSector: " + idSector);
-        String r = "SELECT a FROM Application a " +
-                "JOIN a.qualificationlevel q " +
-                "JOIN a.sectors s " +
-                "WHERE q.id = :idQualificationLevel AND s.id = :idSector";
+        String r = "SELECT a FROM Application a " + "JOIN a.qualificationlevel q " + "JOIN a.sectors s " + "WHERE q.id = :idQualificationLevel AND s.id = :idSector";
 
         TypedQuery<Application> q = entityManager.createQuery(r, Application.class);
 
