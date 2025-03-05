@@ -117,5 +117,18 @@ public class JobOfferDao {
         logger.log(Level.INFO, "get successful");
         return Optional.of(res.get(0));
     }
+
+    @Transactional(readOnly = true)
+    public List<JobOffer> findAll(String sort, String order) {
+        String r = "SELECT j FROM JobOffer j ORDER BY j." + sort;
+        if (order.equals("asc")) {
+            r += " ASC";
+        }
+        else {
+            r += " DESC";
+        }
+        TypedQuery<JobOffer> q = entityManager.createQuery(r, JobOffer.class);
+        return q.getResultList();
+    }
 }
 
