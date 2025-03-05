@@ -40,8 +40,8 @@ public class JobOffer implements java.io.Serializable {
      private Date publicationdate;
      private String description;
      private Set<Sector> sectors = new HashSet<Sector>(0);
-     private Set<ApplicationMessage> applicationmessages = new HashSet<ApplicationMessage>(0);
-     private Set<JobOfferMessage> jobOfferMessages = new HashSet<JobOfferMessage>(0);
+//     private Set<ApplicationMessage> applicationMessages = new HashSet<ApplicationMessage>(0);
+//     private Set<JobOfferMessage> jobOfferMessages = new HashSet<JobOfferMessage>(0);
 
     public JobOffer() {
     }
@@ -53,7 +53,7 @@ public class JobOffer implements java.io.Serializable {
         this.title = title;
         this.publicationdate = publicationdate;
     }
-    public JobOffer(int id, Company company, QualificationLevel qualificationlevel, String title, Date publicationdate, String description, Set<Sector> sectors, Set<ApplicationMessage> applicationmessages, Set<JobOfferMessage> jobOfferMessages) {
+    public JobOffer(int id, Company company, QualificationLevel qualificationlevel, String title, Date publicationdate, String description, Set<Sector> sectors/*, Set<ApplicationMessage> applicationMessages, Set<JobOfferMessage> jobOfferMessages*/) {
        this.id = id;
        this.company = company;
        this.qualificationlevel = qualificationlevel;
@@ -61,8 +61,8 @@ public class JobOffer implements java.io.Serializable {
        this.publicationdate = publicationdate;
        this.description = description;
        this.sectors = sectors;
-       this.applicationmessages = applicationmessages;
-       this.jobOfferMessages = jobOfferMessages;
+//       this.applicationMessages = applicationMessages;
+//       this.jobOfferMessages = jobOfferMessages;
     }
    
      @Id
@@ -141,27 +141,23 @@ public class JobOffer implements java.io.Serializable {
         this.sectors = sectors;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="joboffer")
-    public Set<ApplicationMessage> getApplicationmessages() {
-        return this.applicationmessages;
-    }
-    
-    public void setApplicationmessages(Set<ApplicationMessage> applicationmessages) {
-        this.applicationmessages = applicationmessages;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="joboffer")
-    public Set<JobOfferMessage> getJoboffermessages() {
-        return this.jobOfferMessages;
-    }
-    
-    public void setJoboffermessages(Set<JobOfferMessage> jobOfferMessages) {
-        this.jobOfferMessages = jobOfferMessages;
-    }
-
-
-
-
+//@OneToMany(fetch=FetchType.LAZY, mappedBy="joboffer")
+//    public Set<ApplicationMessage> getApplicationmessages() {
+//        return this.applicationMessages;
+//    }
+//
+//    public void setApplicationmessages(Set<ApplicationMessage> applicationmessages) {
+//        this.applicationMessages = applicationmessages;
+//    }
+//
+//@OneToMany(fetch=FetchType.LAZY, mappedBy="joboffer")
+//    public Set<JobOfferMessage> getJoboffermessages() {
+//        return this.jobOfferMessages;
+//    }
+//
+//    public void setJoboffermessages(Set<JobOfferMessage> jobOfferMessages) {
+//        this.jobOfferMessages = jobOfferMessages;
+//    }
 }
 
 
