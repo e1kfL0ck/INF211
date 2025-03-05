@@ -12,7 +12,7 @@ import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.Company;
 
 @RestController
-@RequestMapping(value = "/api/companies")
+@RequestMapping(value = "/api/v1/companies")
 public class TestCompanyDaoController {
     @Autowired
     private CompanyDao companyDao;
@@ -21,7 +21,7 @@ public class TestCompanyDaoController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<Company> all() {
-        List<Company> list = companyDao.findAll("mail", "ASC");
+        List<Company> list = companyDao.findAll("name", "ASC");
         return list;
     }
 
@@ -31,7 +31,7 @@ public class TestCompanyDaoController {
      * "description": "Desc of my new company",
      * "mail":"mnc@imt.fr", "password":"2580", "city": "Brest")
      *
-     * curl -X GET "http://localhost:8080/api/companies/create?mail=mnc@imt.fr&password=2580&city=Brest&name=myFirstCompany&description=Desc%20of%20my%20new%20company"
+     * curl "localhost:8080/api/v1/companies/create?mail=mnc@imt.fr&password=2580&city=Brest&name=myFirstCompany&description=Desc%20of%20my%20new%20company"
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Company newCompany(@RequestParam String mail, @RequestParam String password, @RequestParam String city, @RequestParam String name, @RequestParam String description) {
@@ -53,7 +53,7 @@ public class TestCompanyDaoController {
     }
 
     // Get information of a company by id
-    // curl -X GET localhost:8080/api/companies/7
+    // curl localhost:8080/api/companies/1
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Company one(@PathVariable int id) {
         return companyDao.findById(id);
@@ -63,6 +63,8 @@ public class TestCompanyDaoController {
     // ("denomination": "IMT Atlantique",
     // "description": "Une école d\'ingénieurs généraliste",
     // ""mail": "atlantique@imt.fr", "password": "5678", "city": "Brest")
+    // curl "localhost:8080/api/v1/companies/1/update?mail=atlantique@imt.fr&password=5678&name=IMT%20Atlantique&description=Une%20ecole%20d'ingenieurs%20generaliste"
+    // TODO : régler les pbs d encodage
     @RequestMapping(value = "/{id}/update", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Company replaceCompany(@PathVariable int id, @RequestParam String mail, @RequestParam String password, @RequestParam String name, @RequestParam String description) {
         Company company = companyDao.findById(id);
