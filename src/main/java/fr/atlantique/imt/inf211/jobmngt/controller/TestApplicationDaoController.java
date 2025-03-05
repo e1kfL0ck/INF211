@@ -36,16 +36,16 @@ public class TestApplicationDaoController {
      * "qualificationLevel": "PhD",
      * "cv": "myCv",
      * "sectorIds": [1, 2, 3])
-     * curl -X GET "http://localhost:8080/api/v1/applications/create?candidateId=1&qualificationLevel=PhD&cv=myCv&sectorIds=1&sectorIds=2&sectorIds=3"
+     * curl -X GET "http://localhost:8080/api/v1/applications/create?candidateId=1&qualificationLevel=5&cv=myCv&sectorIds=1&sectorIds=2&sectorIds=3"
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Application newApplication(@RequestParam int candidateId, @RequestParam String qualificationLevel, @RequestParam String cv, @RequestParam List<Integer> sectorIds) {
+    public Application newApplication(@RequestParam int candidateId, @RequestParam int qualificationLevel, @RequestParam String cv, @RequestParam List<Integer> sectorIds) {
         Candidate candidate = candidateDao.findById(candidateId);
         if (candidate != null) {
             Application newApplication = new Application();
             newApplication.setCandidate(candidate);
 
-            newApplication.setQualificationlevel(qualificationLevelDao.findByLabel(qualificationLevel));
+            newApplication.setQualificationlevel(qualificationLevelDao.findById(qualificationLevel));
 
             newApplication.setCv(cv);
             Date applicationDate = new Date();
@@ -70,11 +70,11 @@ public class TestApplicationDaoController {
 
     /*
      * Get information of an application by id
-     * curl -X GET "http://localhost:8080/api/v1/applications/search?sectorId=1&qualificationLevel=PhD"
+     * curl -X GET "http://localhost:8080/api/v1/applications/search?sectorId=1&qualificationLevel=5"
      */
     @RequestMapping(value = "/getBySectorAndQualification", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Application> getBySectorAndQualification(@RequestParam int sectorId, @RequestParam String qualificationLevel) {
-        return applicationDao.getApplications(qualificationLevelDao.findByLabel(qualificationLevel).getId(), sectorId);
+    public Optional<Application> getBySectorAndQualification(@RequestParam int sectorId, @RequestParam int qualificationLevel) {
+        return applicationDao.getApplications(qualificationLevelDao.findById(qualificationLevel).getId(), sectorId);
     }
 
 
@@ -84,14 +84,14 @@ public class TestApplicationDaoController {
      * "qualificationLevel": "Licence",
      * "cv": "myCvModif",
      * "sectorIds": [2, 3])
-     * curl -X GET "http://localhost:8080/api/v1/applications/1/update?qualificationLevel=PhD&cv=myCvModif&sectorIds=2&sectorIds=3"
+     * curl -X GET "http://localhost:8080/api/v1/applications/1/update?qualificationLevel=3&cv=myCvModif&sectorIds=2&sectorIds=3"
      */
     @RequestMapping(value = "/{id}/update", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Application updateApplication(@PathVariable int id, @RequestParam String qualificationLevel, @RequestParam String cv, @RequestParam List<Integer> sectorIds) {
+    public Application updateApplication(@PathVariable int id, @RequestParam int qualificationLevel, @RequestParam String cv, @RequestParam List<Integer> sectorIds) {
         Application application = applicationDao.findById(id);
         if (application != null) {
 
-            application.setQualificationlevel(qualificationLevelDao.findByLabel(qualificationLevel));
+            application.setQualificationlevel(qualificationLevelDao.findById(qualificationLevel));
             application.setCv(cv);
             Date applicationDate = new Date();
             application.setApplicationdate(applicationDate);

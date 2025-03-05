@@ -19,9 +19,9 @@ public class TestCandidateDaoController {
     private AppUserDao appUserDao;
 
     /*
-    * Get all candidates
-    * curl -X GET localhost:8080/api/v1/candidates
-    */
+     * Get all candidates
+     * c
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<Candidate> all() {
         List<Candidate> list = candidateDao.findAll("firstname", "ASC");
