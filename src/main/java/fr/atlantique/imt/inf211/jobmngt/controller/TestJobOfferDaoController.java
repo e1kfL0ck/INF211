@@ -66,4 +66,21 @@ public class TestJobOfferDaoController {
 
     //récupérer les informations d’une offre à partir d’un secteur et d’un niveau de qualification passés en paramètre de la requête HTTP
     //curl "localhost:8080/api/v1/joboffer/sector?sectorId=1&qualificationLevelId=1"
+    @RequestMapping(value = "/sector", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public JobOffer getJobOfferBySectorAndQualificationLevel(@RequestParam int sectorId, @RequestParam int qualificationLevelId) {
+        return jobOfferDao.getJobOffers(qualificationLevelId, sectorId).orElse(null);
+    }
+
+    //modifier les informations d’une offre dont les informations sont passées en paramètre de la requête HTTP
+    //curl "localhost:8080/api/v1/joboffer/update?id=4&title=Testeur%20de%20gode&description=Description%20de%20l%27offre"
+    @RequestMapping(value = "/update", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public JobOffer replaceJobOffer(@RequestParam int id, @RequestParam String title, @RequestParam String description) {
+        JobOffer jobOffer = jobOfferDao.findById(id);
+        if (jobOffer != null) {
+            jobOffer.setTitle(title);
+            jobOffer.setDescription(description);
+            jobOfferDao.merge(jobOffer);
+        }
+        return jobOffer;
+    }
 }
