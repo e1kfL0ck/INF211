@@ -42,7 +42,7 @@ public class CompanyDao {
     public void remove(Company persistentInstance) {
         logger.log(Level.INFO, "removing Company instance");
         try {
-            entityManager.remove(persistentInstance);
+            entityManager.remove(persistentInstance.getAppuser());
             logger.log(Level.INFO, "remove successful");
         }
         catch (RuntimeException re) {

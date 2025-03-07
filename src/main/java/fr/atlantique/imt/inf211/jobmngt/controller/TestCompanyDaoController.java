@@ -87,7 +87,8 @@ public class TestCompanyDaoController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteCompany(@PathVariable int id) {
         Company company = companyDao.findById(id);
-        //TODO : remove la company et check le delete on cascade : voir DAO
-        appUserDao.remove(company.getAppuser());
+        if (company != null) {
+            companyDao.remove(company);
+        }
     }
 }
