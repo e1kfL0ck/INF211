@@ -48,8 +48,7 @@ public class TestApplicationDaoController {
             newApplication.setQualificationlevel(qualificationLevelDao.findById(qualificationLevel));
 
             newApplication.setCv(cv);
-            Date applicationDate = new Date();
-            newApplication.setApplicationdate(applicationDate);
+            newApplication.setApplicationdate(new Date());
 
             Set<Sector> sectors = new HashSet<>();
             for (int sectorId : sectorIds) {
@@ -93,8 +92,7 @@ public class TestApplicationDaoController {
 
             application.setQualificationlevel(qualificationLevelDao.findById(qualificationLevel));
             application.setCv(cv);
-            Date applicationDate = new Date();
-            application.setApplicationdate(applicationDate);
+            application.setApplicationdate(new Date());
 
             Set<Sector> sectors = new HashSet<>();
             for (int sectorId : sectorIds) {

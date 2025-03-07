@@ -1,6 +1,8 @@
 package fr.atlantique.imt.inf211.jobmngt.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import fr.atlantique.imt.inf211.jobmngt.dao.AppUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,7 @@ public class TestCompanyDaoController {
         appUser.setMail(mail);
         appUser.setPassword(password);
         appUser.setCity(city);
+        appUser.setUsertype("company");
 
         appUserDao.persist(appUser);
 
