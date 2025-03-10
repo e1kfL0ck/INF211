@@ -32,4 +32,22 @@ public class ComapniesServicesImpl implements CompaniesServices {
     public Company getCompanyById(int id) {
         return companyDao.findById(id);
     }
+
+    public void updateCompany(Company company) {
+        Company persistedCompany = companyDao.findById(company.getId());
+        AppUser persistedAppUser = appUserDao.findById(persistedCompany.getAppuser().getId());
+
+        persistedAppUser.setMail(company.getAppuser().getMail());
+        persistedAppUser.setPassword(company.getAppuser().getPassword());
+        persistedAppUser.setCity(company.getAppuser().getCity());
+
+        appUserDao.merge(persistedAppUser);
+        persistedCompany.setAppuser(persistedAppUser);
+
+        persistedCompany.setName(company.getName());
+        persistedCompany.setDescription(company.getDescription());
+
+        companyDao.merge(persistedCompany);
+    }
+
 }

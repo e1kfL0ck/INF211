@@ -5,6 +5,7 @@ import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.Application;
 import fr.atlantique.imt.inf211.jobmngt.entity.Company;
 import fr.atlantique.imt.inf211.jobmngt.service.CompaniesServices;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,9 @@ public class CompaniesController {
     private CompaniesServices companiesServices;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView getAllCompanies() {
+    public ModelAndView getAllCompanies(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("company/companyList.html");
+        mav.addObject("appUser", request.getSession().getAttribute("user"));
         mav.addObject("companieslist", companiesServices.listOfCompanies());
         return mav;
     }
@@ -39,7 +41,7 @@ public class CompaniesController {
     @PostMapping(value = "/create")
     public ModelAndView createCompany(@ModelAttribute Company company) {
         companiesServices.createCompany(company);
-        return getAllCompanies();
+        return new ModelAndView("redirect:/companies");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -65,4 +67,9 @@ public class CompaniesController {
         return mav;
     }
 
+    @PostMapping(value = "/{id}/update")
+    public ModelAndView updateCompany(@PathVariable("id") int id, @ModelAttribute Company company) {
+        companiesServices.updateCompany(company);
+        return new ModelAndView("redirect:/companies");
+    }
 }

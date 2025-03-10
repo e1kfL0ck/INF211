@@ -10,5 +10,8 @@ public interface CompaniesServices {
 
     public void createCompany(Company company);
 
+    public void updateCompany(Company company);
+
     public Company getCompanyById(int id);
+
 }

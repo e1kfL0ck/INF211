@@ -8,7 +8,7 @@
      "@{{action}==create? /companies/create : /companies/{id}/edit(id=${company.id},action=${action})}"
      @{${action}=='create1'? /companies/create : /companies/{id}/edit(id=${company.id})}
      -->
-    <form th:action="@{${action} == 'edit' ? '/companies/' + company.id + '/update' : '/companies/create'}" method="post">
+    <form th:action="@{${action} == 'edit' ? '/companies/' + ${company.id} + '/update' : '/companies/create'}" method="post">
         <fieldset class="mb-3">
             <label for="mail" class="form-label">Mail</label>:
             <input type="text" id="mail" class="form-control" name="mail" autofocus="autofocus" th:field="${company.appuser.mail}" required />
