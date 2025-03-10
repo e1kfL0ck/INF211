@@ -4,8 +4,10 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,8 +32,19 @@ public class JobOfferDao {
     @Transactional
     public void persist(JobOffer transientInstance) {
         logger.log(Level.INFO, "persisting Joboffer instance");
+        Company company = transientInstance.getCompany();
         try {
             entityManager.persist(transientInstance);
+
+            Set<JobOffer> jobOffers = company.getJobOffers();
+            if (jobOffers == null) {
+                jobOffers = new HashSet<>();
+            }
+
+            jobOffers.add(transientInstance);
+            company.setJobOffers(jobOffers);
+            entityManager.merge(company);
+
             logger.log(Level.INFO, "persist successful");
         }
         catch (RuntimeException re) {

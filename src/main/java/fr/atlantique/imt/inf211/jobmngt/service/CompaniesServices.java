@@ -8,5 +8,7 @@ public interface CompaniesServices {
 
     public List<Company> listOfCompanies();
 
-//    public void createCompany(Company company);
+    public void createCompany(Company company);
+
+    public Company getCompanyById(int id);
 }
