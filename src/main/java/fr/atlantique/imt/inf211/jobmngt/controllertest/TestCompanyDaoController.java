@@ -1,8 +1,6 @@
-package fr.atlantique.imt.inf211.jobmngt.controller;
+package fr.atlantique.imt.inf211.jobmngt.controllertest;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import fr.atlantique.imt.inf211.jobmngt.dao.AppUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
