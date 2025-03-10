@@ -11,8 +11,8 @@
     <form th:action="@{''}" method="post">
         <fieldset class="mb-3">
             <label for="nameid" class="form-label">Name</label>:
-            <input type="text" id="nameid" class="form-control" name="denomination" autofocus="autofocus"
-                th:value="${company.denomination}" required />
+            <input type="text" id="nameid" class="form-control" name="name" autofocus="autofocus"
+                th:value="${company.name}" required />
         </fieldset>
         <fieldset class="mb-3">
             <label for="descid" class="form-label">Description</label>:
@@ -21,7 +21,7 @@
         </fieldset>
         <fieldset class="mb-3">
             <label for="cityid" class="form-label">City</label>:
-            <input type="text" id="cityid" class="form-control" name="city" th:value="${company.city}" required />
+            <input type="text" id="cityid" class="form-control" name="city" th:value="${company.appuser.city}" required />
         </fieldset>
         <button type="submit"  class="btn btn-primary" th:title="${action}"><i class="bi bi-floppy"></i></button>
         <button type="reset" class="btn btn-secondary" value="Reset" title="reset"><i class="bi bi-eraser-fill"></i></button>
