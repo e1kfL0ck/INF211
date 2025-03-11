@@ -23,6 +23,7 @@ public class CompaniesController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView getAllCompanies(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("company/companyList.html");
+        //TODO : gerer utilisateur non connecté
         mav.addObject("appUser", request.getSession().getAttribute("user"));
         mav.addObject("companieslist", companiesServices.listOfCompanies());
         return mav;

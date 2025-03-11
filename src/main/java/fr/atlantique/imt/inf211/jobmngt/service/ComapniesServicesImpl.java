@@ -24,8 +24,9 @@ public class ComapniesServicesImpl implements CompaniesServices {
     public void createCompany(Company company) {
         AppUser appUser = company.getAppuser();
         appUser.setUsertype("company");
-        appUserDao.persist(appUser);
         company.setAppuser(appUser);
+        appUser.setCompany(company);
+        appUserDao.persist(appUser);
         companyDao.persist(company);
     }
 
