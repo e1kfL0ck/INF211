@@ -136,10 +136,10 @@ alter table appuser
 -- +----------------------------------------------------------------------------------------------+
 
 -- Some users to test the login form
-insert into appuser(mail, password, usertype)
-values ('g.a@imt.fr', '1234', 'candidate');
-insert into appuser(mail, password, usertype)
-values ('ceo@google.fr', 'abcd', 'company');
+/*insert into appuser(mail, password, usertype, city)
+values ('g.a@imt.fr', '1234', 'candidate', 'Brest');
+insert into appuser(mail, password, usertype, city)
+values ('ceo@google.fr', 'abcd', 'company', 'Rennes');*/
 
 -- Some sectors
 insert into sector(label)
@@ -205,3 +205,5 @@ insert into QualificationLevel(label)
 values ('Master'); --  4
 insert into QualificationLevel(label)
 values ('PhD'); --  5
+
+
