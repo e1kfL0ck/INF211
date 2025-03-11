@@ -23,7 +23,6 @@ public class CompaniesController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView getAllCompanies(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("company/companyList.html");
-        //TODO : gerer utilisateur non connecté
         mav.addObject("appUser", request.getSession().getAttribute("user"));
         mav.addObject("companieslist", companiesServices.listOfCompanies());
         return mav;
@@ -69,8 +68,18 @@ public class CompaniesController {
     }
 
     @PostMapping(value = "/{id}/update")
-    public ModelAndView updateCompany(@PathVariable("id") int id, @ModelAttribute Company company) {
+    public ModelAndView updateCompany(@PathVariable("id") int id, @ModelAttribute Company company, HttpServletRequest request) {
+        Company persistedCompany = companiesServices.getCompanyById(id);
+        if(persistedCompany.getAppuser().getId() != ((AppUser) request.getSession().getAttribute("user")).getId()) {
+            return new ModelAndView("redirect:/companies");
+        }
         companiesServices.updateCompany(company);
+        return new ModelAndView("redirect:/companies");
+    }
+
+    @DeleteMapping(value = "/{id}/delete")
+    public ModelAndView deleteCompany(@PathVariable("id") int id) {
+        companiesServices.deleteCompany(id);
         return new ModelAndView("redirect:/companies");
     }
 }

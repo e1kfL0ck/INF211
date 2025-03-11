@@ -51,4 +51,11 @@ public class ComapniesServicesImpl implements CompaniesServices {
         companyDao.merge(persistedCompany);
     }
 
+    public void deleteCompany(int id) {
+        Company company = companyDao.findById(id);
+        if (company != null) {
+            companyDao.remove(company);
+        }
+    }
+
 }

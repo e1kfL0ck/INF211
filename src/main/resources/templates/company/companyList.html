@@ -29,8 +29,8 @@
                         <a th:href="@{companies/{companyId}/update(companyId=${comp.id})}" class="btn btn-large btn-success" alt="Edit" title="edit company">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <a th:href="@{companies/{companyId}/delete(companyId=${comp.id})}" class="btn btn-large btn-danger delBtn"
-                            alt="Delete" title="delete company " data-id="@{companies/{companyId}/delete(companyId=${comp.id})}" th:attrappend="title=${' ' + comp.name}">
+                        <!-- TODO : pk ce btn de con ne fonctionne pas ?????-->
+                        <a th:href="@{companies/{companyId}/delete(companyId=${comp.id})}" class="btn btn-large btn-danger delBtn" alt="Delete" title="delete company">
                             <i class="bi bi-trash"></i>
                         </a>
                     </span>
