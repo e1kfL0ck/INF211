@@ -55,7 +55,7 @@ public class Company  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id", unique=true)
     public AppUser getAppuser() {
         return this.appuser;
