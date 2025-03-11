@@ -98,6 +98,7 @@ public class Candidate  implements java.io.Serializable {
 
 
 
+
 }
 
 

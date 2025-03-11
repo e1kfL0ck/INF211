@@ -1,4 +1,4 @@
-package fr.atlantique.imt.inf211.jobmngt.controller;
+package fr.atlantique.imt.inf211.jobmngt.controllertest;
 
 import fr.atlantique.imt.inf211.jobmngt.dao.AppUserDao;
 import fr.atlantique.imt.inf211.jobmngt.dao.CandidateDao;
@@ -45,6 +45,7 @@ public class TestCandidateDaoController {
         appUser.setMail(mail);
         appUser.setPassword(password);
         appUser.setCity(city);
+        appUser.setUsertype("candidate");
 
         appUserDao.persist(appUser);
 
@@ -59,7 +60,7 @@ public class TestCandidateDaoController {
 
     /*
      * Get information of a candidate by id
-     * curl -X GET localhost:8080/api/v1/candidates/7
+     * curl -X GET "http://localhost:8080/api/v1/candidates/7"
      * */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Candidate getCandidateById(@PathVariable int id) {
