@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Form</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script th:src="@{/js/scripts.js}"></script>
+</head>
+<body>
+<header th:replace="baseTemplate/nav :: fheader"></header>
+<main role="main" class="container">
+    <h1>Application Form</h1>
+    <form th:action="@{/applications/createApplicationData}" th:object="${application}" method="post">
+        <div class="form-group">
+            <label for="candidateId">Candidate ID</label>
+            <input type="number" id="candidateId" class="form-control" th:field="*{candidate.id}"
+                   placeholder="Candidate ID">
+        </div>
+        <div class="form-group">
+            <label for="qualificationLevel">Qualification Level</label>
+            <input type="number" id="qualificationLevel" class="form-control" th:field="*{qualificationlevel.id}"
+                   placeholder="Qualification Level">
+        </div>
+        <div class="form-group">
+            <label for="cv">CV</label>
+            <textarea id="cv" class="form-control" th:field="*{cv}" placeholder="CV"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="sectors">Sectors</label>
+            <input type="text" id="sectors" class="form-control" th:field="*{sectors}" placeholder="Sectors">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</main>
+<footer th:replace="baseTemplate/footer :: ffooter"></footer>
+</body>
+</html>
