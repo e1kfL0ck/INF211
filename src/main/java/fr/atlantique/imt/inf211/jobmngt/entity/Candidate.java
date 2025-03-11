@@ -56,7 +56,7 @@ public class Candidate  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id", unique=true)
     public AppUser getAppuser() {
         return this.appuser;
@@ -94,6 +94,7 @@ public class Candidate  implements java.io.Serializable {
     public void setApplications(Set<Application> applications) {
         this.applications = applications;
     }
+
 
 
 

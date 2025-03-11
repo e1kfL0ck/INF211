@@ -1,4 +1,4 @@
-package fr.atlantique.imt.inf211.jobmngt.controller;
+package fr.atlantique.imt.inf211.jobmngt.controllertest;
 
 import fr.atlantique.imt.inf211.jobmngt.dao.AppUserDao;
 import fr.atlantique.imt.inf211.jobmngt.dao.CandidateDao;

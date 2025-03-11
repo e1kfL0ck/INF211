@@ -55,7 +55,7 @@ public class Company  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id", unique=true)
     public AppUser getAppuser() {
         return this.appuser;
@@ -86,11 +86,11 @@ public class Company  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="company", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<JobOffer> getJoboffers() {
+    public Set<JobOffer> getJobOffers() {
         return this.jobOffers;
     }
     
-    public void setJoboffers(Set<JobOffer> jobOffers) {
+    public void setJobOffers(Set<JobOffer> jobOffers) {
         this.jobOffers = jobOffers;
     }
 

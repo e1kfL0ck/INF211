@@ -12,6 +12,7 @@ public class PagesController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView welcomePage() {
 		ModelAndView modelAndView = new ModelAndView("index");
+		//TODO : add count of companies and candidates
 		modelAndView.addObject("countCompanies", 0);
 		modelAndView.addObject("countCandidates", 0);
 

@@ -23,8 +23,8 @@ public class AppUser implements java.io.Serializable {
     private String password;
     private String usertype;
     private String city;
-    private Set<Candidate> candidates = new HashSet<Candidate>(0);
-    private Set<Company> companies = new HashSet<Company>(0);
+    private Candidate candidate;
+    private Company company;
 
     public AppUser() {
     }
@@ -36,14 +36,14 @@ public class AppUser implements java.io.Serializable {
         this.password = password;
     }
 
-    public AppUser(int id, String mail, String password, String usertype, String city, Set<Candidate> candidates, Set<Company> companies) {
+    public AppUser(int id, String mail, String password, String usertype, String city, Candidate candidate, Company company) {
         this.id = id;
         this.mail = mail;
         this.password = password;
         this.usertype = usertype;
         this.city = city;
-        this.candidates = candidates;
-        this.companies = companies;
+        this.candidate = candidate;
+        this.company = company;
     }
 
     @Id
@@ -99,22 +99,22 @@ public class AppUser implements java.io.Serializable {
         this.city = city;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "appuser", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<Candidate> getCandidates() {
-        return this.candidates;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "appuser", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Candidate getCandidate() {
+        return this.candidate;
     }
 
-    public void setCandidates(Set<Candidate> candidates) {
-        this.candidates = candidates;
+    public void setCandidate(Candidate candidate) {
+        this.candidate = candidate;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "appuser", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<Company> getCompanies() {
-        return this.companies;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "appuser", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Company getCompany() {
+        return this.company;
     }
 
-    public void setCompanies(Set<Company> companies) {
-        this.companies = companies;
+    public void setCompany (Company company) {
+        this.company = company;
     }
 
 
