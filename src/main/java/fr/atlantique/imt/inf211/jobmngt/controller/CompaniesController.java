@@ -1,30 +1,26 @@
 package fr.atlantique.imt.inf211.jobmngt.controller;
 
-import fr.atlantique.imt.inf211.jobmngt.dao.CompanyDao;
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
-import fr.atlantique.imt.inf211.jobmngt.entity.Application;
 import fr.atlantique.imt.inf211.jobmngt.entity.Company;
-import fr.atlantique.imt.inf211.jobmngt.service.CompaniesServices;
+import fr.atlantique.imt.inf211.jobmngt.service.CompaniesService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @Controller
 @RequestMapping(value = "/companies")
 public class CompaniesController {
 
     @Autowired
-    private CompaniesServices companiesServices;
+    private CompaniesService companiesService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView getAllCompanies(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("company/companyList.html");
         mav.addObject("appUser", request.getSession().getAttribute("user"));
-        mav.addObject("companieslist", companiesServices.listOfCompanies());
+        mav.addObject("companieslist", companiesService.listOfCompanies());
         return mav;
     }
 
@@ -40,14 +36,14 @@ public class CompaniesController {
 
     @PostMapping(value = "/create")
     public ModelAndView createCompany(@ModelAttribute Company company) {
-        companiesServices.createCompany(company);
+        companiesService.createCompany(company);
         return new ModelAndView("redirect:/companies");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getCompany(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView("company/companyView.html");
-        Company company = companiesServices.getCompanyById(id);
+        Company company = companiesService.getCompanyById(id);
         mav.addObject("company", company);
         return mav;
     }
@@ -56,7 +52,7 @@ public class CompaniesController {
     public ModelAndView editCompany(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView("company/companyForm.html");
 
-        Company company = companiesServices.getCompanyById(id);
+        Company company = companiesService.getCompanyById(id);
 
         if (company == null) {
             return new ModelAndView("redirect:/companies");
@@ -69,17 +65,17 @@ public class CompaniesController {
 
     @PostMapping(value = "/{id}/update")
     public ModelAndView updateCompany(@PathVariable("id") int id, @ModelAttribute Company company, HttpServletRequest request) {
-        Company persistedCompany = companiesServices.getCompanyById(id);
+        Company persistedCompany = companiesService.getCompanyById(id);
         if(persistedCompany.getAppuser().getId() != ((AppUser) request.getSession().getAttribute("user")).getId()) {
             return new ModelAndView("redirect:/companies");
         }
-        companiesServices.updateCompany(company);
+        companiesService.updateCompany(company);
         return new ModelAndView("redirect:/companies");
     }
 
     @DeleteMapping(value = "/{id}/delete")
     public ModelAndView deleteCompany(@PathVariable("id") int id) {
-        companiesServices.deleteCompany(id);
+        companiesService.deleteCompany(id);
         return new ModelAndView("redirect:/companies");
     }
 }

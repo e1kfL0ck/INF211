@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ComapniesServicesImpl implements CompaniesServices {
+public class CompaniesServiceImpl implements CompaniesService {
 
     @Autowired
     private CompanyDao companyDao;
