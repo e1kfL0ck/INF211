@@ -108,13 +108,13 @@ public class ApplicationDao {
 
 
     @Transactional(readOnly = true)
-    public Optional<Application> getApplications(int idQalificationLevel, int idSector) {
-        logger.log(Level.INFO, "getting Application instance with idQualificationLevel: " + idQalificationLevel + " and idSector: " + idSector);
+    public Optional<Application> getApplications(int idQualificationLevel, int idSector) {
+        logger.log(Level.INFO, "getting Application instance with idQualificationLevel: " + idQualificationLevel + " and idSector: " + idSector);
         String r = "SELECT a FROM Application a " + "JOIN a.qualificationlevel q " + "JOIN a.sectors s " + "WHERE q.id = :idQualificationLevel AND s.id = :idSector";
 
         TypedQuery<Application> q = entityManager.createQuery(r, Application.class);
 
-        q.setParameter("idQualificationLevel", idQalificationLevel);
+        q.setParameter("idQualificationLevel", idQualificationLevel);
         q.setParameter("idSector", idSector);
         List<Application> res = q.getResultList();
 
