@@ -85,7 +85,7 @@ public class Company  implements java.io.Serializable {
         this.description = description;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="company", cascade = CascadeType.ALL, orphanRemoval = true)
     public Set<JobOffer> getJobOffers() {
         return this.jobOffers;
     }

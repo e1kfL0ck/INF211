@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/jobOffer/jobOfferBase :: article(~{::article})}">
+<article>
+    <p th:if="${#lists.size(jobOffersList)} == 0">No job offers yet.</p>
+    <table class="table table-striped" th:if="${#lists.size(jobOffersList)} > 0">
+        <caption>List of companies (<span th:text="${jobOffersList.size}"></span>)</caption>
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Publication date</th>
+                <th scope="col">Company name</th>
+                <th scope="col">Qualification level</th>
+                <th scope="col">Sectors</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="job : ${jobOffersList}">
+                <td th:text="${job.id}" />
+                <td th:text="${job.title}" />
+                <td th:text="${job.description}" />
+                <td th:text="${job.publicationdate}" />
+                <td th:text="${job.company.name}" />
+                <td th:text="${job.qualificationlevel.label}" />
+                <td>
+                    <span th:each="sector : ${job.sectors}" th:text="${sector.label} + ', '"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <footer>
+        <!-- TODO : Show button only if company -->
+        <th:block th:if="${session.usertype == 'company'}">
+            <a href="/joboffers/create" class="btn btn-large btn-primary"
+               title="add new job offer">
+                <i class="bi bi-plus"></i>
+            </a>
+        </th:block>
+    </footer>
+</article>
+
+</html>
