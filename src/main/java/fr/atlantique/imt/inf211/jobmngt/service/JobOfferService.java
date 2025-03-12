@@ -11,4 +11,6 @@ public interface JobOfferService {
     public List<JobOffer> listOfJobOffers();
 
     public void createJobOffer(JobOffer jobOffer, AppUser appUser, List<Integer> sectorIds);
+
+    public JobOffer getJobOfferByApplication(int id);
 }

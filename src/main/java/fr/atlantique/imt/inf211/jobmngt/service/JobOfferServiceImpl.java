@@ -51,4 +51,10 @@ public class JobOfferServiceImpl implements JobOfferService {
         newJobOffer.setPublicationdate(new java.util.Date());
         jobOfferDao.persist(newJobOffer);
     }
+
+    @Transactional
+    public JobOffer getJobOfferByApplication(int id) {
+        JobOffer jobOffer = jobOfferDao.findById(id);
+        return jobOffer;
+    }
 }

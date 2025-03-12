@@ -52,8 +52,13 @@ public class JobOfferController {
     }
 
     // 	Une fois connectée, l’entreprise accède à la liste d’offres d’emploi qu’elle a soumises et, pour chacune, à la liste des candidatures susceptibles de correspondre à l’offre. Cette fonctionnalité est similaire à la liste des candidatures accessible à tout utilisateur (qui en afﬁche la totalité) mais elle opère une sélection.
-    /*@GetMapping(value = )
-    public getApplicationForJobOffer() {
-        //TODO
-    }*/
+    @GetMapping(value = "/{id}/applications")
+    public getApplicationForJobOffer(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView("jobOffer/jobOfferApplications.html");
+        JobOffer jobOffer = jobOfferService.getJobOfferByApplication(id);
+        mav.addObject("jobOffer", jobOffer);
+        mav.addObject("applications", jobOffer.getApplications());
+        return mav;
+
+    }
 }
