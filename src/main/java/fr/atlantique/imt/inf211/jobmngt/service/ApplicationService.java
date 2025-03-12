@@ -17,5 +17,7 @@ public interface ApplicationService {
 
     public Application updateApplication(Application application);
 
+    public Application getApplicationById(int id);
+
     public void deleteApplication(int id);
 }

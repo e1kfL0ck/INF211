@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,11 +44,12 @@ public class ApplicationController {
     public ModelAndView createApplication() {
         ModelAndView mav = new ModelAndView("applications/applicationsForm.html");
         Application application = new Application();
-        List<QualificationLevel> qualificationLevels = qualificationLevelService.listOfQualificationLevels();
+        List<QualificationLevel> qualificationLevel = qualificationLevelService.listOfQualificationLevels();
         List<Sector> sectors = sectorService.listOfSectors();
         mav.addObject("applications", application);
-        mav.addObject("qualificationLevels", qualificationLevels);
+        mav.addObject("qualificationLevel", qualificationLevel);
         mav.addObject("sectors", sectors);
+        mav.addObject("action", "create");
         return mav;
     }
 
@@ -66,4 +68,47 @@ public class ApplicationController {
         return new ModelAndView("redirect:/applications");
     }
 
+    @GetMapping("/{id}/update")
+    public ModelAndView editApplication(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView("applications/applicationsForm.html");
+        Application application = applicationService.getApplicationById(id);
+        List<QualificationLevel> qualificationLevels = qualificationLevelService.listOfQualificationLevels();
+        List<Sector> sectors = sectorService.listOfSectors();
+        mav.addObject("applications", application);
+        mav.addObject("qualificationLevel", qualificationLevels);
+        mav.addObject("sectors", sectors);
+        mav.addObject("action", "edit");
+        return mav;
+    }
+
+    @PostMapping("/{id}/updateApplicationData")
+    public ModelAndView updateApplication(@PathVariable("id") int id, @ModelAttribute Application application, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
+        Application persistedApplication = applicationService.getApplicationById(id);
+        application.setApplicationdate(new Date());
+
+        if (persistedApplication.getCandidate().getAppuser().getId() != ((AppUser) request.getSession().getAttribute("user")).getId()) {
+            return new ModelAndView("redirect:/applications");
+        }
+
+        Set<Sector> sectors = selectedSectors.stream().map(sectorService::getSectorById).collect(Collectors.toSet());
+        application.setSectors(sectors);
+        applicationService.updateApplication(application);
+        return new ModelAndView("redirect:/applications");
+    }
+
+    @GetMapping("/get")
+    public ModelAndView searchApplication(@RequestParam("id") int id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("applications/applicationsList.html");
+        AppUser appUser = (AppUser) request.getSession().getAttribute("user");
+        if (appUser != null) {
+            Application application = applicationService.getApplicationById(id);
+            if (application != null && application.getCandidate().getAppuser().getId() == appUser.getId()) {
+                mav.addObject("applicationslist", List.of(application));
+            }
+            else {
+                mav.addObject("applicationslist", List.of());
+            }
+        }
+        return mav;
+    }
 }
