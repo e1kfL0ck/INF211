@@ -20,6 +20,7 @@ public class CompaniesController {
     public ModelAndView getAllCompanies(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("company/companyList.html");
         mav.addObject("appUser", request.getSession().getAttribute("user"));
+        mav.addObject("usertype", request.getSession().getAttribute("usertype"));
         mav.addObject("companieslist", companiesService.listOfCompanies());
         return mav;
     }

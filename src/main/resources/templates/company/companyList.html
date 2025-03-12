@@ -10,26 +10,28 @@
                 <th scope="col">Description</th>
                 <th scope="col">City</th>
                 <th scope="col">Nb. of offers</th>
-                <th scope="col">Actions</th>
+                <th th:if="${usertype == 'company'}" scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="comp : ${companieslist}">
-                 <td th:text="${comp.name}" />
+                <td th:text="${comp.name}" />
                 <td th:text="${comp.description}" />
                 <td th:text="${comp.appuser.city}" />
                 <td th:text="${comp.jobOffers.size()}" />
-                <td th:if="${appUser != null and appUser.id == comp.appuser.id}">
-                    <a th:href="@{companies/}+${comp.id}" alt="Company details" title="view details" class="btn btn-large btn-secondary">
-                        <i class="bi bi-eye"></i>
-                    </a>
-                    <a th:href="@{companies/{companyId}/update(companyId=${comp.id})}" class="btn btn-large btn-success" alt="Edit" title="edit company">
-                        <i class="bi bi-pencil"></i>
-                    </a>
-                    <!-- TODO : pk ce btn de con ne fonctionne pas ?????-->
-                    <a th:href="@{companies/{companyId}/delete(companyId=${comp.id})}" class="btn btn-large btn-danger delBtn" alt="Delete" title="delete company">
-                        <i class="bi bi-trash"></i>
-                    </a>
+                <td>
+                    <span th:if="${appUser != null and appUser.id == comp.appuser.id}" >
+                        <a th:href="@{companies/}+${comp.id}" alt="Company details" title="view details" class="btn btn-large btn-secondary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a th:href="@{companies/{companyId}/update(companyId=${comp.id})}" class="btn btn-large btn-success" alt="Edit" title="edit company">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <!-- TODO : pk ce btn de con ne fonctionne pas ?????-->
+                        <a th:href="@{companies/{companyId}/delete(companyId=${comp.id})}" class="btn btn-large btn-danger delBtn" alt="Delete" title="delete company">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </span>
                 </td>
             </tr>
         </tbody>

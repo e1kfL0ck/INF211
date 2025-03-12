@@ -25,7 +25,7 @@ public class CompaniesServiceImpl implements CompaniesService {
         AppUser appUser = company.getAppuser();
         appUser.setUsertype("company");
         company.setAppuser(appUser);
-        appUser.setCompany(company);
+        appUser.setCompany(company);//TODO: check le code de max pour avoir le lien appuser-company
         appUserDao.persist(appUser);
         companyDao.persist(company);
     }
