@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/applications/applicationsBase :: article(~{::article})}">
+<header th:replace="baseTemplate/nav :: fheader"></header>
+<article>
+    <h1>Application Form</h1>
+    <form th:action="@{/applications/createApplicationData}" th:object="${applications}" method="post">
+        <div class="form-group">
+            <label for="qualificationLevel">Qualification Level</label>
+            <select id="qualificationLevel" class="form-control" th:field="*{qualificationlevel.id}">
+                <option th:each="ql : ${qualificationLevels}" th:value="${ql.id}" th:text="${ql.label}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="cv">CV</label>
+            <textarea id="cv" class="form-control" th:field="*{cv}" placeholder="CV"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="sectors">Sectors</label>
+            <div th:each="sector : ${sectors}" class="form-check">
+                <input type="checkbox" th:id="'sector_' + ${sector.id}" th:name="selectedSectors"
+                       th:value="${sector.id}" class="form-check-input">
+                <label th:for="'sector_' + ${sector.id}" class="form-check-label" th:text="${sector.label}"></label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</article>
+</html>

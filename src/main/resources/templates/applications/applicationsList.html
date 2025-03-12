@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/applications/applicationsBase :: article(~{::article})}">
+<article>
+    <h1>My Applications</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Application ID</th>
+            <th>Qualification Level</th>
+            <th>CV</th>
+            <th>Sectors</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="applications : ${applicationslist}">
+            <td th:text="${applications.id}">Application ID</td>
+            <td th:text="${applications.qualificationlevel.label}">Qualification Level</td>
+            <td th:text="${applications.cv}">CV</td>
+            <td>
+                <ul>
+                    <li th:each="sector : ${applications.sectors}" th:text="${sector.label}">Sector</li>
+                </ul>
+            </td>
+            <td>
+                <a th:href="@{'/applications/' + ${applications.id} + '/update'}" class="btn btn-warning" title="Update">
+                    <i class="bi bi-pencil"></i> Update
+                </a>
+                <form th:action="@{'/applications/remove'}" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${applications.id}"/>
+                    <button type="submit" class="btn btn-danger" title="Delete">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/applications/create}" class="btn btn-primary">Create New Application</a>
+</article>
+</html>
