@@ -21,12 +21,13 @@
             <label for="sectors" class="form-label">Sectors</label>
             <div th:each="sector : ${sectors}" class="form-check">
                 <input type="checkbox" th:id="'sector_' + ${sector.id}" th:name="selectedSectors"
-                       th:value="${sector.id}" class="form-check-input">
+                       th:value="${sector.id}" class="form-check-input" onchange="toggleSubmitButton()">
                 <label th:for="'sector_' + ${sector.id}" class="form-check-label" th:text="${sector.label}"></label>
             </div>
         </fieldset>
         <div class="form-buttons">
-            <button type="submit" class="btn btn-primary" th:title="${action == 'edit' ? 'Update' : 'Create'}"><i
+            <button type="submit" class="btn btn-primary" th:title="${action == 'edit' ? 'Update' : 'Create'}"
+                    id="submitButton" disabled><i
                     class="bi bi-floppy"></i> Submit
             </button>
             <button type="reset" class="btn btn-secondary" value="Reset" title="reset"><i class="bi bi-eraser-fill"></i>
@@ -36,5 +37,14 @@
                 Cancel</a>
         </div>
     </form>
+
+    <script>
+        function toggleSubmitButton() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const submitButton = document.getElementById('submitButton');
+            const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+            submitButton.disabled = !isChecked;
+        }
+    </script>
 </article>
 </html>
