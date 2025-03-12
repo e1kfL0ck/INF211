@@ -29,20 +29,26 @@ public class ApplicationController {
     @Autowired
     private SectorService sectorService;
 
+    private static final String APPLICATIONS_LIST = "applications/applicationsList.html";
+    private static final String APPLICATIONS_FORM = "applications/applicationsForm.html";
+    private static final String APPLICATIONS_REDIRECT = "redirect:/applications";
+    private static final String APPLICATIONS_LIST_OBJECT = "applicationslist";
+
     @GetMapping("")
     public ModelAndView listOfApplication(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("applications/applicationsList.html");
+        ModelAndView mav = new ModelAndView(APPLICATIONS_LIST);
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         if (appUser != null) {
             List<Application> applications = applicationService.getApplication(appUser.getCandidate().getId());
-            mav.addObject("applicationslist", applications);
+            mav.addObject(APPLICATIONS_LIST_OBJECT, applications);
+            mav.addObject("appUser", appUser);
         }
         return mav;
     }
 
     @GetMapping("/create")
     public ModelAndView createApplication() {
-        ModelAndView mav = new ModelAndView("applications/applicationsForm.html");
+        ModelAndView mav = new ModelAndView(APPLICATIONS_FORM);
         Application application = new Application();
         List<QualificationLevel> qualificationLevel = qualificationLevelService.listOfQualificationLevels();
         List<Sector> sectors = sectorService.listOfSectors();
@@ -59,18 +65,18 @@ public class ApplicationController {
         Set<Sector> sectors = selectedSectors.stream().map(sectorService::getSectorById).collect(Collectors.toSet());
         application.setSectors(sectors);
         applicationService.createApplication(appUser.getCandidate().getId(), application.getQualificationlevel().getId(), application.getCv(), selectedSectors);
-        return new ModelAndView("redirect:/applications");
+        return new ModelAndView(APPLICATIONS_REDIRECT);
     }
 
     @PostMapping("/remove")
     public ModelAndView removeApplication(@ModelAttribute Application application) {
         applicationService.deleteApplication(application.getId());
-        return new ModelAndView("redirect:/applications");
+        return new ModelAndView(APPLICATIONS_REDIRECT);
     }
 
     @GetMapping("/{id}/update")
     public ModelAndView editApplication(@PathVariable("id") int id) {
-        ModelAndView mav = new ModelAndView("applications/applicationsForm.html");
+        ModelAndView mav = new ModelAndView(APPLICATIONS_FORM);
         Application application = applicationService.getApplicationById(id);
         List<QualificationLevel> qualificationLevels = qualificationLevelService.listOfQualificationLevels();
         List<Sector> sectors = sectorService.listOfSectors();
@@ -87,26 +93,26 @@ public class ApplicationController {
         application.setApplicationdate(new Date());
 
         if (persistedApplication.getCandidate().getAppuser().getId() != ((AppUser) request.getSession().getAttribute("user")).getId()) {
-            return new ModelAndView("redirect:/applications");
+            return new ModelAndView(APPLICATIONS_REDIRECT);
         }
 
         Set<Sector> sectors = selectedSectors.stream().map(sectorService::getSectorById).collect(Collectors.toSet());
         application.setSectors(sectors);
         applicationService.updateApplication(application);
-        return new ModelAndView("redirect:/applications");
+        return new ModelAndView(APPLICATIONS_REDIRECT);
     }
 
     @GetMapping("/get")
     public ModelAndView searchApplication(@RequestParam("id") int id, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("applications/applicationsList.html");
+        ModelAndView mav = new ModelAndView(APPLICATIONS_LIST);
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         if (appUser != null) {
             Application application = applicationService.getApplicationById(id);
             if (application != null && application.getCandidate().getAppuser().getId() == appUser.getId()) {
-                mav.addObject("applicationslist", List.of(application));
+                mav.addObject(APPLICATIONS_LIST_OBJECT, List.of(application));
             }
             else {
-                mav.addObject("applicationslist", List.of());
+                mav.addObject(APPLICATIONS_LIST_OBJECT, List.of());
             }
         }
         return mav;

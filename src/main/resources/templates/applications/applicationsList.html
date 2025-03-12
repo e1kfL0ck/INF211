@@ -46,6 +46,8 @@
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/applications/create}" class="btn btn-primary">Create New Application</a>
+    <div th:if="${appUser != null}">
+        <a th:href="@{/applications/create}" class="btn btn-primary">Create New Application</a>
+    </div>
 </article>
 </html>
