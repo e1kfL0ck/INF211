@@ -1,8 +1,6 @@
 package fr.atlantique.imt.inf211.jobmngt.controller;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
-import fr.atlantique.imt.inf211.jobmngt.entity.Application;
-import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
 import fr.atlantique.imt.inf211.jobmngt.service.JobOfferService;
 import fr.atlantique.imt.inf211.jobmngt.service.QualificationLevelService;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/joboffers")
