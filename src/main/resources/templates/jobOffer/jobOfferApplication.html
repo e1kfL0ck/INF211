@@ -20,10 +20,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="candidate, iterStat : ${candidates}">
+                <tr th:each="candidate, iterStat : ${applications}">
                     <td th:text="${iterStat.count}"></td>
-                    <td th:text="${candidate.firstName}"></td>
-                    <td th:text="${candidate.lastName}"></td>
+                    <td th:text="${application.candidate.firstname}"></td>
+                    <td th:text="${application.candidate.lastname}"></td>
                     <td>
                         <a th:href="@{/candidates/{id}(id=${candidate.id})}" class="btn btn-info btn-sm">
                             View Details
@@ -34,7 +34,7 @@
             </table>
         </div>
 
-        <a th:href="@{/dashboard}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+        <a th:href="@{/joboffer}" class="btn btn-secondary mt-3">Back to job offers</a>
     </div>
 
 

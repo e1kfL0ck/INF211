@@ -1,19 +1,15 @@
 package fr.atlantique.imt.inf211.jobmngt.service;
 
-import fr.atlantique.imt.inf211.jobmngt.dao.CompanyDao;
-import fr.atlantique.imt.inf211.jobmngt.dao.JobOfferDao;
-import fr.atlantique.imt.inf211.jobmngt.dao.QualificationLevelDao;
-import fr.atlantique.imt.inf211.jobmngt.dao.SectorDao;
+import fr.atlantique.imt.inf211.jobmngt.dao.*;
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
+import fr.atlantique.imt.inf211.jobmngt.entity.Application;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
 import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class JobOfferServiceImpl implements JobOfferService {
@@ -26,10 +22,17 @@ public class JobOfferServiceImpl implements JobOfferService {
     private QualificationLevelDao qualificationLevelDao;
     @Autowired
     private CompanyDao companyDao;
+    @Autowired
+    private ApplicationDao applicationDao;
 
     @Transactional
     public List<JobOffer> listOfJobOffers() {
         return jobOfferDao.findAll("title", "ASC");
+    }
+
+    @Transactional
+    public JobOffer getJobOfferById(int id) {
+        return jobOfferDao.findById(id);
     }
 
     @Transactional
@@ -53,8 +56,19 @@ public class JobOfferServiceImpl implements JobOfferService {
     }
 
     @Transactional
-    public JobOffer getJobOfferByApplication(int id) {
+    public List<Application> getJobOfferByApplication(int id) {
         JobOffer jobOffer = jobOfferDao.findById(id);
-        return jobOffer;
+        Integer qualificationLevelId = jobOffer.getQualificationlevel().getId();
+        Set<Sector> sectors = jobOffer.getSectors();
+        ArrayList<Application> listApplication = new ArrayList<>();
+
+        Optional<Application> app = applicationDao.getApplications(4, 12);
+
+        for(Sector sector : sectors) {
+            Optional<Application> optionalApplication = applicationDao.getApplications(qualificationLevelId, sector.getId());
+            optionalApplication.ifPresent(listApplication::add);
+        }
+
+        return listApplication;
     }
 }

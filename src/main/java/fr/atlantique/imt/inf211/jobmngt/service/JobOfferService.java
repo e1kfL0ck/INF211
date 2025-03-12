@@ -1,6 +1,7 @@
 package fr.atlantique.imt.inf211.jobmngt.service;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
+import fr.atlantique.imt.inf211.jobmngt.entity.Application;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
 import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 
@@ -12,5 +13,7 @@ public interface JobOfferService {
 
     public void createJobOffer(JobOffer jobOffer, AppUser appUser, List<Integer> sectorIds);
 
-    public JobOffer getJobOfferByApplication(int id);
+    public JobOffer getJobOfferById(int id);
+
+    public List<Application> getJobOfferByApplication(int id);
 }
