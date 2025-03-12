@@ -9,5 +9,7 @@ public interface SectorService {
     public List<Sector> listOfSectors();
 
     public long countSectors();
+
+    public Sector getSectorById(int id);
     
 }

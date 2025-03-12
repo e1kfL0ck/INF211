@@ -20,10 +20,10 @@
                 <td th:text="${comp.appuser.city}" />
                 <td th:text="${comp.jobOffers.size()}" />
                 <td>
-                    <span th:if="${appUser != null and appUser.id == comp.appuser.id}" >
-                        <a th:href="@{companies/}+${comp.id}" alt="Company details" title="view details" class="btn btn-large btn-secondary">
-                            <i class="bi bi-eye"></i>
-                        </a>
+                    <a th:href="@{companies/}+${comp.id}" alt="Company details" title="view details" class="btn btn-large btn-secondary">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <th:block th:if="${appUser != null and appUser.id == comp.appuser.id}" >
                         <a th:href="@{companies/{companyId}/update(companyId=${comp.id})}" class="btn btn-large btn-success" alt="Edit" title="edit company">
                             <i class="bi bi-pencil"></i>
                         </a>
@@ -31,7 +31,7 @@
                         <a th:href="@{companies/{companyId}/delete(companyId=${comp.id})}" class="btn btn-large btn-danger delBtn" alt="Delete" title="delete company">
                             <i class="bi bi-trash"></i>
                         </a>
-                    </span>
+                    </th:block>
                 </td>
             </tr>
         </tbody>

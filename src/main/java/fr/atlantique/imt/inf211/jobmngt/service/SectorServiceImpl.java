@@ -23,4 +23,10 @@ public class SectorServiceImpl implements SectorService {
         return sectorDao.count();
     }
 
+    @Override
+    public Sector getSectorById(int id) {
+        return sectorDao.findById(id);
+    }
+
+
 }
