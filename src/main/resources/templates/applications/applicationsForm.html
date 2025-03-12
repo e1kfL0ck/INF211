@@ -1,26 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Application Form</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <script th:src="@{/js/scripts.js}"></script>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/applications/applicationsBase :: article(~{::article})}">
 <header th:replace="baseTemplate/nav :: fheader"></header>
-<main role="main" class="container">
+<article>
     <h1>Application Form</h1>
-    <form th:action="@{/applications/createApplicationData}" th:object="${application}" method="post">
-        <div class="form-group">
-            <label for="candidateId">Candidate ID</label>
-            <input type="number" id="candidateId" class="form-control" th:field="*{candidate.id}"
-                   placeholder="Candidate ID">
-        </div>
+    <form th:action="@{/applications/createApplicationData}" th:object="${applications}" method="post">
         <div class="form-group">
             <label for="qualificationLevel">Qualification Level</label>
-            <input type="number" id="qualificationLevel" class="form-control" th:field="*{qualificationlevel.id}"
-                   placeholder="Qualification Level">
+            <select id="qualificationLevel" class="form-control" th:field="*{qualificationlevel.id}">
+                <option th:each="ql : ${qualificationLevels}" th:value="${ql.id}" th:text="${ql.label}"></option>
+            </select>
         </div>
         <div class="form-group">
             <label for="cv">CV</label>
@@ -28,11 +16,13 @@
         </div>
         <div class="form-group">
             <label for="sectors">Sectors</label>
-            <input type="text" id="sectors" class="form-control" th:field="*{sectors}" placeholder="Sectors">
+            <div th:each="sector : ${sectors}" class="form-check">
+                <input type="checkbox" th:id="'sector_' + ${sector.id}" th:name="selectedSectors"
+                       th:value="${sector.id}" class="form-check-input">
+                <label th:for="'sector_' + ${sector.id}" class="form-check-label" th:text="${sector.label}"></label>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-</main>
-<footer th:replace="baseTemplate/footer :: ffooter"></footer>
-</body>
+</article>
 </html>

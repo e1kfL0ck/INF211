@@ -57,6 +57,11 @@ public class ApplicationServiceImp implements ApplicationService {
     }
 
     @Override
+    public List<Application> getApplication(int candidateId) {
+        return applicationDao.getByCandidateId(candidateId);
+    }
+
+    @Override
     public Optional<Application> getBySectorAndQualification(int sectorId, int qualificationLevel) {
         return applicationDao.getApplications(qualificationLevelDao.findById(qualificationLevel).getId(), sectorId);
     }

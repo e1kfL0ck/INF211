@@ -92,6 +92,20 @@ public class ApplicationDao {
         }
     }
 
+    @Transactional
+    public List<Application> getByCandidateId(int id) {
+        logger.log(Level.INFO, "getting Application instance with candidate id: " + id);
+        String r = "SELECT a FROM Application a " + "JOIN a.candidate c " + "WHERE c.id = :id";
+
+        TypedQuery<Application> q = entityManager.createQuery(r, Application.class);
+
+        q.setParameter("id", id);
+        List<Application> res = q.getResultList();
+
+        logger.log(Level.INFO, "get successful");
+        return res;
+    }
+
 
     @Transactional(readOnly = true)
     public Optional<Application> getApplications(int idQalificationLevel, int idSector) {

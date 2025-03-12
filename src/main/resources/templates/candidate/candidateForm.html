@@ -1,13 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Candidate Entry Form</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-</head>
-<body>
-<article class="candidate-form-container">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/candidate/candidateBase :: article(~{::article})}">
+<article>
     <header class="form-header">
         <h2>Candidate Entry Form</h2>
     </header>
@@ -47,10 +40,9 @@
             <button type="reset" class="btn btn-secondary" value="Reset" title="reset"><i class="bi bi-eraser-fill"></i>
                 Reset
             </button>
-            <a th:href="@{/candidates/candidates}" class="btn btn-danger" title="go back"><i class="bi bi-x-square"></i>
+            <a th:href="@{/candidates}" class="btn btn-danger" title="go back"><i class="bi bi-x-square"></i>
                 Cancel</a>
         </div>
     </form>
 </article>
-</body>
 </html>

@@ -11,6 +11,8 @@ public interface ApplicationService {
 
     public Application createApplication(int candidateId, int qualificationLevel, String cv, List<Integer> sectorIds);
 
+    public List<Application> getApplication(int id);
+
     public Optional<Application> getBySectorAndQualification(int sectorId, int qualificationLevel);
 
     public Application updateApplication(Application application);

@@ -1,8 +1,13 @@
 package fr.atlantique.imt.inf211.jobmngt.controller;
 
+import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.Application;
+import fr.atlantique.imt.inf211.jobmngt.entity.QualificationLevel;
 import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 import fr.atlantique.imt.inf211.jobmngt.service.ApplicationService;
+import fr.atlantique.imt.inf211.jobmngt.service.QualificationLevelService;
+import fr.atlantique.imt.inf211.jobmngt.service.SectorService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +25,19 @@ public class ApplicationController {
 
     @Autowired
     private ApplicationService applicationService;
+    @Autowired
+    private QualificationLevelService qualificationLevelService;
+    @Autowired
+    private SectorService sectorService;
 
     @GetMapping("")
-    public ModelAndView listOfApplication() {
+    public ModelAndView listOfApplication(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("applications/applicationsList.html");
-        List<Application> li = applicationService.listOfApplications();
-        mav.addObject("applicationslist", li);
+        AppUser appUser = (AppUser) request.getSession().getAttribute("user");
+        if (appUser != null) {
+            List<Application> applications = applicationService.getApplication(appUser.getCandidate().getId());
+            mav.addObject("applicationslist", applications);
+        }
         return mav;
     }
 
@@ -33,14 +45,19 @@ public class ApplicationController {
     public ModelAndView createApplication() {
         ModelAndView mav = new ModelAndView("applications/applicationsForm.html");
         Application application = new Application();
-        mav.addObject("application", application);
+        List<QualificationLevel> qualificationLevels = qualificationLevelService.listOfQualificationLevels();
+        List<Sector> sectors = sectorService.listOfSectors();
+        mav.addObject("applications", application);
+        mav.addObject("qualificationLevels", qualificationLevels);
+        mav.addObject("sectors", sectors);
         return mav;
     }
 
     @PostMapping("/createApplicationData")
-    public ModelAndView createApplicationData(@ModelAttribute Application application) {
+    public ModelAndView createApplicationData(@ModelAttribute Application application, HttpServletRequest request) {
+        AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         List<Integer> sectorIds = application.getSectors().stream().map(Sector::getId).collect(Collectors.toList());
-        applicationService.createApplication(application.getCandidate().getId(), application.getQualificationlevel().getId(), application.getCv(), sectorIds);
+        applicationService.createApplication(appUser.getCandidate().getId(), application.getQualificationlevel().getId(), application.getCv(), sectorIds);
         return new ModelAndView("redirect:/applications");
     }
 

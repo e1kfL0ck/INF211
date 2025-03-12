@@ -3,13 +3,12 @@ package fr.atlantique.imt.inf211.jobmngt.controller;
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.Candidate;
 import fr.atlantique.imt.inf211.jobmngt.service.CandidateService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller()
 @RequestMapping("/candidates")
@@ -19,10 +18,10 @@ public class CandidateController {
     private CandidateService candidateService;
 
     @GetMapping("")
-    public ModelAndView listOfCandidates() {
+    public ModelAndView listOfCandidates(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("candidate/candidateList.html");
-        List<Candidate> li = candidateService.listOfCandidates();
-        mav.addObject("candidateslist", li);
+        mav.addObject("appUser", request.getSession().getAttribute("user"));
+        mav.addObject("candidateslist", candidateService.listOfCandidates());
         return mav;
     }
 
@@ -65,7 +64,12 @@ public class CandidateController {
     }
 
     @PostMapping("/{id}/updateCandidateData")
-    public ModelAndView updateCandidate(@ModelAttribute Candidate candidate) {
+    public ModelAndView updateCandidate(@PathVariable("id") int id, @ModelAttribute Candidate candidate, HttpServletRequest request) {
+        Candidate persistedCandidate = candidateService.getCandidate(id);
+
+        if (persistedCandidate.getAppuser().getId() != ((AppUser) request.getSession().getAttribute("user")).getId()) {
+            return new ModelAndView("redirect:/candidates");
+        }
         candidateService.updateCandidate(candidate);
         return new ModelAndView("redirect:/candidates");
     }
