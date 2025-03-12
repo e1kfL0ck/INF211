@@ -5,10 +5,6 @@
     <header>
         <h2>Job offer entry form</h2>
     </header>
-    <!-- (${action}=='create')@{/companies/create}: @{/companies/${company.id}/edit}
-     "@{{action}==create? /companies/create : /companies/{id}/edit(id=${company.id},action=${action})}"
-     @{${action}=='create1'? /companies/create : /companies/{id}/edit(id=${company.id})}
-     -->
     <meta th:if="${session.usertype != 'company'}" http-equiv="refresh" content="0; url=/joboffers" />
     <form th:action="@{/joboffers/create}" th:object="${jobOffer}" method="post">
         <fieldset class="mb-3">
@@ -31,13 +27,20 @@
             <label for="sectors">Sectors</label>
             <div th:each="sector : ${sectors}" class="form-check">
                 <input type="checkbox" th:id="'sector_' + ${sector.id}" th:name="selectedSectors"
-                       th:value="${sector.id}" class="form-check-input">
+                       th:value="${sector.id}" class="form-check-input" onchange="toggleSubmitButton()">
                 <label th:for="'sector_' + ${sector.id}" class="form-check-label" th:text="${sector.label}"></label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" id="submitButton" disabled>Submit</button>
     </form>
 
+    <script>
+        function toggleSubmitButton() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const submitButton = document.getElementById('submitButton');
+            const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+            submitButton.disabled = !isChecked;
+        }
+    </script>
 </article>
-
 </html>
