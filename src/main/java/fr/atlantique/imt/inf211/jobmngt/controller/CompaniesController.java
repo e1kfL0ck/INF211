@@ -19,6 +19,7 @@ public class CompaniesController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView getAllCompanies(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("company/companyList.html");
+        //TODO: les variables de sessions sont dispos dans thymleaf avec session.usetr
         mav.addObject("appUser", request.getSession().getAttribute("user"));
         mav.addObject("usertype", request.getSession().getAttribute("usertype"));
         mav.addObject("companieslist", companiesService.listOfCompanies());
