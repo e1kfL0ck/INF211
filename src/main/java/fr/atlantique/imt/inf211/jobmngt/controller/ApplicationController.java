@@ -10,13 +10,11 @@ import fr.atlantique.imt.inf211.jobmngt.service.SectorService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller()
@@ -54,10 +52,17 @@ public class ApplicationController {
     }
 
     @PostMapping("/createApplicationData")
-    public ModelAndView createApplicationData(@ModelAttribute Application application, HttpServletRequest request) {
+    public ModelAndView createApplicationData(@ModelAttribute Application application, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
-        List<Integer> sectorIds = application.getSectors().stream().map(Sector::getId).collect(Collectors.toList());
-        applicationService.createApplication(appUser.getCandidate().getId(), application.getQualificationlevel().getId(), application.getCv(), sectorIds);
+        Set<Sector> sectors = selectedSectors.stream().map(sectorService::getSectorById).collect(Collectors.toSet());
+        application.setSectors(sectors);
+        applicationService.createApplication(appUser.getCandidate().getId(), application.getQualificationlevel().getId(), application.getCv(), selectedSectors);
+        return new ModelAndView("redirect:/applications");
+    }
+
+    @PostMapping("/remove")
+    public ModelAndView removeApplication(@ModelAttribute Application application) {
+        applicationService.deleteApplication(application.getId());
         return new ModelAndView("redirect:/applications");
     }
 

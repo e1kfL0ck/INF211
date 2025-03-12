@@ -2,9 +2,8 @@ package fr.atlantique.imt.inf211.jobmngt.service;
 
 import fr.atlantique.imt.inf211.jobmngt.dao.SectorDao;
 import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
-
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -21,6 +20,11 @@ public class SectorServiceImpl implements SectorService {
     @Override
     public long countSectors() {
         return sectorDao.count();
+    }
+
+    @Override
+    public Sector getSectorById(int id) {
+        return sectorDao.findById(id);
     }
 
 }
