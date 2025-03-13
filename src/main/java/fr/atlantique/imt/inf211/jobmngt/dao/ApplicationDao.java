@@ -108,7 +108,7 @@ public class ApplicationDao {
 
 
     @Transactional(readOnly = true)
-    public Optional<Application> getApplications(int idQualificationLevel, int idSector) {
+    public Optional<List<Application>> getApplications(int idQualificationLevel, int idSector) {
         logger.log(Level.INFO, "getting Application instance with idQualificationLevel: " + idQualificationLevel + " and idSector: " + idSector);
         String r = "SELECT a FROM Application a " + "JOIN a.qualificationlevel q " + "JOIN a.sectors s " + "WHERE q.id = :idQualificationLevel AND s.id = :idSector";
 
@@ -122,7 +122,7 @@ public class ApplicationDao {
             return Optional.empty();
         }
         logger.log(Level.INFO, "get successful");
-        return Optional.of(res.get(0));
+        return Optional.of(res);
     }
 }
 

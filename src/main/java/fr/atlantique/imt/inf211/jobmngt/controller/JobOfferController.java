@@ -56,7 +56,6 @@ public class JobOfferController {
 
     @GetMapping(value = "/{id}/applications")
     public ModelAndView getApplicationForJobOffer(@PathVariable("id") int id, HttpServletRequest request) {
-        String usertype = (String) request.getSession().getAttribute("usertype");
         if(!"company".equals(request.getSession().getAttribute("usertype"))){
             return new ModelAndView("redirect:/joboffers");
         }

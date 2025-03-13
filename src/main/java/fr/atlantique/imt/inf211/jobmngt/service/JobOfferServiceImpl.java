@@ -61,8 +61,8 @@ public class JobOfferServiceImpl implements JobOfferService {
 //        Optional<Application> app = applicationDao.getApplications(4, 12);
 
         for(Sector sector : sectors) {
-            Optional<Application> optionalApplication = applicationDao.getApplications(qualificationLevelId, sector.getId());
-            optionalApplication.ifPresent(listApplication::add);
+            Optional<List<Application>> optionalApplications = applicationDao.getApplications(qualificationLevelId, sector.getId());
+            optionalApplications.ifPresent(listApplication::addAll);
         }
 
         return listApplication;
