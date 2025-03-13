@@ -25,17 +25,14 @@ public class JobOfferServiceImpl implements JobOfferService {
     @Autowired
     private ApplicationDao applicationDao;
 
-    @Transactional
     public List<JobOffer> listOfJobOffers() {
         return jobOfferDao.findAll("title", "ASC");
     }
 
-    @Transactional
     public JobOffer getJobOfferById(int id) {
         return jobOfferDao.findById(id);
     }
 
-    @Transactional
     public void createJobOffer(JobOffer jobOffer, AppUser appUser, List<Integer> sectorIds) {
         JobOffer newJobOffer = new JobOffer();
         newJobOffer.setCompany(companyDao.findById(appUser.getCompany().getId()));
@@ -55,14 +52,13 @@ public class JobOfferServiceImpl implements JobOfferService {
         jobOfferDao.persist(newJobOffer);
     }
 
-    @Transactional
-    public List<Application> getJobOfferByApplication(int id) {
+    public List<Application> getApplicationByJobOffer(int id) {
         JobOffer jobOffer = jobOfferDao.findById(id);
         Integer qualificationLevelId = jobOffer.getQualificationlevel().getId();
         Set<Sector> sectors = jobOffer.getSectors();
         ArrayList<Application> listApplication = new ArrayList<>();
 
-        Optional<Application> app = applicationDao.getApplications(4, 12);
+//        Optional<Application> app = applicationDao.getApplications(4, 12);
 
         for(Sector sector : sectors) {
             Optional<Application> optionalApplication = applicationDao.getApplications(qualificationLevelId, sector.getId());

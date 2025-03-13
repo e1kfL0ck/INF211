@@ -77,7 +77,7 @@ public class Application  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="candidate_id", nullable=false)
     public Candidate getCandidate() {
         return this.candidate;

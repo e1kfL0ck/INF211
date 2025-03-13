@@ -3,36 +3,57 @@
       th:replace="~{/jobOffer/jobOfferBase :: article(~{::article})}">
 <article>
     <header>
-        <h2>Job offer applications</h2>
+        <h2>List of Candidates for Job Offer: <span th:text="${jobOffer.title}"/></h2>
     </header>
 
     <div class="container mt-4">
-        <h2>List of Candidates for Job Offer: <span th:text="${jobOffer.title}"></span></h2>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
-                <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Details</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="candidate, iterStat : ${applications}">
-                    <td th:text="${iterStat.count}"></td>
-                    <td th:text="${application.candidate.firstname}"></td>
-                    <td th:text="${application.candidate.lastname}"></td>
-                    <td>
-                        <a th:href="@{/candidates/{id}(id=${candidate.id})}" class="btn btn-info btn-sm">
-                            View Details
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <h4>Job offer details : </h4>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Publication date</th>
+                <th scope="col">Qualification level</th>
+                <th scope="col">Sectors</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${jobOffer.title}"></td>
+                <td th:text="${jobOffer.description}"></td>
+                <td th:text="${jobOffer.publicationdate}"></td>
+                <td th:text="${jobOffer.qualificationlevel.label}"></td>
+                <td>
+                    <span th:each="sector : ${jobOffer.sectors}" th:text="${sector.label} + ', '"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p th:if="${#lists.size(applications)} == 0">No application for this job offer yet.</p>
+
+        <h4>List of candidates (<span th:text="${applications.size}"></span>) : </h4>
+        <table class="table table-striped" th:if="${#lists.size(applications)} > 0">
+            <thead>
+            <tr>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">View more</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="app: ${applications}">
+                <td th:text="${app.candidate.firstname}"></td>
+                <td th:text="${app.candidate.lastname}"></td>
+                <td>
+                    <a th:href="@{/candidates/{id}(id=${app.candidate.id})}" class="btn btn-info btn-sm">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
         <a th:href="@{/joboffer}" class="btn btn-secondary mt-3">Back to job offers</a>
     </div>

@@ -15,5 +15,5 @@ public interface JobOfferService {
 
     public JobOffer getJobOfferById(int id);
 
-    public List<Application> getJobOfferByApplication(int id);
+    public List<Application> getApplicationByJobOffer(int id);
 }
