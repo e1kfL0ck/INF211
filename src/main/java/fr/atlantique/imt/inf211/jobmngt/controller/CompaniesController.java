@@ -20,6 +20,7 @@ public class CompaniesController {
     private static final String COMPANY_FORM = "company/companyForm.html";
     private static final String COMPANY_VIEW = "company/companyView.html";
     private static final String REDIRECT_COMPANIES = "redirect:/companies";
+    private static final String LOGOUT_REDIRECT = "redirect:/logout";
 
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -82,8 +83,8 @@ public class CompaniesController {
     }
 
     @PostMapping(value = "/{id}/delete")
-    public ModelAndView deleteCompany(@PathVariable("id") int id) {
+    public ModelAndView deleteCompany(@PathVariable("id") int id, HttpServletRequest request) {
         companiesService.deleteCompany(id);
-        return new ModelAndView(REDIRECT_COMPANIES);
+        return new ModelAndView(LOGOUT_REDIRECT);
     }
 }

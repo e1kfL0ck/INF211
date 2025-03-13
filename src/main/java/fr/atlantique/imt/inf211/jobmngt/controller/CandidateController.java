@@ -21,6 +21,7 @@ public class CandidateController {
     private static final String CANDIDATE_FORM = "candidate/candidateForm.html";
     private static final String CANDIDATE_REDIRECT = "redirect:/candidates";
     private static final String CANDIDATE_LIST_OBJECT = "candidateslist";
+    private static final String LOGOUT_REDIRECT = "redirect:/logout";
 
     @GetMapping("")
     public ModelAndView listOfCandidates(HttpServletRequest request) {
@@ -50,7 +51,7 @@ public class CandidateController {
     @PostMapping("/remove")
     public ModelAndView removeCandidate(@ModelAttribute Candidate candidate) {
         candidateService.removeCandidate(candidate.getId());
-        return new ModelAndView(CANDIDATE_REDIRECT);
+        return new ModelAndView(LOGOUT_REDIRECT);
     }
 
     @GetMapping("/{id}/update")
