@@ -16,9 +16,15 @@ public class CompaniesController {
     @Autowired
     private CompaniesService companiesService;
 
+    private static final String COMPANY_LIST = "company/companyList.html";
+    private static final String COMPANY_FORM = "company/companyForm.html";
+    private static final String COMPANY_VIEW = "company/companyView.html";
+    private static final String REDIRECT_COMPANIES = "redirect:/companies";
+
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView getAllCompanies(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("company/companyList.html");
+        ModelAndView mav = new ModelAndView(COMPANY_LIST);
         //TODO: les variables de sessions sont dispos dans thymleaf avec session.usetr
         mav.addObject("appUser", request.getSession().getAttribute("user"));
         mav.addObject("usertype", request.getSession().getAttribute("usertype"));
@@ -28,7 +34,7 @@ public class CompaniesController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView showCompanyForm() {
-        ModelAndView mav = new ModelAndView("company/companyForm.html");
+        ModelAndView mav = new ModelAndView(COMPANY_FORM);
         AppUser appUser = new AppUser();
         Company company = new Company();
         company.setAppuser(appUser);
@@ -39,12 +45,12 @@ public class CompaniesController {
     @PostMapping(value = "/create")
     public ModelAndView createCompany(@ModelAttribute Company company) {
         companiesService.createCompany(company);
-        return new ModelAndView("redirect:/companies");
+        return new ModelAndView(REDIRECT_COMPANIES);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getCompany(@PathVariable("id") int id) {
-        ModelAndView mav = new ModelAndView("company/companyView.html");
+        ModelAndView mav = new ModelAndView(COMPANY_VIEW);
         Company company = companiesService.getCompanyById(id);
         mav.addObject("company", company);
         return mav;
@@ -52,12 +58,12 @@ public class CompaniesController {
 
     @RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
     public ModelAndView editCompany(@PathVariable("id") int id) {
-        ModelAndView mav = new ModelAndView("company/companyForm.html");
+        ModelAndView mav = new ModelAndView(COMPANY_FORM);
 
         Company company = companiesService.getCompanyById(id);
 
         if (company == null) {
-            return new ModelAndView("redirect:/companies");
+            return new ModelAndView(REDIRECT_COMPANIES);
         }
 
         mav.addObject("company", company);
@@ -68,16 +74,16 @@ public class CompaniesController {
     @PostMapping(value = "/{id}/update")
     public ModelAndView updateCompany(@PathVariable("id") int id, @ModelAttribute Company company, HttpServletRequest request) {
         Company persistedCompany = companiesService.getCompanyById(id);
-        if(persistedCompany.getAppuser().getId() != ((AppUser) request.getSession().getAttribute("user")).getId()) {
-            return new ModelAndView("redirect:/companies");
+        if (persistedCompany.getAppuser().getId() != ((AppUser) request.getSession().getAttribute("user")).getId()) {
+            return new ModelAndView(REDIRECT_COMPANIES);
         }
         companiesService.updateCompany(company);
-        return new ModelAndView("redirect:/companies");
+        return new ModelAndView(REDIRECT_COMPANIES);
     }
 
-    @DeleteMapping(value = "/{id}/delete")
+    @PostMapping(value = "/{id}/delete")
     public ModelAndView deleteCompany(@PathVariable("id") int id) {
         companiesService.deleteCompany(id);
-        return new ModelAndView("redirect:/companies");
+        return new ModelAndView(REDIRECT_COMPANIES);
     }
 }

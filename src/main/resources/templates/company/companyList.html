@@ -5,35 +5,44 @@
     <table class="table table-striped" th:if="${#lists.size(companieslist)} > 0">
         <caption>List of companies (<span th:text="${companieslist.size}"></span>)</caption>
         <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">City</th>
-                <th scope="col">Nb. of offers</th>
-                <th th:if="${usertype == 'company'}" scope="col">Actions</th>
-            </tr>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="Email">Mail</th>
+            <th scope="col">Description</th>
+            <th scope="col">City</th>
+            <th scope="col">Nb. of offers</th>
+            <th th:if="${usertype == 'company'}" scope="col">Actions</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="comp : ${companieslist}">
-                <td th:text="${comp.name}" />
-                <td th:text="${comp.description}" />
-                <td th:text="${comp.appuser.city}" />
-                <td th:text="${comp.jobOffers.size()}" />
-                <td>
-                    <a th:href="@{companies/}+${comp.id}" alt="Company details" title="view details" class="btn btn-large btn-secondary">
-                        <i class="bi bi-eye"></i>
+        <tr th:each="comp : ${companieslist}">
+            <td th:text="${comp.name}"/>
+            <td th:text="${comp.appuser.mail}"/>
+            <td th:text="${comp.description}"/>
+            <td th:text="${comp.appuser.city}"/>
+            <td th:text="${comp.jobOffers.size()}"/>
+            <td>
+                <div class="btn-group" role="group">
+                    <a th:href="@{'/companies/' + ${comp.id}}" class="btn btn-large btn-secondary" title="View details">
+                        <i class="bi bi-eye"></i> View
                     </a>
-                    <th:block th:if="${appUser != null and appUser.id == comp.appuser.id}" >
-                        <a th:href="@{companies/{companyId}/update(companyId=${comp.id})}" class="btn btn-large btn-success" alt="Edit" title="edit company">
-                            <i class="bi bi-pencil"></i>
+                    <th:block th:if="${appUser != null and appUser.id == comp.appuser.id}">
+                        <a th:href="@{'/companies/' + ${comp.id} + '/update'}"
+                           class="btn btn-large btn-success"
+                           title="Edit company">
+                            <i class="bi bi-pencil"></i> Edit
                         </a>
-                        <!-- TODO : pk ce btn de con ne fonctionne pas ?????-->
-                        <a th:href="@{companies/{companyId}/delete(companyId=${comp.id})}" class="btn btn-large btn-danger delBtn" alt="Delete" title="delete company">
-                            <i class="bi bi-trash"></i>
-                        </a>
+                        <form th:action="@{'/companies/' + ${comp.id} + '/delete'}" method="post">
+                            <button class="btn btn-large btn-danger"
+                                    title="Delete company">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
                     </th:block>
-                </td>
-            </tr>
+                </div>
+
+            </td>
+        </tr>
         </tbody>
     </table>
     <footer>

@@ -8,30 +8,34 @@
      "@{{action}==create? /companies/create : /companies/{id}/edit(id=${company.id},action=${action})}"
      @{${action}=='create1'? /companies/create : /companies/{id}/edit(id=${company.id})}
      -->
-    <form th:action="@{${action} == 'edit' ? '/companies/' + ${company.id} + '/update' : '/companies/create'}" method="post">
+    <form th:action="@{${action} == 'edit' ? '/companies/' + ${company.id} + '/update' : '/companies/create'}"
+          method="post">
         <fieldset class="mb-3">
             <label for="mail" class="form-label">Mail</label>:
-            <input type="text" id="mail" class="form-control" name="mail" autofocus="autofocus" th:field="${company.appuser.mail}" required />
+            <input type="text" id="mail" class="form-control" name="mail" autofocus="autofocus"
+                   th:field="${company.appuser.mail}" required/>
         </fieldset>
         <fieldset class="mb-3">
             <label for="password" class="form-label">Password</label>:
-            <input type="text" id="password" class="form-control" name="password" th:field="${company.appuser.password}" required />
+            <input type="password" id="password" class="form-control" name="password"
+                   th:field="${company.appuser.password}" required/>
         </fieldset>
         <fieldset class="mb-3">
             <label for="nameid" class="form-label">Name</label>:
-            <input type="text" id="nameid" class="form-control" name="name" th:field="${company.name}" required />
+            <input type="text" id="nameid" class="form-control" name="name" th:field="${company.name}" required/>
         </fieldset>
         <fieldset class="mb-3">
             <label for="descid" class="form-label">Description</label>:
             <input type="text" id="descid" class="form-control" name="description" th:field="${company.description}"
-                required />
+                   required/>
         </fieldset>
         <fieldset class="mb-3">
             <label for="city" class="form-label">City</label>:
-            <input type="text" id="city" class="form-control" name="city" th:field="${company.appuser.city}" required />
+            <input type="text" id="city" class="form-control" name="city" th:field="${company.appuser.city}" required/>
         </fieldset>
-        <button type="submit"  class="btn btn-primary" th:title="${action}"><i class="bi bi-floppy"></i></button>
-        <button type="reset" class="btn btn-secondary" value="Reset" title="reset"><i class="bi bi-eraser-fill"></i></button>
+        <button type="submit" class="btn btn-primary" th:title="${action}"><i class="bi bi-floppy"></i></button>
+        <button type="reset" class="btn btn-secondary" value="Reset" title="reset"><i class="bi bi-eraser-fill"></i>
+        </button>
         <a th:href="@{/companies}" class="btn btn-danger" title="go back"><i class="bi bi-x-square"></i></a>
     </form>
 
@@ -39,27 +43,27 @@
         <h2>List of associated job offers</h2>
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Task</th>
-                    <th scope="col">Publication date</th>
-                    <th scope="col">Qualification leve</th>
-                    <th scope="col">Sectors</th>
-                    <th scope="col"></th>
-                </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Task</th>
+                <th scope="col">Publication date</th>
+                <th scope="col">Qualification leve</th>
+                <th scope="col">Sectors</th>
+                <th scope="col"></th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="job : ${company.jobOffers}">
-                    <th scope="row" th:text="${job.id}" />
-                    <td th:text="${job.title}" />
-                    <td th:text="${job.description}" />
-                    <td th:text="${job.publicationdate}" />
-                    <td th:text="${job.qualificationlevel.label}" />
-                    <td><span th:each="sec : ${job.sectors}"><span th:text="${sec.label}"></span> </span></td>
-                    <td><a th:href="@{'modoffer?oid='+${job.id}}"><img th:src="@{/img/zoom.png}"
-                                alt="Job offer modification" /></a></td>
-                </tr>
+            <tr th:each="job : ${company.jobOffers}">
+                <th scope="row" th:text="${job.id}"/>
+                <td th:text="${job.title}"/>
+                <td th:text="${job.description}"/>
+                <td th:text="${job.publicationdate}"/>
+                <td th:text="${job.qualificationlevel.label}"/>
+                <td><span th:each="sec : ${job.sectors}"><span th:text="${sec.label}"></span> </span></td>
+                <td><a th:href="@{'modoffer?oid='+${job.id}}"><img th:src="@{/img/zoom.png}"
+                                                                   alt="Job offer modification"/></a></td>
+            </tr>
             </tbody>
         </table>
     </aside>
