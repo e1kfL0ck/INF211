@@ -2,10 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/applications/applicationsBase :: article(~{::article})}">
 <article>
     <h1>My Applications</h1>
+    <form th:action="@{/applications/get}" method="get" class="mb-3">
+        <div class="input-group">
+            <input type="number" name="id" class="form-control" placeholder="Search by Application ID" required>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a th:href="@{/applications}" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
     <table class="table table-striped">
         <thead>
         <tr>
             <th>Application ID</th>
+            <th>Application Date</th>
             <th>Qualification Level</th>
             <th>CV</th>
             <th>Sectors</th>
@@ -15,6 +23,7 @@
         <tbody>
         <tr th:each="applications : ${applicationslist}">
             <td th:text="${applications.id}">Application ID</td>
+            <td th:text="${#dates.format(applications.applicationdate, 'dd/MM/yyyy')}"></td>
             <td th:text="${applications.qualificationlevel.label}">Qualification Level</td>
             <td th:text="${applications.cv}">CV</td>
             <td>
@@ -23,7 +32,8 @@
                 </ul>
             </td>
             <td>
-                <a th:href="@{'/applications/' + ${applications.id} + '/update'}" class="btn btn-warning" title="Update">
+                <a th:href="@{'/applications/' + ${applications.id} + '/update'}" class="btn btn-warning"
+                   title="Update">
                     <i class="bi bi-pencil"></i> Update
                 </a>
                 <form th:action="@{'/applications/remove'}" method="post" style="display:inline;">
@@ -36,6 +46,8 @@
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/applications/create}" class="btn btn-primary">Create New Application</a>
+    <div th:if="${appUser != null}">
+        <a th:href="@{/applications/create}" class="btn btn-primary">Create New Application</a>
+    </div>
 </article>
 </html>

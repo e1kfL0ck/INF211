@@ -79,6 +79,11 @@ public class ApplicationServiceImp implements ApplicationService {
     }
 
     @Override
+    public Application getApplicationById(int id) {
+        return applicationDao.findById(id);
+    }
+
+    @Override
     public void deleteApplication(int id) {
         Application application = applicationDao.findById(id);
         if (application != null) {
