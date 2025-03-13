@@ -71,10 +71,10 @@ public class TestApplicationDaoController {
      * Get information of an application by id
      * curl -X GET "http://localhost:8080/api/v1/applications/search?sectorId=1&qualificationLevel=5"
      */
-    @RequestMapping(value = "/getBySectorAndQualification", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Application> getBySectorAndQualification(@RequestParam int sectorId, @RequestParam int qualificationLevel) {
-        return applicationDao.getApplications(qualificationLevelDao.findById(qualificationLevel).getId(), sectorId);
-    }
+//    @RequestMapping(value = "/getBySectorAndQualification", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Optional<Application> getBySectorAndQualification(@RequestParam int sectorId, @RequestParam int qualificationLevel) {
+//        return applicationDao.getApplications(qualificationLevelDao.findById(qualificationLevel).getId(), sectorId);
+//    }
 
 
     /*
