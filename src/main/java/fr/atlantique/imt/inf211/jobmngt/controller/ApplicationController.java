@@ -5,6 +5,7 @@ import fr.atlantique.imt.inf211.jobmngt.entity.Application;
 import fr.atlantique.imt.inf211.jobmngt.entity.QualificationLevel;
 import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 import fr.atlantique.imt.inf211.jobmngt.service.ApplicationService;
+import fr.atlantique.imt.inf211.jobmngt.service.JobOfferService;
 import fr.atlantique.imt.inf211.jobmngt.service.QualificationLevelService;
 import fr.atlantique.imt.inf211.jobmngt.service.SectorService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,8 @@ public class ApplicationController {
     private QualificationLevelService qualificationLevelService;
     @Autowired
     private SectorService sectorService;
+    @Autowired
+    private JobOfferService jobOfferService;
 
     private static final String APPLICATIONS_LIST = "applications/applicationsList.html";
     private static final String APPLICATIONS_FORM = "applications/applicationsForm.html";
@@ -115,6 +118,15 @@ public class ApplicationController {
                 mav.addObject(APPLICATIONS_LIST_OBJECT, List.of());
             }
         }
+        return mav;
+    }
+
+    @GetMapping("/{id}/jobOffers")
+    public ModelAndView viewJobOffers(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView("applications/applicationsJobOffer.html");
+        Application application = applicationService.getApplicationById(id);
+        mav.addObject("application", application);
+        mav.addObject("jobOffers", applicationService.getSectorByApplicationId(id));
         return mav;
     }
 }

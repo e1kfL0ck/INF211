@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/applications/applicationsBase :: article(~{::article})}">
+<head>
+    <title>Job Offers</title>
+</head>
+<body>
+<article>
+    <h1>Job Offers for Application <span th:text="${application.id}"></span></h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Job Offer ID</th>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="jobOffer : ${jobOffers}">
+            <td th:text="${jobOffer.id}">Job Offer ID</td>
+            <td th:text="${jobOffer.title}">Job Title</td>
+            <td th:text="${jobOffer.company.name}">Company</td>
+            <td>
+                <a th:href="@{'/jobOffers/' + ${jobOffer.id}}" class="btn btn-info" title="View Details">
+                    <i class="bi bi-eye"></i> View Details
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</article>
+</body>
+</html>

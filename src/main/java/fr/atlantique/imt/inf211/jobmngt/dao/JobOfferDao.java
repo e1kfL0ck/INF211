@@ -2,7 +2,13 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 // Generated 3 mars 2025, 15:44:52 by Hibernate Tools 5.6.15.Final
 
 
-import fr.atlantique.imt.inf211.jobmngt.entity.*;
+import fr.atlantique.imt.inf211.jobmngt.entity.Company;
+import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -11,23 +17,19 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jakarta.persistence.TypedQuery;
-import org.springframework.stereotype.Repository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Home object for domain model class Joboffer.
- * @see .Joboffer
+ *
  * @author Hibernate Tools
+ * @see .Joboffer
  */
 @Repository
 public class JobOfferDao {
 
     private static final Logger logger = Logger.getLogger(JobOfferDao.class.getName());
 
-    @PersistenceContext private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Transactional
     public void persist(JobOffer transientInstance) {
@@ -46,8 +48,7 @@ public class JobOfferDao {
             entityManager.merge(company);
 
             logger.log(Level.INFO, "persist successful");
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "persist failed", re);
             throw re;
         }
@@ -59,8 +60,7 @@ public class JobOfferDao {
         try {
             entityManager.remove(persistentInstance);
             logger.log(Level.INFO, "remove successful");
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "remove failed", re);
             throw re;
         }
@@ -73,8 +73,7 @@ public class JobOfferDao {
             JobOffer result = entityManager.merge(detachedInstance);
             logger.log(Level.INFO, "merge successful");
             return result;
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "merge failed", re);
             throw re;
         }
@@ -87,8 +86,7 @@ public class JobOfferDao {
             JobOffer instance = entityManager.find(JobOffer.class, id);
             logger.log(Level.INFO, "get successful");
             return instance;
-        }
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             logger.log(Level.SEVERE, "get failed", re);
             throw re;
         }
@@ -111,24 +109,17 @@ public class JobOfferDao {
     }
 
     @Transactional
-    public Optional<JobOffer> getJobOffers(int idQalificationLevel, int idSector) {
-        logger.log(Level.INFO, "getting Joboffer instance with idQualificationLevel: " + idQalificationLevel + " and idSector: " + idSector);
-        String r = "SELECT j FROM JobOffer j " +
-                "JOIN j.qualificationlevel q " +
-                "JOIN j.sectors s " +
-                "WHERE q.id = :idQualificationLevel AND s.id = :idSector";
+    public Optional<List<JobOffer>> getJobOffers(int idQualificationLevel, int idSector) {
+        logger.log(Level.INFO, "getting Joboffer instances with idQualificationLevel: " + idQualificationLevel + " and idSector: " + idSector);
+        String r = "SELECT j FROM JobOffer j " + "JOIN j.qualificationlevel q " + "JOIN j.sectors s " + "WHERE q.id = :idQualificationLevel AND s.id = :idSector";
 
         TypedQuery<JobOffer> q = entityManager.createQuery(r, JobOffer.class);
-
-        q.setParameter("idQualificationLevel", idQalificationLevel);
+        q.setParameter("idQualificationLevel", idQualificationLevel);
         q.setParameter("idSector", idSector);
         List<JobOffer> res = q.getResultList();
 
-        if (res.isEmpty()) {
-            return Optional.empty();
-        }
         logger.log(Level.INFO, "get successful");
-        return Optional.of(res.get(0));
+        return res.isEmpty() ? Optional.empty() : Optional.of(res);
     }
 
     @Transactional(readOnly = true)

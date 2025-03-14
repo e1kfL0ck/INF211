@@ -19,7 +19,9 @@
             <td th:text="${candidate.appuser.city}">City</td>
             <td>
                 <span th:if="${appUser != null and appUser.id == candidate.appuser.id}">
-
+                    <a th:href="@{'/candidates/' + ${candidate.id} + '/view'}" class="btn btn-info" title="View">
+                        <i class="bi bi-eye"></i> View
+                    </a>
                     <a th:href="@{'/candidates/' + ${candidate.id} + '/update'}" class="btn btn-warning" title="Update">
                         <i class="bi bi-pencil"></i> Update
                     </a>

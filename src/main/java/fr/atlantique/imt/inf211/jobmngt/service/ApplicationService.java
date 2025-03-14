@@ -1,6 +1,8 @@
 package fr.atlantique.imt.inf211.jobmngt.service;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.Application;
+import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
+import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +22,6 @@ public interface ApplicationService {
     public Application getApplicationById(int id);
 
     public void deleteApplication(int id);
+
+    public List<JobOffer> getSectorByApplicationId(int id);
 }

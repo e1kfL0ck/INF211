@@ -56,7 +56,7 @@ public class JobOfferServiceImpl implements JobOfferService {
     }
 
     @Transactional
-    public List<Application> getJobOfferByApplication(int id) {
+    public List<Application> getApplicationsByJobOffer(int id) {
         JobOffer jobOffer = jobOfferDao.findById(id);
         Integer qualificationLevelId = jobOffer.getQualificationlevel().getId();
         Set<Sector> sectors = jobOffer.getSectors();
@@ -64,11 +64,16 @@ public class JobOfferServiceImpl implements JobOfferService {
 
         Optional<Application> app = applicationDao.getApplications(4, 12);
 
-        for(Sector sector : sectors) {
+        for (Sector sector : sectors) {
             Optional<Application> optionalApplication = applicationDao.getApplications(qualificationLevelId, sector.getId());
             optionalApplication.ifPresent(listApplication::add);
         }
 
         return listApplication;
+    }
+
+    @Override
+    public Optional<List<JobOffer>> getBySectorAndQualification(int sectorId, int qualificationLevel) {
+        return jobOfferDao.getJobOffers(qualificationLevelDao.findById(qualificationLevel).getId(), sectorId);
     }
 }

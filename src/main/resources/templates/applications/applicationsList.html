@@ -32,8 +32,11 @@
                 </ul>
             </td>
             <td>
-                <a th:href="@{'/applications/' + ${applications.id} + '/update'}" class="btn btn-warning"
-                   title="Update">
+                <a th:href="@{'/applications/' + ${applications.id} + '/jobOffers'}" class="btn btn-info"
+                   title="View Job Offers">
+                <i class="bi bi-briefcase"></i> View Job Offers
+                </a>
+                <a th:href="@{'/applications/' + ${applications.id} + '/update'}" class="btn btn-warning" title="Update">
                     <i class="bi bi-pencil"></i> Update
                 </a>
                 <form th:action="@{'/applications/remove'}" method="post" style="display:inline;">

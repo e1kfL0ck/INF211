@@ -53,7 +53,7 @@ public class JobOfferController {
     public ModelAndView getApplicationForJobOffer(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView("jobOffer/jobOfferApplication.html");
         mav.addObject("jobOffer", jobOfferService.getJobOfferById(id));
-        mav.addObject("applications", jobOfferService.getJobOfferByApplication(id));
+        mav.addObject("applications", jobOfferService.getApplicationsByJobOffer(id));
         return mav;
 
     }

@@ -6,6 +6,7 @@ import fr.atlantique.imt.inf211.jobmngt.dao.QualificationLevelDao;
 import fr.atlantique.imt.inf211.jobmngt.dao.SectorDao;
 import fr.atlantique.imt.inf211.jobmngt.entity.Application;
 import fr.atlantique.imt.inf211.jobmngt.entity.Candidate;
+import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
 import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,8 @@ public class ApplicationServiceImp implements ApplicationService {
     private SectorDao sectorDao;
     @Autowired
     private QualificationLevelDao qualificationLevelDao;
+    @Autowired
+    private JobOfferService jobOfferService;
 
     @Override
     public List<Application> listOfApplications() {
@@ -89,5 +92,20 @@ public class ApplicationServiceImp implements ApplicationService {
         if (application != null) {
             applicationDao.remove(application);
         }
+    }
+
+    @Override
+    public List<JobOffer> getSectorByApplicationId(int id) {
+        Application application = applicationDao.findById(id);
+        Integer qualificationLevelId = application.getQualificationlevel().getId();
+        Set<Sector> sectors = application.getSectors();
+        List<JobOffer> jobOffers = new ArrayList<>();
+
+        for (Sector sector : sectors) {
+            Optional<List<JobOffer>> sectorJobOffers = jobOfferService.getBySectorAndQualification(sector.getId(), qualificationLevelId);
+            sectorJobOffers.ifPresent(jobOffers::addAll);
+        }
+
+        return jobOffers;
     }
 }
