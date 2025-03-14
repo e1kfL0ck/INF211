@@ -71,9 +71,10 @@ public class CandidateController {
 
     // Faire un candidateView pour afficher les détails d'un candidat et mettre le bouton update à la fin de ce formulaire
     @GetMapping("/{id}/view")
-    public ModelAndView viewCandidate(@PathVariable("id") int id) {
+    public ModelAndView viewCandidate(@PathVariable("id") int id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("candidate/candidateView.html");
         Candidate candidate = candidateService.getCandidate(id);
+        mav.addObject("appUser", request.getSession().getAttribute("user"));
         mav.addObject("candidate", candidate);
         return mav;
     }

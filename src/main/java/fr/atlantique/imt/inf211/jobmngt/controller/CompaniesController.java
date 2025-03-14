@@ -50,9 +50,10 @@ public class CompaniesController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getCompany(@PathVariable("id") int id) {
+    public ModelAndView getCompany(@PathVariable("id") int id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(COMPANY_VIEW);
         Company company = companiesService.getCompanyById(id);
+        mav.addObject("appUser", request.getSession().getAttribute("user"));
         mav.addObject("company", company);
         return mav;
     }

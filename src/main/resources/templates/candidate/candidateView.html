@@ -7,31 +7,28 @@
     <form>
         <fieldset class="mb-3">
             <label for="firstnameid" class="form-label">First Name</label>:
-            <input type="text" id="firstnameid" class="form-control" name="firstname" th:value="${candidate.firstname}"
-                   readonly/>
+            <input type="text" id="firstnameid" class="form-control" name="firstname" th:value="${candidate.firstname}" readonly/>
         </fieldset>
         <fieldset class="mb-3">
             <label for="lastnameid" class="form-label">Last Name</label>:
-            <input type="text" id="lastnameid" class="form-control" name="lastname" th:value="${candidate.lastname}"
-                   readonly/>
+            <input type="text" id="lastnameid" class="form-control" name="lastname" th:value="${candidate.lastname}" readonly/>
         </fieldset>
         <fieldset class="mb-3">
             <label for="emailid" class="form-label">Email</label>:
-            <input type="text" id="emailid" class="form-control" name="email" th:value="${candidate.appuser.mail}"
-                   readonly/>
+            <input type="text" id="emailid" class="form-control" name="email" th:value="${candidate.appuser.mail}" readonly/>
         </fieldset>
         <fieldset class="mb-3">
             <label for="cityid" class="form-label">City</label>:
-            <input type="text" id="cityid" class="form-control" name="city" th:value="${candidate.appuser.city}"
-                   readonly/>
+            <input type="text" id="cityid" class="form-control" name="city" th:value="${candidate.appuser.city}" readonly/>
         </fieldset>
     </form>
 
     <footer>
-        <a th:href="@{/candidates/{candidateId}/update(candidateId=${candidate.id})}" class="btn btn-large btn-primary"
-           title="Unlock to update">
-            <i class="bi bi-pencil"></i> Update
-        </a>
+        <th:block th:if="${appUser != null and appUser.id == candidate.appuser.id}">
+            <a th:href="@{/candidates/{candidateId}/update(candidateId=${candidate.id})}" class="btn btn-large btn-primary" title="Unlock to update">
+                <i class="bi bi-pencil"></i> Update
+            </a>
+        </th:block>
         <a th:href="@{/candidates}" class="btn btn-secondary" title="go back">
             <i class="bi bi-list-columns"></i>
         </a>
