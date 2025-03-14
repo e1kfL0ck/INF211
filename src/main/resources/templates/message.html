@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace ="~{/baseTemplate/base :: layout(~{::title},~{::article})}">
+<title>GetYourJob</title>
+<article class="row justify-content-center text-danger">
+    <header class="col-2">
+        <h1>Messages</h1>
+    </header>
+    <h1>Messages : <span th:text="${application.id}"></span></h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <!--Lister les messages reçus des entreprises pour une offre d’emploi-->
+            <th>ID message</th>
+            <th>ID offre (+lien)</th>
+            <th>ID Application</th>
+            <th>Reception date</th>
+            <th>Message content</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="message : ${messages}">
+            <td th:text="${message.id}"></td>
+            <td th:text="${message.joboffer.id}"></td>
+            <td th:text="${message.application.id}"></td>
+            <td th:text="${message.date}"></td>
+            <td th:text="${message.message}"></td>
+        </tr>
+        </tbody>
+</article>
+</html>

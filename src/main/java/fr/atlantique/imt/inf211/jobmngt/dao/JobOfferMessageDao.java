@@ -4,8 +4,11 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.*;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -75,6 +78,19 @@ public class JobOfferMessageDao {
             logger.log(Level.SEVERE, "get failed", re);
             throw re;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<JobOfferMessage> findAll(String sort, String order) {
+        String r = "SELECT m FROM JobOfferMessage m ORDER BY m." + sort;
+        if (order.equals("asc")) {
+            r += " ASC";
+        }
+        else {
+            r += " DESC";
+        }
+        TypedQuery<JobOfferMessage> q = entityManager.createQuery(r, JobOfferMessage.class);
+        return q.getResultList();
     }
 }
 
