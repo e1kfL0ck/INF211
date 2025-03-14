@@ -17,4 +17,8 @@ public interface JobOfferService {
     public List<Application> getApplicationsByJobOffer(int id);
 
     public Optional<List<JobOffer>> getBySectorAndQualification(int sectorId, int qualificationLevel);
+
+    public void deleteJobOffer(int id);
+
+    public void updateJobOffer(JobOffer jobOffer, List<Integer> sectorIds);
 }
