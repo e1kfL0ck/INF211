@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface JobOfferService {
     public List<JobOffer> listOfJobOffers();
 
-    public void createJobOffer(JobOffer jobOffer, AppUser appUser, List<Integer> sectorIds);
+    public JobOffer createJobOffer(JobOffer jobOffer, AppUser appUser, List<Integer> sectorIds);
 
     public JobOffer getJobOfferById(int id);
 
@@ -21,4 +21,7 @@ public interface JobOfferService {
     public void deleteJobOffer(int id);
 
     public void updateJobOffer(JobOffer jobOffer, List<Integer> sectorIds);
+
+    public void sendMessageToCandidate(int id, JobOffer jobOffer);
+
 }

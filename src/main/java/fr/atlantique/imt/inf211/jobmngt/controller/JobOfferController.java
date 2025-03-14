@@ -50,7 +50,8 @@ public class JobOfferController {
         if(request.getSession().getAttribute("usertype") != "company"){
             return new ModelAndView("redirect:/joboffers");
         }
-        jobOfferService.createJobOffer(jobOffer, (AppUser) request.getSession().getAttribute("user"), selectedSectors);
+        JobOffer jb = jobOfferService.createJobOffer(jobOffer, (AppUser) request.getSession().getAttribute("user"), selectedSectors);
+        jobOfferService.sendMessageToCandidate(jb.getId(), jb);
         return new ModelAndView("redirect:/joboffers");
     }
 

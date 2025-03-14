@@ -1,15 +1,13 @@
 package fr.atlantique.imt.inf211.jobmngt.service;
 
 import fr.atlantique.imt.inf211.jobmngt.dao.*;
-import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
-import fr.atlantique.imt.inf211.jobmngt.entity.Application;
-import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
-import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
+import fr.atlantique.imt.inf211.jobmngt.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class JobOfferServiceImpl implements JobOfferService {
@@ -24,6 +22,8 @@ public class JobOfferServiceImpl implements JobOfferService {
     private CompanyDao companyDao;
     @Autowired
     private ApplicationDao applicationDao;
+    @Autowired
+    private JobOfferMessageDao jobOfferMessageDao;
 
     public List<JobOffer> listOfJobOffers() {
         return jobOfferDao.findAll("title", "ASC");
@@ -33,7 +33,7 @@ public class JobOfferServiceImpl implements JobOfferService {
         return jobOfferDao.findById(id);
     }
 
-    public void createJobOffer(JobOffer jobOffer, AppUser appUser, List<Integer> sectorIds) {
+    public JobOffer createJobOffer(JobOffer jobOffer, AppUser appUser, List<Integer> sectorIds) {
         JobOffer newJobOffer = new JobOffer();
         newJobOffer.setCompany(companyDao.findById(appUser.getCompany().getId()));
         newJobOffer.setQualificationlevel(qualificationLevelDao.findById(jobOffer.getQualificationlevel().getId()));
@@ -50,6 +50,8 @@ public class JobOfferServiceImpl implements JobOfferService {
         newJobOffer.setDescription(jobOffer.getDescription());
         newJobOffer.setPublicationdate(new java.util.Date());
         jobOfferDao.persist(newJobOffer);
+
+        return newJobOffer;
     }
 
     @Transactional
@@ -72,6 +74,7 @@ public class JobOfferServiceImpl implements JobOfferService {
         return jobOfferDao.getJobOffers(qualificationLevelDao.findById(qualificationLevel).getId(), sectorId);
     }
 
+    @Override
     public void deleteJobOffer(int id) {
         JobOffer jobOffer = jobOfferDao.findById(id);
         if (jobOffer != null) {
@@ -79,6 +82,7 @@ public class JobOfferServiceImpl implements JobOfferService {
         }
     }
 
+    @Override
     public void updateJobOffer(JobOffer jobOffer, List<Integer> sectorIds) {
         JobOffer persistedJobOffer = jobOfferDao.findById(jobOffer.getId());
         persistedJobOffer.setTitle(jobOffer.getTitle());
@@ -95,5 +99,19 @@ public class JobOfferServiceImpl implements JobOfferService {
         persistedJobOffer.setSectors(sectors);
 
         jobOfferDao.merge(persistedJobOffer);
+    }
+
+    @Override
+    public void sendMessageToCandidate(int id, JobOffer jobOffer) {
+        List<Application> applicationList = getApplicationsByJobOffer(id);
+
+        for (Application application : applicationList) {
+            JobOfferMessage jobOfferMessage = new JobOfferMessage();
+            jobOfferMessage.setApplication(application);
+            jobOfferMessage.setJoboffer(jobOfferDao.findById(id));
+            jobOfferMessage.setMessage("New job offer:\n" + "Candidate Email: " + application.getCandidate().getAppuser().getMail() + "\n" + "Application ID: " + application.getId() + "\n" + "Job Offer ID: " + jobOffer.getId() + "\n" + "Title: " + jobOffer.getTitle() + "\n" + "Description: " + jobOffer.getDescription() + "\n" + "Company: " + jobOffer.getCompany().getName() + "\n" + "Qualification Level: " + jobOffer.getQualificationlevel().getLabel() + "\n" + "company sectors: " + jobOffer.getSectors().stream().map(Sector::getLabel).collect(Collectors.joining(", ")) + "\n" + "Publication Date: " + jobOffer.getPublicationdate() + "\n" + "Current Date: " + new java.util.Date().toString());
+            jobOfferMessage.setDate(new Date());
+            jobOfferMessageDao.persist(jobOfferMessage);
+        }
     }
 }
