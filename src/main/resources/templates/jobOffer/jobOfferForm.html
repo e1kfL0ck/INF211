@@ -6,7 +6,7 @@
         <h2>Job offer entry form</h2>
     </header>
     <meta th:if="${session.usertype != 'company'}" http-equiv="refresh" content="0; url=/joboffers" />
-    <form th:action="@{/joboffers/create}" th:object="${jobOffer}" method="post">
+    <form th:action="@{${action} == 'edit' ? '/joboffers/' + ${jobOffer.id} + '/update' : '/joboffers/create'}" th:object="${jobOffer}" method="post">
         <fieldset class="mb-3">
             <label for="title" class="form-label">Title :</label>
             <input type="text" id="title" class="form-control" name="title"
@@ -23,6 +23,7 @@
                 <option th:each="ql : ${qualificationLevels}" th:value="${ql.id}" th:text="${ql.label}"></option>
             </select>
         </div>
+        <!--TODO : pre recocher les secteurs deja selectionnes-->
         <div class="form-group">
             <label for="sectors">Sectors</label>
             <div th:each="sector : ${sectors}" class="form-check">
@@ -31,10 +32,20 @@
                 <label th:for="'sector_' + ${sector.id}" class="form-check-label" th:text="${sector.label}"></label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" id="submitButton" disabled>Submit</button>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-primary" th:title="${action == 'edit' ? 'Update' : 'Create'}" id="submitButton" disabled><i
+                    class="bi bi-floppy"></i> Submit
+            </button>
+            <button type="reset" class="btn btn-secondary" value="Reset" title="reset"><i class="bi bi-eraser-fill"></i>
+                Reset
+            </button>
+            <a th:href="@{/joboffers}" class="btn btn-danger" title="go back"><i class="bi bi-x-square"></i>
+                Cancel</a>
+        </div>
     </form>
 
     <script>
+        // Disable submit button if no checkbox is checked
         function toggleSubmitButton() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const submitButton = document.getElementById('submitButton');

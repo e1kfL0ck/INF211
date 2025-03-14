@@ -13,11 +13,11 @@
             <th scope="col">Company name</th>
             <th scope="col">Qualification level</th>
             <th scope="col">Sectors</th>
-            <!--<th th:if="${session.usertype == 'comapny'}" scope="col">Actions</th>-->
+            <th th:if="${session.usertype == 'company'}" scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="job : ${jobOffersList}">
+        <tr th:each="job, iterStat : ${jobOffersList}">
             <td th:text="${job.id}"/>
             <td th:text="${job.title}"/>
             <td th:text="${job.description}"/>
@@ -25,14 +25,26 @@
             <td th:text="${job.company.name}"/>
             <td th:text="${job.qualificationlevel.label}"/>
             <td>
-                <span th:each="sector : ${job.sectors}" th:text="${sector.label} + ', '"></span>
+                <!--TODO:fix la virgule en trop-->
+                <span th:each="sector : ${job.sectors}" th:text="${sector.label} + ${!iterStat.last ? ', ' : ''}"></span>
             </td>
             <td>
-                <div class="btn-group" role="group">
-                    <a th:if="${session.uid == job.company.appuser.id}" th:href="@{'/joboffers/' + ${job.id} + '/applications'}" class="btn btn-large btn-secondary" title="View details">
-                        <i class="bi bi-eye"></i> View candidates
-                    </a>
-                </div>
+                <span>
+                     <th:block th:if="${session.uid == job.company.appuser.id}">
+                        <a th:href="@{'/joboffers/' + ${job.id} + '/applications'}" class="btn btn-info" title="View candidates">
+                            <i class="bi bi-eye"></i> View candidates
+                        </a>
+                        <a th:href="@{'/joboffers/' + ${job.id} + '/update'}" class="btn btn-warning" title="Edit job offer">
+                            <i class="bi bi-eye"></i> Edit
+                        </a>
+                        <form th:action="@{'/joboffers/' + ${job.id} + '/delete'}" method="post" style="display:inline;">
+                            <button class="btn btn-danger"
+                                    title="Delete job offer">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </th:block>
+                </span>
             </td>
         </tr>
         </tbody>

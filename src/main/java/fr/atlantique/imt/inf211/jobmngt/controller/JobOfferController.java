@@ -54,7 +54,6 @@ public class JobOfferController {
         return new ModelAndView("redirect:/joboffers");
     }
 
-    // 	Une fois connectée, l’entreprise accède à la liste d’offres d’emploi qu’elle a soumises et, pour chacune, à la liste des candidatures susceptibles de correspondre à l’offre. Cette fonctionnalité est similaire à la liste des candidatures accessible à tout utilisateur (qui en afﬁche la totalité) mais elle opère une sélection.
     @GetMapping(value = "/{id}/applications")
     public ModelAndView getApplicationForJobOffer(@PathVariable("id") int id, HttpServletRequest request) {
         if(!"company".equals(request.getSession().getAttribute("usertype"))){
@@ -65,5 +64,42 @@ public class JobOfferController {
         mav.addObject("applications", jobOfferService.getApplicationsByJobOffer(id));
         return mav;
 
+    }
+
+    @GetMapping(value = "/{id}/update")
+    public ModelAndView editJobOffer(@PathVariable("id") int id, HttpServletRequest request) {
+        if(!"company".equals(request.getSession().getAttribute("usertype"))){
+            return new ModelAndView("redirect:/joboffers");
+        }
+        ModelAndView mav = new ModelAndView("jobOffer/jobOfferForm.html");
+        JobOffer jobOffer = jobOfferService.getJobOfferById(id);
+        if (jobOffer == null) {
+            return new ModelAndView("redirect:/joboffers");
+        }
+        mav.addObject("action", "edit");
+        mav.addObject("jobOffer", jobOffer);
+        mav.addObject("qualificationLevels", qualificationLevelService.listOfQualificationLevels());
+        mav.addObject("sectors", sectorService.listOfSectors());
+        return mav;
+    }
+
+    @PostMapping(value = "/{id}/update")
+    public ModelAndView updateJobOffer(@PathVariable("id") int id, @ModelAttribute JobOffer jobOffer, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
+        JobOffer persistedJobOffer = jobOfferService.getJobOfferById(id);
+        if (persistedJobOffer.getCompany().getId() != ((AppUser) request.getSession().getAttribute("user")).getCompany().getId()) {
+            return new ModelAndView("redirect:/joboffers");
+        }
+        jobOfferService.updateJobOffer(jobOffer, selectedSectors);
+        return new ModelAndView("redirect:/joboffers");
+    }
+
+    @PostMapping(value = "/{id}/delete")
+    public ModelAndView deleteJobOffer(@PathVariable("id") int id, HttpServletRequest request) {
+        JobOffer jobOffer = jobOfferService.getJobOfferById(id);
+        if (jobOffer.getCompany().getId() != ((AppUser) request.getSession().getAttribute("user")).getCompany().getId()) {
+            return new ModelAndView("redirect:/joboffers");
+        }
+        jobOfferService.deleteJobOffer(id);
+        return new ModelAndView("redirect:/joboffers");
     }
 }

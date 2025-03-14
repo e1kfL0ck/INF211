@@ -59,8 +59,6 @@ public class JobOfferServiceImpl implements JobOfferService {
         Set<Sector> sectors = jobOffer.getSectors();
         ArrayList<Application> listApplication = new ArrayList<>();
 
-        //Optional<Application> app = applicationDao.getApplications(4, 12);
-
         for (Sector sector : sectors) {
             Optional<List<Application>> optionalApplications = applicationDao.getApplications(qualificationLevelId, sector.getId());
             optionalApplications.ifPresent(listApplication::addAll);
@@ -72,5 +70,30 @@ public class JobOfferServiceImpl implements JobOfferService {
     @Override
     public Optional<List<JobOffer>> getBySectorAndQualification(int sectorId, int qualificationLevel) {
         return jobOfferDao.getJobOffers(qualificationLevelDao.findById(qualificationLevel).getId(), sectorId);
+    }
+
+    public void deleteJobOffer(int id) {
+        JobOffer jobOffer = jobOfferDao.findById(id);
+        if (jobOffer != null) {
+            jobOfferDao.remove(jobOffer);
+        }
+    }
+
+    public void updateJobOffer(JobOffer jobOffer, List<Integer> sectorIds) {
+        JobOffer persistedJobOffer = jobOfferDao.findById(jobOffer.getId());
+        persistedJobOffer.setTitle(jobOffer.getTitle());
+        persistedJobOffer.setDescription(jobOffer.getDescription());
+        persistedJobOffer.setQualificationlevel(qualificationLevelDao.findById(jobOffer.getQualificationlevel().getId()));
+
+        Set<Sector> sectors = new HashSet<>();
+        for (int sectorId : sectorIds) {
+            Sector sector = sectorDao.findById(sectorId);
+            if (sector != null) {
+                sectors.add(sector);
+            }
+        }
+        persistedJobOffer.setSectors(sectors);
+
+        jobOfferDao.merge(persistedJobOffer);
     }
 }
