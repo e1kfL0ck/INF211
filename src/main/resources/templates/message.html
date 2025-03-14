@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace ="~{/baseTemplate/base :: layout(~{::title},~{::article})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/baseTemplate/base :: layout(~{::title},~{::article})}">
 <title>GetYourJob</title>
 <article class="row justify-content-center text-danger">
     <header class="col-2">
@@ -23,7 +23,7 @@
             <td th:text="${message.joboffer.id}"></td>
             <td th:text="${message.application.id}"></td>
             <td th:text="${message.date}"></td>
-            <td th:text="${message.message}"></td>
+            <td><span style="white-space: pre-line" th:text="${message.message}"></span></td>
         </tr>
         </tbody>
 </article>
