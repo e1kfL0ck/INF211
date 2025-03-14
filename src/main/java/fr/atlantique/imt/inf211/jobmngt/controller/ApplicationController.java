@@ -125,6 +125,7 @@ public class ApplicationController {
     public ModelAndView viewJobOffers(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView("applications/applicationsJobOffer.html");
         Application application = applicationService.getApplicationById(id);
+        mav.addObject("sector", sectorService.listOfSectors());
         mav.addObject("application", application);
         mav.addObject("jobOffers", applicationService.getSectorByApplicationId(id));
         return mav;

@@ -22,24 +22,24 @@
             <td th:text="${comp.appuser.city}"/>
             <td th:text="${comp.jobOffers.size()}"/>
             <td>
-                <div class="btn-group" role="group">
-                    <a th:href="@{'/companies/' + ${comp.id}}" class="btn btn-large btn-secondary" title="View details">
+                <span>
+                    <a th:href="@{'/companies/' + ${comp.id}}" class="btn btn-info" title="View details">
                         <i class="bi bi-eye"></i> View
                     </a>
                     <th:block th:if="${appUser != null and appUser.id == comp.appuser.id}">
                         <a th:href="@{'/companies/' + ${comp.id} + '/update'}"
-                           class="btn btn-large btn-success"
+                           class="btn btn-warning"
                            title="Edit company">
-                            <i class="bi bi-pencil"></i> Edit
+                            <i class="bi bi-eye"></i> Edit
                         </a>
-                        <form th:action="@{'/companies/' + ${comp.id} + '/delete'}" method="post">
-                            <button class="btn btn-large btn-danger"
+                        <form th:action="@{'/companies/' + ${comp.id} + '/delete'}" method="post" style="display:inline;">
+                            <button class="btn btn-danger"
                                     title="Delete company">
                                 <i class="bi bi-trash"></i> Delete
                             </button>
                         </form>
                     </th:block>
-                </div>
+                </span>
 
             </td>
         </tr>

@@ -12,7 +12,9 @@
             <th>Job Offer ID</th>
             <th>Job Title</th>
             <th>Company</th>
-            <th>Actions</th>
+            <th>Sector</th>
+            <th>Qualification Level</th>
+            <th>Date</th>
         </tr>
         </thead>
         <tbody>
@@ -21,8 +23,16 @@
             <td th:text="${jobOffer.title}">Job Title</td>
             <td th:text="${jobOffer.company.name}">Company</td>
             <td>
-                <a th:href="@{'/jobOffers/' + ${jobOffer.id}}" class="btn btn-info" title="View Details">
-                    <i class="bi bi-eye"></i> View Details
+                <ul>
+                    <li th:each="sector : ${jobOffer.sectors}" th:text="${sector.label}">Sector Name</li>
+                </ul>
+            </td>
+            <td th:text="${jobOffer.qualificationlevel.label}">Qualification Level</td>
+            <td th:text="${jobOffer.publicationdate}">Date</td>
+            <td th:if="${user == 'entreprise'}">
+                <a th:each="cand,iterStat : ${jobOffer.candidatures}"
+                   th:text="${cand.candidat.firstname} + ' ' + ${cand.candidat.lastname} + ${!iterStat.last ? ', ' : ''}"
+                   th:href="@{/candidates?id={id}(id=${cand.candidat.id})}">
                 </a>
             </td>
         </tr>

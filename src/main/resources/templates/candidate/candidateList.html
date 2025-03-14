@@ -18,19 +18,24 @@
             <td th:text="${candidate.appuser.mail}">Email</td>
             <td th:text="${candidate.appuser.city}">City</td>
             <td>
-                <span th:if="${appUser != null and appUser.id == candidate.appuser.id}">
+                <span>
                     <a th:href="@{'/candidates/' + ${candidate.id} + '/view'}" class="btn btn-info" title="View">
                         <i class="bi bi-eye"></i> View
                     </a>
-                    <a th:href="@{'/candidates/' + ${candidate.id} + '/update'}" class="btn btn-warning" title="Update">
-                        <i class="bi bi-pencil"></i> Update
-                    </a>
-                    <form th:action="@{'/candidates/remove'}" method="post" style="display:inline;">
-                        <input type="hidden" name="id" th:value="${candidate.id}"/>
-                        <button type="submit" class="btn btn-danger" title="Delete">
-                            <i class="bi bi-trash"></i> Delete
-                        </button>
-                    </form>
+                    <th:block th:if="${appUser != null and appUser.id == candidate.appuser.id}">
+                        <a th:href="@{'/candidates/' + ${candidate.id} + '/update'}" class="btn btn-warning"
+                           title="Update">
+                            <i class="bi bi-pencil"></i> Update
+                        </a>
+                        <form th:action="@{'/candidates/remove'}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${candidate.id}"/>
+                            <button type="submit" class="btn btn-danger" title="Delete">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </th:block>
+
+                    <!--Todo si on clique sur view et pas d'user connecté on peut quand meme modifier le candiate -->
                 </span>
             </td>
         </tr>
