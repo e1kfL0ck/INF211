@@ -24,7 +24,7 @@
                 <i class="bi bi-box-arrow-in-down" style="font-size: 2rem; color: white;"
                    title="login to access your data"></i>
             </a>
-            <a th:if="${#ctx.session.uid} != null" th:href="@{/messages}" title="Messages">
+            <a th:if="${#ctx.session.uid} != null" th:href="@{/message}" title="Messages">
                 <i class="bi bi-envelope" style="font-size: 2rem; color: white;"></i>
             </a>
         </div>

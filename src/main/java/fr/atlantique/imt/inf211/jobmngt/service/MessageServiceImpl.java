@@ -1,6 +1,7 @@
 package fr.atlantique.imt.inf211.jobmngt.service;
 
 import fr.atlantique.imt.inf211.jobmngt.dao.JobOfferMessageDao;
+import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOfferMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ public class MessageServiceImpl implements MessageService {
     private JobOfferMessageDao jobOfferMessageDao;
 
     @Override
-    public List<JobOfferMessage> listOfMessages() {
-        return jobOfferMessageDao.findAll("date", "DESC");
+    public List<JobOfferMessage> listOfMessages(AppUser appUser) {
+        return jobOfferMessageDao.findByCandidateId("date", "DESC", appUser.getCandidate().getId());
     }
 }
