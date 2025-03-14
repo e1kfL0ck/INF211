@@ -25,17 +25,14 @@ public class JobOfferServiceImpl implements JobOfferService {
     @Autowired
     private ApplicationDao applicationDao;
 
-    @Transactional
     public List<JobOffer> listOfJobOffers() {
         return jobOfferDao.findAll("title", "ASC");
     }
 
-    @Transactional
     public JobOffer getJobOfferById(int id) {
         return jobOfferDao.findById(id);
     }
 
-    @Transactional
     public void createJobOffer(JobOffer jobOffer, AppUser appUser, List<Integer> sectorIds) {
         JobOffer newJobOffer = new JobOffer();
         newJobOffer.setCompany(companyDao.findById(appUser.getCompany().getId()));
@@ -64,9 +61,9 @@ public class JobOfferServiceImpl implements JobOfferService {
 
         Optional<Application> app = applicationDao.getApplications(4, 12);
 
-        for (Sector sector : sectors) {
-            Optional<Application> optionalApplication = applicationDao.getApplications(qualificationLevelId, sector.getId());
-            optionalApplication.ifPresent(listApplication::add);
+        for(Sector sector : sectors) {
+            Optional<List<Application>> optionalApplications = applicationDao.getApplications(qualificationLevelId, sector.getId());
+            optionalApplications.ifPresent(listApplication::addAll);
         }
 
         return listApplication;

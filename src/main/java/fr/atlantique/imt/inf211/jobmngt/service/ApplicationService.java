@@ -15,7 +15,7 @@ public interface ApplicationService {
 
     public List<Application> getApplication(int id);
 
-    public Optional<Application> getBySectorAndQualification(int sectorId, int qualificationLevel);
+    public Optional<List<Application>> getBySectorAndQualification(int sectorId, int qualificationLevel);
 
     public Application updateApplication(Application application);
 

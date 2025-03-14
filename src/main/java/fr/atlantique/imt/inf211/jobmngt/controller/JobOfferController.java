@@ -32,7 +32,10 @@ public class JobOfferController {
     }
 
     @GetMapping(value = "/create")
-    public ModelAndView showJobOfferForm() {
+    public ModelAndView showJobOfferForm(HttpServletRequest request) {
+        if(request.getSession().getAttribute("usertype") != "company"){
+            return new ModelAndView("redirect:/joboffers");
+        }
         ModelAndView mav = new ModelAndView("jobOffer/jobOfferForm.html");
         JobOffer jobOffer = new JobOffer();
         mav.addObject("jobOffer", jobOffer);
@@ -44,13 +47,19 @@ public class JobOfferController {
     @PostMapping(value = "/create")
     //TODO : Voir pour supprimer le selectedSectors
     public ModelAndView createJobOffer(@ModelAttribute JobOffer jobOffer, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
+        if(request.getSession().getAttribute("usertype") != "company"){
+            return new ModelAndView("redirect:/joboffers");
+        }
         jobOfferService.createJobOffer(jobOffer, (AppUser) request.getSession().getAttribute("user"), selectedSectors);
         return new ModelAndView("redirect:/joboffers");
     }
 
     // 	Une fois connectée, l’entreprise accède à la liste d’offres d’emploi qu’elle a soumises et, pour chacune, à la liste des candidatures susceptibles de correspondre à l’offre. Cette fonctionnalité est similaire à la liste des candidatures accessible à tout utilisateur (qui en afﬁche la totalité) mais elle opère une sélection.
     @GetMapping(value = "/{id}/applications")
-    public ModelAndView getApplicationForJobOffer(@PathVariable("id") int id) {
+    public ModelAndView getApplicationForJobOffer(@PathVariable("id") int id, HttpServletRequest request) {
+        if(!"company".equals(request.getSession().getAttribute("usertype"))){
+            return new ModelAndView("redirect:/joboffers");
+        }
         ModelAndView mav = new ModelAndView("jobOffer/jobOfferApplication.html");
         mav.addObject("jobOffer", jobOfferService.getJobOfferById(id));
         mav.addObject("applications", jobOfferService.getApplicationsByJobOffer(id));
