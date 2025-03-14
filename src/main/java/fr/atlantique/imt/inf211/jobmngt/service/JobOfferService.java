@@ -3,10 +3,9 @@ package fr.atlantique.imt.inf211.jobmngt.service;
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.Application;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
-import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 public interface JobOfferService {
     public List<JobOffer> listOfJobOffers();

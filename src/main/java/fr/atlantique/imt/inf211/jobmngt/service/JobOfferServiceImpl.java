@@ -59,9 +59,9 @@ public class JobOfferServiceImpl implements JobOfferService {
         Set<Sector> sectors = jobOffer.getSectors();
         ArrayList<Application> listApplication = new ArrayList<>();
 
-        Optional<Application> app = applicationDao.getApplications(4, 12);
+        //Optional<Application> app = applicationDao.getApplications(4, 12);
 
-        for(Sector sector : sectors) {
+        for (Sector sector : sectors) {
             Optional<List<Application>> optionalApplications = applicationDao.getApplications(qualificationLevelId, sector.getId());
             optionalApplications.ifPresent(listApplication::addAll);
         }
