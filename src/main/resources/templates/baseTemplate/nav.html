@@ -14,19 +14,26 @@
         </div>
 
         <div class="col-2 align-self-end">
-            <th:block th:if="${#ctx.session.uid} != null">
-                <a th:if="${#ctx.session.hasMessages == true}" th:href="@{/messages}" title="access to your message"><i
-                        class="bi bi-envelope-at" style="font-size: 2rem; color: white;"></i></a>
-                <a href="/logout" title="logout from the webapp"><i class="bi bi-box-arrow-in-up"
-                                                                    style="font-size: 2rem; color: white;"></i></a>
+            <th:block>
+                <!-- <a th:if="${#ctx.session.hasMessages == true}" th:href="@{/messages}" title="access to your message"><i
+                         class="bi bi-envelope-at" style="font-size: 2rem; color: white;"></i></a>
+                 <a href="/logout" title="logout from the webapp"><i class="bi bi-box-arrow-in-up"
+                                                                     style="font-size: 2rem; color: white;"></i></a>-->
+
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a th:if="${#ctx.session.uid} == null" title="Click to login" href="/login"
+                       style="display: flex; align-items: center; justify-content: center; text-decoration: none; color: white;">
+                        <i class="bi bi-box-arrow-in-down" style="font-size: 2rem; color: white;"></i>
+                    </a>
+                    <a th:if="${#ctx.session.uid} != null" th:href="@{/message}" title="Messages"
+                       style="display: flex; align-items: center; justify-content: center; text-decoration: none; color: white;">
+                        <i class="bi bi-envelope" style="font-size: 2rem; color: white;"></i>
+                    </a>
+                </div>
+
+
             </th:block>
-            <a th:if="${#ctx.session.uid} == null" title="Click to login" href="/login">
-                <i class="bi bi-box-arrow-in-down" style="font-size: 2rem; color: white;"
-                   title="login to access your data"></i>
-            </a>
-            <a th:if="${#ctx.session.uid} != null" th:href="@{/message}" title="Messages">
-                <i class="bi bi-envelope" style="font-size: 2rem; color: white;"></i>
-            </a>
+
         </div>
 
     </div>
