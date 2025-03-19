@@ -13,6 +13,7 @@
         <thead>
         <tr>
             <th>Application ID</th>
+            <th>Candidate name</th>
             <th>Application Date</th>
             <th>Qualification Level</th>
             <th>CV</th>
@@ -23,6 +24,7 @@
         <tbody>
         <tr th:each="applications : ${applicationslist}">
             <td th:text="${applications.id}">Application ID</td>
+            <td th:text="${applications.candidate.firstname}">Candidate name</td>
             <td th:text="${#dates.format(applications.applicationdate, 'dd/MM/yyyy')}"></td>
             <td th:text="${applications.qualificationlevel.label}">Qualification Level</td>
             <td th:text="${applications.cv}">CV</td>
