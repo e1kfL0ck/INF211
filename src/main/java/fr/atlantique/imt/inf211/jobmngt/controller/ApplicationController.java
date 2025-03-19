@@ -40,9 +40,6 @@ public class ApplicationController {
 
     @GetMapping("")
     public ModelAndView listOfApplication(HttpServletRequest request) {
-        if (!request.getSession().getAttribute("usertype").equals("candidate")) {
-            return new ModelAndView(HOME_REDIRECT);
-        }
         ModelAndView mav = new ModelAndView(APPLICATIONS_LIST);
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         if (appUser != null) {
@@ -119,10 +116,6 @@ public class ApplicationController {
 
     @GetMapping("/get")
     public ModelAndView searchApplication(@RequestParam("id") int id, HttpServletRequest request) {
-        if (!request.getSession().getAttribute("usertype").equals("candidate")) {
-            return new ModelAndView(HOME_REDIRECT);
-        }
-
         ModelAndView mav = new ModelAndView(APPLICATIONS_LIST);
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         if (appUser != null) {
