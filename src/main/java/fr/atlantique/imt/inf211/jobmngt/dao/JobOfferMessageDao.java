@@ -94,8 +94,8 @@ public class JobOfferMessageDao {
     }
 
     @Transactional(readOnly = true)
-    public List<JobOfferMessage> findByCandidateId(String sort, String order, AppUser appUser) {
-        String r = "SELECT m FROM JobOfferMessage m JOIN m.application a JOIN a.candidate c WHERE c.id = :Id ORDER BY m." + sort;
+    public List<JobOfferMessage> findByCandidateId(String sort, String order, int candidateId) {
+        String r = "SELECT m FROM JobOfferMessage m JOIN m.application a JOIN a.candidate c WHERE c.id = :CandidateId ORDER BY m." + sort;
         if (order.equals("asc")) {
             r += " ASC";
         }
@@ -103,13 +103,21 @@ public class JobOfferMessageDao {
             r += " DESC";
         }
         TypedQuery<JobOfferMessage> q = entityManager.createQuery(r, JobOfferMessage.class);
+        q.setParameter("CandidateId", candidateId);
+        return q.getResultList();
+    }
 
-        if (appUser.getUsertype().equals("candidate")) {
-            q.setParameter("Id", appUser.getCandidate().getId());
-        } else {
-            q.setParameter("Id", appUser.getCompany().getId());
+    @Transactional(readOnly = true)
+    public List<JobOfferMessage> findByCompanyId(String sort, String order, int companyId){
+        String r = "SELECT m FROM JobOfferMessage m JOIN m.joboffer j JOIN j.company c WHERE c.id = :CompanyId ORDER BY m." + sort;
+        if (order.equals("asc")) {
+            r += " ASC";
         }
-
+        else {
+            r += " DESC";
+        }
+        TypedQuery<JobOfferMessage> q = entityManager.createQuery(r, JobOfferMessage.class);
+        q.setParameter("CompanyId", companyId);
         return q.getResultList();
     }
 }

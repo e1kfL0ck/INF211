@@ -8,14 +8,15 @@
     </header>
 
 
-    <h3>
-        <th:block th:if="session.usertype=='company'">
-            Messages envoyés automatiquement aux candidats
-        </th:block>
-        <th:block th:if="session.usertype=='candidate'">
-            Messages recus automatiquement
-        </th:block>
+    <-- Job offer messages -->
+    <!--TODO : changer la couleur du titre -->
+    <h3 th:if="${session.usertype == 'company'}">
+        Messages automatically sent to candidates
     </h3>
+    <h3 th:if="${session.usertype == 'candidate'}">
+        Messages automatically received
+    </h3>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -28,7 +29,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="message : ${messages}">
+        <tr th:each="message : ${messagesJobOffer}">
             <td th:text="${message.id}"></td>
             <td>
                 <!--TODO: add a view display only one jobOffer-->
@@ -38,6 +39,44 @@
             </td>
             <td th:text="${message.application.id}"></td>
             <td th:text="${message.date}"></td>
+            <!--TODO : réduire le tableau menu déroulant ? -->
+            <td><span style="white-space: pre-line" th:text="${message.message}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <-- Application messages -->
+    <!--TODO : changer la couleur du titre -->
+    <h3 th:if="${session.usertype == 'company'}">
+        Messages automatically received
+    </h3>
+    <h3 th:if="${session.usertype == 'candidate'}">
+        Messages automatically sent to companies
+    </h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <!--Lister les messages reçus des entreprises pour une offre d’emploi-->
+            <th>ID message</th>
+            <th>Voir l'offre</th>
+            <th>ID Application</th>
+            <th>Reception date</th>
+            <th>Message content</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="message : ${messagesApplication}">
+            <td th:text="${message.id}"></td>
+            <td>
+                <a th:href="@{'/applications/' + ${message.application.id}}" class="btn btn-info">
+                    <i class="bi bi-eye"></i> View
+                </a>
+            </td>
+            <td th:text="${message.joboffer.id}"></td>
+            <td th:text="${message.date}"></td>
+            <!--TODO : réduire le tableau menu déroulant ? -->
             <td><span style="white-space: pre-line" th:text="${message.message}"></span></td>
         </tr>
         </tbody>
