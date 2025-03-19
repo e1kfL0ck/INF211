@@ -102,8 +102,9 @@ public class JobOfferServiceImpl implements JobOfferService {
     }
 
     @Override
-    public void sendMessageToCandidate(int id, JobOffer jobOffer) {
+    public List<Candidate> sendMessageToCandidate(int id, JobOffer jobOffer) {
         List<Application> applicationList = getApplicationsByJobOffer(id);
+        List<Candidate> candidateList = new ArrayList<>();
 
         for (Application application : applicationList) {
             JobOfferMessage jobOfferMessage = new JobOfferMessage();
@@ -112,6 +113,8 @@ public class JobOfferServiceImpl implements JobOfferService {
             jobOfferMessage.setMessage("New job offer:\n" + "Candidate Email: " + application.getCandidate().getAppuser().getMail() + "\n" + "Application ID: " + application.getId() + "\n" + "Job Offer ID: " + jobOffer.getId() + "\n" + "Title: " + jobOffer.getTitle() + "\n" + "Description: " + jobOffer.getDescription() + "\n" + "Company: " + jobOffer.getCompany().getName() + "\n" + "Qualification Level: " + jobOffer.getQualificationlevel().getLabel() + "\n" + "company sectors: " + jobOffer.getSectors().stream().map(Sector::getLabel).collect(Collectors.joining(", ")) + "\n" + "Publication Date: " + jobOffer.getPublicationdate() + "\n" + "Current Date: " + new java.util.Date().toString());
             jobOfferMessage.setDate(new Date());
             jobOfferMessageDao.persist(jobOfferMessage);
+            candidateList.add(application.getCandidate());
         }
+        return candidateList;
     }
 }

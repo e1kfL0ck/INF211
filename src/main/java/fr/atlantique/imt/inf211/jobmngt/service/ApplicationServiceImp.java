@@ -1,17 +1,12 @@
 package fr.atlantique.imt.inf211.jobmngt.service;
 
-import fr.atlantique.imt.inf211.jobmngt.dao.ApplicationDao;
-import fr.atlantique.imt.inf211.jobmngt.dao.CandidateDao;
-import fr.atlantique.imt.inf211.jobmngt.dao.QualificationLevelDao;
-import fr.atlantique.imt.inf211.jobmngt.dao.SectorDao;
-import fr.atlantique.imt.inf211.jobmngt.entity.Application;
-import fr.atlantique.imt.inf211.jobmngt.entity.Candidate;
-import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
-import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
+import fr.atlantique.imt.inf211.jobmngt.dao.*;
+import fr.atlantique.imt.inf211.jobmngt.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class ApplicationServiceImp implements ApplicationService {
@@ -26,6 +21,8 @@ public class ApplicationServiceImp implements ApplicationService {
     private QualificationLevelDao qualificationLevelDao;
     @Autowired
     private JobOfferService jobOfferService;
+    @Autowired
+    private ApplicationMessageDao applicationMessageDao;
 
     @Override
     public List<Application> listOfApplications() {
@@ -95,11 +92,11 @@ public class ApplicationServiceImp implements ApplicationService {
     }
 
     @Override
-    public List<JobOffer> getSectorByApplicationId(int id) {
+    public List<JobOffer> getJobOffersByApplicationId(int id) {
         Application application = applicationDao.findById(id);
         Integer qualificationLevelId = application.getQualificationlevel().getId();
         Set<Sector> sectors = application.getSectors();
-        List<JobOffer> jobOffers = new ArrayList<>();
+        ArrayList<JobOffer> jobOffers = new ArrayList<>();
 
         for (Sector sector : sectors) {
             Optional<List<JobOffer>> sectorJobOffers = jobOfferService.getBySectorAndQualification(sector.getId(), qualificationLevelId);
@@ -107,5 +104,23 @@ public class ApplicationServiceImp implements ApplicationService {
         }
 
         return jobOffers;
+    }
+
+    @Override
+    public List<Company> sendMessageToCompany(int id, Application application) {
+        List<JobOffer> jobOfferList = getJobOffersByApplicationId(id);
+        List<Company> companyList = new ArrayList<>();
+
+        for (JobOffer jobOffer : jobOfferList) {
+            ApplicationMessage applicationMessage = new ApplicationMessage();
+            applicationMessage.setJoboffer(jobOffer);
+            applicationMessage.setApplication(applicationDao.findById(id)); // fonctionne ?
+            applicationMessage.setMessage("New application:\n" + "Candidate Email: " + application.getCandidate().getAppuser().getMail() + "\n" + "Candidate Name: " + application.getCandidate().getFirstname() + " " + application.getCandidate().getLastname() + "\n" + "Application ID: " + application.getId() + "\n" + "Job Offer ID: " + jobOffer.getId() + "\n" + "Job Title: " + jobOffer.getTitle() + "\n" + "Job Description: " + jobOffer.getDescription() + "\n" + "Company: " + jobOffer.getCompany().getName() + "\n" + "Qualification Level: " + application.getQualificationlevel().getLabel() + "\n" + "Company Sectors: " + application.getSectors().stream().map(Sector::getLabel).collect(Collectors.joining(", ")) + "\n" + "Application Date: " + application.getApplicationdate() + "\n" + "Current Date: " + new java.util.Date().toString());
+            applicationMessage.setDate(new Date());
+            applicationMessageDao.persist(applicationMessage);
+            companyList.add(jobOffer.getCompany());
+        }
+
+        return companyList;
     }
 }

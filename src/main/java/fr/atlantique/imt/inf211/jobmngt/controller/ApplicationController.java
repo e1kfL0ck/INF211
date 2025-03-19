@@ -67,7 +67,8 @@ public class ApplicationController {
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         Set<Sector> sectors = selectedSectors.stream().map(sectorService::getSectorById).collect(Collectors.toSet());
         application.setSectors(sectors);
-        applicationService.createApplication(appUser.getCandidate().getId(), application.getQualificationlevel().getId(), application.getCv(), selectedSectors);
+        Application app = applicationService.createApplication(appUser.getCandidate().getId(), application.getQualificationlevel().getId(), application.getCv(), selectedSectors);
+        applicationService.sendMessageToCompany(app.getId(), app);
         return new ModelAndView(APPLICATIONS_REDIRECT);
     }
 
@@ -127,7 +128,7 @@ public class ApplicationController {
         Application application = applicationService.getApplicationById(id);
         mav.addObject("sector", sectorService.listOfSectors());
         mav.addObject("application", application);
-        mav.addObject("jobOffers", applicationService.getSectorByApplicationId(id));
+        mav.addObject("jobOffers", applicationService.getJobOffersByApplicationId(id));
         return mav;
     }
 }

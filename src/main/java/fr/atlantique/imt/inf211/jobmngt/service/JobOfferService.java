@@ -2,6 +2,7 @@ package fr.atlantique.imt.inf211.jobmngt.service;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.Application;
+import fr.atlantique.imt.inf211.jobmngt.entity.Candidate;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
 
 import java.util.List;
@@ -22,6 +23,6 @@ public interface JobOfferService {
 
     public void updateJobOffer(JobOffer jobOffer, List<Integer> sectorIds);
 
-    public void sendMessageToCandidate(int id, JobOffer jobOffer);
+    public List<Candidate> sendMessageToCandidate(int id, JobOffer jobOffer);
 
 }
