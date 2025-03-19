@@ -8,7 +8,7 @@
     </header>
 
 
-    <-- Job offer messages -->
+    <!-- Job offer messages -->
     <!--TODO : changer la couleur du titre -->
     <h3 th:if="${session.usertype == 'company'}">
         Messages automatically sent to candidates
@@ -32,10 +32,12 @@
         <tr th:each="message : ${messagesJobOffer}">
             <td th:text="${message.id}"></td>
             <td>
-                <!--TODO: add a view display only one jobOffer-->
-                <a th:href="@{'/joboffers/' + ${message.joboffer.id}}" class="btn btn-info">
-                    <i class="bi bi-eye"></i> View
-                </a>
+                <form th:action="@{/applications/get}" method="get" class="mb-3">
+                    <input type="hidden" name="id" th:value="${message.joboffer.id}" />
+                    <button type="submit" class="btn btn-info">
+                        <i class="bi bi-eye"></i> View
+                    </button>
+                </form>
             </td>
             <td th:text="${message.application.id}"></td>
             <td th:text="${message.date}"></td>
@@ -46,7 +48,7 @@
     </table>
 
 
-    <-- Application messages -->
+    <!-- Application messages -->
     <!--TODO : changer la couleur du titre -->
     <h3 th:if="${session.usertype == 'company'}">
         Messages automatically received
@@ -70,9 +72,12 @@
         <tr th:each="message : ${messagesApplication}">
             <td th:text="${message.id}"></td>
             <td>
-                <a th:href="@{'/applications/' + ${message.application.id}}" class="btn btn-info">
-                    <i class="bi bi-eye"></i> View
-                </a>
+                <form th:action="@{/applications/get}" method="get" class="mb-3">
+                    <input type="hidden" name="id" th:value="${message.application.id}" />
+                    <button type="submit" class="btn btn-info" th:title="View application with ID: [[${message.application.id}]]">
+                        <i class="bi bi-eye"></i> View
+                    </button>
+                </form>
             </td>
             <td th:text="${message.joboffer.id}"></td>
             <td th:text="${message.date}"></td>
