@@ -35,7 +35,6 @@
                         </form>
                     </th:block>
 
-                    <!--Todo si on clique sur view et pas d'user connecté on peut quand meme modifier le candiate -->
                 </span>
             </td>
         </tr>
@@ -43,4 +42,6 @@
     </table>
     <a th:href="@{/candidates/create}" class="btn btn-primary">Create New Candidate</a>
 </article>
+<footer th:replace="~{/baseTemplate/footer :: ffooter}"></footer>
+
 </html>

@@ -1,13 +1,36 @@
-:root  {
+:root {
     --green-imt: rgb(179, 199, 71);
     --blue-imt: rgb(0, 183, 211);
     --dark-blue-imt: rgb(0, 32, 65);
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 #header_div {
     color: white;
-    background-color: rgb(0, 32, 65);
+    background-color: var(--dark-blue-imt);
     height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+#footer_div {
+    margin-top: auto;
+    color: white;
+    background-color: var(--dark-blue-imt);
+    padding: 10px 0;
+    text-align: center;
 }
 
 #tiny_text {
@@ -21,7 +44,7 @@
 
 #content_div {
     background-color: white;
-
+    flex: 1;
 }
 
 #central_div {
@@ -29,14 +52,7 @@
     margin: 0 auto;
 }
 
-#footer_div {
-    clear: both;
-    color: white;
-    background-color: rgb(0, 32, 65);
-}
-
 .logo {
-    position: static;
     width: 30px;
     display: flex;
     align-items: center;
@@ -48,12 +64,6 @@
     align-items: center;
 }
 
-#central_div {
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-
 .widget_bar {
     margin: 0 auto;
 }
@@ -62,19 +72,18 @@
     float: left;
     margin: 5px;
     border-radius: 25px;
-    border: 2px solid rgb(179, 199, 71);
+    border: 2px solid var(--green-imt);
     height: 200px;
     width: 200px;
 }
 
 .widget_title {
     text-align: center;
-    color: rgb(0, 32, 65);
+    color: var(--dark-blue-imt);
     font-size: 14px;
     font-weight: bolder;
     height: 20%;
 }
-
 
 .widget_button {
     height: 70%;
@@ -92,5 +101,3 @@
     text-align: left;
     padding-left: 5px;
 }
-
-
