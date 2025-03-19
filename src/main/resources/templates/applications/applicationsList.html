@@ -17,7 +17,7 @@
             <th>Qualification Level</th>
             <th>CV</th>
             <th>Sectors</th>
-            <th th:if="session.usertype=='candidate'">Actions</th>
+            <th th:if="${session.usertype}=='candidate'">Actions</th>
         </tr>
         </thead>
         <tbody>
