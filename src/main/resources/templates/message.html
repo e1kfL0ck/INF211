@@ -32,7 +32,7 @@
         <tr th:each="message : ${messagesJobOffer}">
             <td th:text="${message.id}"></td>
             <td>
-                <form th:action="@{/joboffer/get}" method="get" class="mb-3">
+                <form th:action="@{/joboffers/get}" method="get" class="mb-3">
                     <input type="hidden" name="id" th:value="${message.joboffer.id}" />
                     <button type="submit" class="btn btn-info">
                         <i class="bi bi-eye"></i> View
