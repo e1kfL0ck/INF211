@@ -42,11 +42,11 @@ public class ApplicationController {
     public ModelAndView listOfApplication(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(APPLICATIONS_LIST);
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
-        if (appUser != null) {
-            List<Application> applications = applicationService.getApplication(appUser.getCandidate().getId());
-            mav.addObject(APPLICATIONS_LIST_OBJECT, applications);
-            mav.addObject("appUser", appUser);
-        }
+
+//        List<Application> applications = applicationService.getApplication(appUser.getCandidate().getId());
+        List<Application> applications = applicationService.listOfApplications();
+        mav.addObject(APPLICATIONS_LIST_OBJECT, applications);
+
         return mav;
     }
 
@@ -117,15 +117,12 @@ public class ApplicationController {
     @GetMapping("/get")
     public ModelAndView searchApplication(@RequestParam("id") int id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(APPLICATIONS_LIST);
-        AppUser appUser = (AppUser) request.getSession().getAttribute("user");
-        if (appUser != null) {
-            Application application = applicationService.getApplicationById(id);
-            if (application != null && application.getCandidate().getAppuser().getId() == appUser.getId()) {
-                mav.addObject(APPLICATIONS_LIST_OBJECT, List.of(application));
-            }
-            else {
-                mav.addObject(APPLICATIONS_LIST_OBJECT, List.of());
-            }
+        Application application = applicationService.getApplicationById(id);
+        if (application != null) {
+            mav.addObject(APPLICATIONS_LIST_OBJECT, List.of(application));
+        }
+        else {
+            mav.addObject(APPLICATIONS_LIST_OBJECT, List.of());
         }
         return mav;
     }
