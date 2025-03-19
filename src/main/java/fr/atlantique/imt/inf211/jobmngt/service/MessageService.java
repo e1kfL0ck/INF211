@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MessageService {
 
-    public List<JobOfferMessage> listOfMessages(AppUser appUser);
+    public List<JobOfferMessage> listOfMessagesJobOffer(AppUser appUser);
 }

@@ -4,14 +4,24 @@
 <article class="row justify-content-center text-danger">
     <header class="col-2">
         <h1>Messages</h1>
+        <meta>
     </header>
-    <h1>Messages : <span th:text="${application.id}"></span></h1>
+
+
+    <h3>
+        <th:block th:if="session.usertype=='company'">
+            Messages envoyés automatiquement aux candidats
+        </th:block>
+        <th:block th:if="session.usertype=='candidate'">
+            Messages recus automatiquement
+        </th:block>
+    </h3>
     <table class="table table-striped">
         <thead>
         <tr>
             <!--Lister les messages reçus des entreprises pour une offre d’emploi-->
             <th>ID message</th>
-            <th>ID offre (+lien)</th>
+            <th>Voir l'offre</th>
             <th>ID Application</th>
             <th>Reception date</th>
             <th>Message content</th>
@@ -20,11 +30,19 @@
         <tbody>
         <tr th:each="message : ${messages}">
             <td th:text="${message.id}"></td>
-            <td th:text="${message.joboffer.id}"></td>
+            <td>
+                <!--TODO: add a view display only one jobOffer-->
+                <a th:href="@{'/joboffers/' + ${message.joboffer.id}}" class="btn btn-info">
+                    <i class="bi bi-eye"></i> View
+                </a>
+            </td>
             <td th:text="${message.application.id}"></td>
             <td th:text="${message.date}"></td>
             <td><span style="white-space: pre-line" th:text="${message.message}"></span></td>
         </tr>
         </tbody>
+    </table>
 </article>
+<footer>
+</footer>
 </html>

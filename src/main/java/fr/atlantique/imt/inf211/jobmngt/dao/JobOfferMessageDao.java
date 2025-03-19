@@ -94,8 +94,8 @@ public class JobOfferMessageDao {
     }
 
     @Transactional(readOnly = true)
-    public List<JobOfferMessage> findByCandidateId(String sort, String order, int candidateId) {
-        String r = "SELECT m FROM JobOfferMessage m JOIN m.application a JOIN a.candidate c WHERE c.id = :candidateId ORDER BY m." + sort;
+    public List<JobOfferMessage> findByCandidateId(String sort, String order, AppUser appUser) {
+        String r = "SELECT m FROM JobOfferMessage m JOIN m.application a JOIN a.candidate c WHERE c.id = :Id ORDER BY m." + sort;
         if (order.equals("asc")) {
             r += " ASC";
         }
@@ -103,7 +103,13 @@ public class JobOfferMessageDao {
             r += " DESC";
         }
         TypedQuery<JobOfferMessage> q = entityManager.createQuery(r, JobOfferMessage.class);
-        q.setParameter("candidateId", candidateId);
+
+        if (appUser.getUsertype().equals("candidate")) {
+            q.setParameter("Id", appUser.getCandidate().getId());
+        } else {
+            q.setParameter("Id", appUser.getCompany().getId());
+        }
+
         return q.getResultList();
     }
 }

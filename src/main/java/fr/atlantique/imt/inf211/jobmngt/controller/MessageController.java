@@ -1,7 +1,9 @@
 package fr.atlantique.imt.inf211.jobmngt.controller;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
+import fr.atlantique.imt.inf211.jobmngt.entity.ApplicationMessage;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOfferMessage;
+import fr.atlantique.imt.inf211.jobmngt.service.ApplicationService;
 import fr.atlantique.imt.inf211.jobmngt.service.MessageService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,20 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
+    private ApplicationService applicationService;
+
+    private static final String REDIRECT_HOME = "redirect:/";
 
     @GetMapping
     public ModelAndView getAllMessages(HttpSession session) {
+        if(session.getAttribute("user") == null) {
+            return new ModelAndView(REDIRECT_HOME);
+        }
         ModelAndView mav = new ModelAndView("message.html");
-        List<JobOfferMessage> messages = messageService.listOfMessages( (AppUser) session.getAttribute("user"));
-        mav.addObject("messages", messages);
+        List<JobOfferMessage> messagesJobOffer = messageService.listOfMessagesJobOffer( (AppUser) session.getAttribute("user"));
+        List<ApplicationMessage> messagesApplication = applicationService.listOfMessagesApplication( (AppUser) session.getAttribute("user"));
+
+        mav.addObject("messages", messagesJobOffer);
         return mav;
     }
 }

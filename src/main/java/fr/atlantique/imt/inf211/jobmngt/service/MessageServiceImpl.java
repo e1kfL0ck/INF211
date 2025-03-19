@@ -15,7 +15,7 @@ public class MessageServiceImpl implements MessageService {
     private JobOfferMessageDao jobOfferMessageDao;
 
     @Override
-    public List<JobOfferMessage> listOfMessages(AppUser appUser) {
-        return jobOfferMessageDao.findByCandidateId("date", "DESC", appUser.getCandidate().getId());
+    public List<JobOfferMessage> listOfMessagesJobOffer(AppUser appUser) {
+        return jobOfferMessageDao.findByCandidateId("date", "DESC", appUser);
     }
 }
