@@ -103,4 +103,23 @@ public class JobOfferController {
         jobOfferService.deleteJobOffer(id);
         return new ModelAndView("redirect:/joboffers");
     }
+
+    @GetMapping("/get")
+    public ModelAndView searchJobOffer(@RequestParam("id") int id, HttpServletRequest request) {
+        if (!"company".equals(request.getSession().getAttribute("usertype"))) {
+            return new ModelAndView("redirect:/");
+        }
+
+        ModelAndView mav = new ModelAndView("jobOffer/jobOfferList.html");
+        AppUser appUser = (AppUser) request.getSession().getAttribute("user");
+
+        JobOffer jobOffer = jobOfferService.getJobOfferById(id);
+        if (jobOffer != null && jobOffer.getCompany().getAppuser().getId() == appUser.getId()) {
+            mav.addObject("jobOffersList", List.of(jobOffer));
+        } else {
+            mav.addObject("jobOffersList", List.of());
+        }
+
+        return mav;
+    }
 }
