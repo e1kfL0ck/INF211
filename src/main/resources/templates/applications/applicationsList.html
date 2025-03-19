@@ -52,7 +52,7 @@
         </tr>
         </tbody>
     </table>
-    <div th:if="${appUser != null}">
+    <div th:if="${session.usertype == 'candidate'}">
         <a th:href="@{/applications/create}" class="btn btn-primary">Create New Application</a>
     </div>
 </article>

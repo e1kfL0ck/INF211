@@ -96,7 +96,7 @@ public class ApplicationMessageDao {
 
     @Transactional(readOnly = true)
     public List<ApplicationMessage> findByCompanyId(String sort, String order, int companyId){
-        String r = "SELECT m FROM Application Message m JOIN m.joboffer j JOIN j.company c WHERE c.id = :CompanyId ORDER BY m." + sort;
+        String r = "SELECT m FROM ApplicationMessage m JOIN m.joboffer j JOIN j.company c WHERE c.id = :CompanyId ORDER BY m." + sort;
         if (order.equals("asc")) {
             r += " ASC";
         }
