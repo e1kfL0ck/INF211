@@ -92,5 +92,19 @@ public class JobOfferMessageDao {
         TypedQuery<JobOfferMessage> q = entityManager.createQuery(r, JobOfferMessage.class);
         return q.getResultList();
     }
+
+    @Transactional(readOnly = true)
+    public List<JobOfferMessage> findByCandidateId(String sort, String order, int candidateId) {
+        String r = "SELECT m FROM JobOfferMessage m JOIN m.application a JOIN a.candidate c WHERE c.id = :candidateId ORDER BY m." + sort;
+        if (order.equals("asc")) {
+            r += " ASC";
+        }
+        else {
+            r += " DESC";
+        }
+        TypedQuery<JobOfferMessage> q = entityManager.createQuery(r, JobOfferMessage.class);
+        q.setParameter("candidateId", candidateId);
+        return q.getResultList();
+    }
 }
 

@@ -50,7 +50,7 @@
         </tbody>
     </table>
     <footer>
-        <div th:if="${session.user != null}">
+        <div th:if="${session.usertype == 'company'}">
             <a href="/joboffers/create" class="btn btn-large btn-primary" title="add new job offer">
                 <i class="bi bi-plus"></i>
             </a>
