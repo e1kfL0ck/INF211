@@ -1,11 +1,14 @@
 package fr.atlantique.imt.inf211.jobmngt.service;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
+import fr.atlantique.imt.inf211.jobmngt.entity.ApplicationMessage;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOfferMessage;
 
 import java.util.List;
 
 public interface MessageService {
 
-    public List<JobOfferMessage> listOfMessages(AppUser appUser);
+    public List<JobOfferMessage> listOfMessagesJobOffer(AppUser appUser);
+
+    public List<ApplicationMessage> listOfMessagesApplication(AppUser appUser);
 }
