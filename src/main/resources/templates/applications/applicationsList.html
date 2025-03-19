@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/applications/applicationsBase :: article(~{::article})}">
 <article>
-    <h1>My Applications</h1>
+    <h1>Applications</h1>
     <form th:action="@{/applications/get}" method="get" class="mb-3">
         <div class="input-group">
             <input type="number" name="id" class="form-control" placeholder="Search by Application ID" required>
