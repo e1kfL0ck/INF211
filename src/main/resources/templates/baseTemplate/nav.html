@@ -1,42 +1,38 @@
 //header.html
 <div th:fragment="fheader">
-    <div id="header_div" class="row h-10">
-        <div class="col-2 align-self-start">
-            <img th:src="@{/img/logo_imt.png}"/>
+    <div id="header_div" class="d-flex justify-content-between align-items-center px-4 py-2"
+         style="background-color: #001F3F;">
+        <div class="text-start">
+            <img th:src="@{/img/logo_imt.png}" alt="IMT Logo" style="height: 50px;">
         </div>
-        <div class="col-6 align-self-center"></div>
-        <div class="col-2 align-self-end">
-            <p th:if="${#ctx.session.uid} != null">
-                <i class="bi bi-" style="font-size: 2rem; color: white;" th:title="${#ctx.session.usertype}"
+
+        <div class="d-flex align-items-center gap-4">
+            <div th:if="${#ctx.session.uid} != null" class="d-flex align-items-center gap-2 text-white">
+                <i class="bi bi-" style="font-size: 2rem; color: white;"
+                   th:title="${#ctx.session.usertype}"
                    th:attrappend="class=${#ctx.session.usertype=='company'?'buildings':'person'}"></i>
-                <span th:text="${#ctx.session.user.mail}" class="tiny_text"/>
-            </p>
+                <span th:text="${#ctx.session.user.mail}" class="fw-bold"></span>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <a th:if="${#ctx.session.uid} != null" th:href="@{/message}" title="Messages"
+                   class="btn btn-light rounded-circle">
+                    <i class="bi bi-envelope fs-4 text-primary"></i>
+                </a>
+
+                <a th:if="${#ctx.session.uid} == null" href="/login" title="Click to login"
+                   class="btn btn-light rounded-circle">
+                    <i class="bi bi-box-arrow-in-up fs-4 text-primary"></i>
+                </a>
+
+                <a th:if="${#ctx.session.uid} != null" href="/logout" title="Click to logout"
+                   class="btn btn-light rounded-circle">
+                    <i class="bi bi-box-arrow-in-down fs-4 text-primary"></i>
+                </a>
+            </div>
         </div>
-
-        <div class="col-2 align-self-end">
-            <th:block>
-                <!-- <a th:if="${#ctx.session.hasMessages == true}" th:href="@{/messages}" title="access to your message"><i
-                         class="bi bi-envelope-at" style="font-size: 2rem; color: white;"></i></a>
-                 <a href="/logout" title="logout from the webapp"><i class="bi bi-box-arrow-in-up"
-                                                                     style="font-size: 2rem; color: white;"></i></a>-->
-
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <a th:if="${#ctx.session.uid} == null" title="Click to login" href="/login"
-                       style="display: flex; align-items: center; justify-content: center; text-decoration: none; color: white;">
-                        <i class="bi bi-box-arrow-in-down" style="font-size: 2rem; color: white;"></i>
-                    </a>
-                    <a th:if="${#ctx.session.uid} != null" th:href="@{/message}" title="Messages"
-                       style="display: flex; align-items: center; justify-content: center; text-decoration: none; color: white;">
-                        <i class="bi bi-envelope" style="font-size: 2rem; color: white;"></i>
-                    </a>
-                </div>
-
-
-            </th:block>
-
-        </div>
-
     </div>
+
     <nav class="navbar navbar-expand-md navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Home</a>
@@ -66,11 +62,8 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/sectors}">Sectors</a>
                     </li>
-
                 </ul>
-
             </div>
         </div>
     </nav>
-
 </div>

@@ -124,7 +124,7 @@ CREATE TABLE ApplicationMessage
     application_id INT  NOT NULL,
     job_offer_id   INT  NOT NULL,
     date           DATE NOT NULL DEFAULT CURRENT_DATE,
-    message        TEXT NOT NULL,
+    message        VARCHAR(1000) NOT NULL,
     FOREIGN KEY (application_id) REFERENCES Application (id) ON DELETE CASCADE,
     FOREIGN KEY (job_offer_id) REFERENCES JobOffer (id) ON DELETE CASCADE
 );
