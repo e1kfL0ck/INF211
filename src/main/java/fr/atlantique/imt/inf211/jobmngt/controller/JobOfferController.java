@@ -33,7 +33,7 @@ public class JobOfferController {
 
     @GetMapping(value = "/create")
     public ModelAndView showJobOfferForm(HttpServletRequest request) {
-        if(request.getSession().getAttribute("usertype") != "company"){
+        if (request.getSession().getAttribute("usertype") != "company") {
             return new ModelAndView("redirect:/joboffers");
         }
         ModelAndView mav = new ModelAndView("jobOffer/jobOfferForm.html");
@@ -47,7 +47,7 @@ public class JobOfferController {
     @PostMapping(value = "/create")
     //TODO : Voir pour supprimer le selectedSectors
     public ModelAndView createJobOffer(@ModelAttribute JobOffer jobOffer, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
-        if(request.getSession().getAttribute("usertype") != "company"){
+        if (request.getSession().getAttribute("usertype") != "company") {
             return new ModelAndView("redirect:/joboffers");
         }
         JobOffer jb = jobOfferService.createJobOffer(jobOffer, (AppUser) request.getSession().getAttribute("user"), selectedSectors);
@@ -57,7 +57,7 @@ public class JobOfferController {
 
     @GetMapping(value = "/{id}/applications")
     public ModelAndView getApplicationForJobOffer(@PathVariable("id") int id, HttpServletRequest request) {
-        if(!"company".equals(request.getSession().getAttribute("usertype"))){
+        if (!"company".equals(request.getSession().getAttribute("usertype"))) {
             return new ModelAndView("redirect:/joboffers");
         }
         ModelAndView mav = new ModelAndView("jobOffer/jobOfferApplication.html");
@@ -69,7 +69,7 @@ public class JobOfferController {
 
     @GetMapping(value = "/{id}/update")
     public ModelAndView editJobOffer(@PathVariable("id") int id, HttpServletRequest request) {
-        if(!"company".equals(request.getSession().getAttribute("usertype"))){
+        if (!"company".equals(request.getSession().getAttribute("usertype"))) {
             return new ModelAndView("redirect:/joboffers");
         }
         ModelAndView mav = new ModelAndView("jobOffer/jobOfferForm.html");
