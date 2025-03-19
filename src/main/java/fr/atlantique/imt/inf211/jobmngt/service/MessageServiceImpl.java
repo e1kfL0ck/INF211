@@ -29,6 +29,10 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<ApplicationMessage> listOfMessagesApplication(AppUser appUser) {
-        return null;
+        if (appUser.getUsertype().equals("candidate")) {
+            return applicationMessageDao.findByCandidateId("date", "DESC", appUser.getCandidate().getId());
+        } else {
+            return applicationMessageDao.findByCompanyId("date", "DESC", appUser.getCompany().getId());
+        }
     }
 }

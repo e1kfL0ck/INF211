@@ -32,7 +32,7 @@
         <tr th:each="message : ${messagesJobOffer}">
             <td th:text="${message.id}"></td>
             <td>
-                <form th:action="@{/applications/get}" method="get" class="mb-3">
+                <form th:action="@{/joboffer/get}" method="get" class="mb-3">
                     <input type="hidden" name="id" th:value="${message.joboffer.id}" />
                     <button type="submit" class="btn btn-info">
                         <i class="bi bi-eye"></i> View
@@ -60,10 +60,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <!--Lister les messages reçus des entreprises pour une offre d’emploi-->
             <th>ID message</th>
-            <th>Voir l'offre</th>
-            <th>ID Application</th>
+            <th>View application</th>
+            <th>ID JobOffer</th>
             <th>Reception date</th>
             <th>Message content</th>
         </tr>
@@ -74,7 +73,7 @@
             <td>
                 <form th:action="@{/applications/get}" method="get" class="mb-3">
                     <input type="hidden" name="id" th:value="${message.application.id}" />
-                    <button type="submit" class="btn btn-info" th:title="View application with ID: [[${message.application.id}]]">
+                    <button type="submit" class="btn btn-info">
                         <i class="bi bi-eye"></i> View
                     </button>
                 </form>

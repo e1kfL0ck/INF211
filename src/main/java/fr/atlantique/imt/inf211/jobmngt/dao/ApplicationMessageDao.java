@@ -4,8 +4,11 @@ package fr.atlantique.imt.inf211.jobmngt.dao;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.*;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -75,6 +78,34 @@ public class ApplicationMessageDao {
             logger.log(Level.SEVERE, "get failed", re);
             throw re;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<ApplicationMessage> findByCandidateId(String sort, String order, int candidateId) {
+        String r = "SELECT m FROM ApplicationMessage m JOIN m.application a JOIN a.candidate c WHERE c.id = :CandidateId ORDER BY m." + sort;
+        if (order.equals("asc")) {
+            r += " ASC";
+        }
+        else {
+            r += " DESC";
+        }
+        TypedQuery<ApplicationMessage> q = entityManager.createQuery(r, ApplicationMessage.class);
+        q.setParameter("CandidateId", candidateId);
+        return q.getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ApplicationMessage> findByCompanyId(String sort, String order, int companyId){
+        String r = "SELECT m FROM Application Message m JOIN m.joboffer j JOIN j.company c WHERE c.id = :CompanyId ORDER BY m." + sort;
+        if (order.equals("asc")) {
+            r += " ASC";
+        }
+        else {
+            r += " DESC";
+        }
+        TypedQuery<ApplicationMessage> q = entityManager.createQuery(r, ApplicationMessage.class);
+        q.setParameter("CompanyId", companyId);
+        return q.getResultList();
     }
 }
 
