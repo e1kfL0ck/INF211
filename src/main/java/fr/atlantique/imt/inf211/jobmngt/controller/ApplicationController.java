@@ -36,9 +36,13 @@ public class ApplicationController {
     private static final String APPLICATIONS_FORM = "applications/applicationsForm.html";
     private static final String APPLICATIONS_REDIRECT = "redirect:/applications";
     private static final String APPLICATIONS_LIST_OBJECT = "applicationslist";
+    private static final String HOME_REDIRECT = "redirect:/";
 
     @GetMapping("")
     public ModelAndView listOfApplication(HttpServletRequest request) {
+        if (!request.getSession().getAttribute("usertype").equals("candidate")) {
+            return new ModelAndView(HOME_REDIRECT);
+        }
         ModelAndView mav = new ModelAndView(APPLICATIONS_LIST);
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         if (appUser != null) {
@@ -64,6 +68,9 @@ public class ApplicationController {
 
     @PostMapping("/createApplicationData")
     public ModelAndView createApplicationData(@ModelAttribute Application application, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
+        if (!request.getSession().getAttribute("usertype").equals("candidate")) {
+            return new ModelAndView(HOME_REDIRECT);
+        }
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         Set<Sector> sectors = selectedSectors.stream().map(sectorService::getSectorById).collect(Collectors.toSet());
         application.setSectors(sectors);
@@ -92,6 +99,10 @@ public class ApplicationController {
 
     @PostMapping("/{id}/updateApplicationData")
     public ModelAndView updateApplication(@PathVariable("id") int id, @ModelAttribute Application application, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
+        if (!request.getSession().getAttribute("usertype").equals("candidate")) {
+            return new ModelAndView(HOME_REDIRECT);
+        }
+
         Application persistedApplication = applicationService.getApplicationById(id);
         application.setApplicationdate(new Date());
 
@@ -107,6 +118,10 @@ public class ApplicationController {
 
     @GetMapping("/get")
     public ModelAndView searchApplication(@RequestParam("id") int id, HttpServletRequest request) {
+        if (!request.getSession().getAttribute("usertype").equals("candidate")) {
+            return new ModelAndView(HOME_REDIRECT);
+        }
+
         ModelAndView mav = new ModelAndView(APPLICATIONS_LIST);
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         if (appUser != null) {

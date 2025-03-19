@@ -33,6 +33,7 @@ public class MessageController {
         List<ApplicationMessage> messagesApplication = messageService.listOfMessagesApplication( (AppUser) session.getAttribute("user"));
 
         mav.addObject("messagesJobOffer", messagesJobOffer);
+        mav.addObject("messagesApplication", messagesApplication);
         return mav;
     }
 }
