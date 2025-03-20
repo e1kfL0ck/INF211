@@ -34,7 +34,7 @@
                 </ul>
             </td>
             <td>
-                <th:block th:if="${#ctx.session.uid} == application.candidate.appuser.id">
+                <th:block th:if="${appUser != null and appUser.id == applications.candidate.appuser.id}">
                     <a th:href="@{'/applications/' + ${applications.id} + '/jobOffers'}" class="btn btn-info"
                        title="View Job Offers">
                         <i class="bi bi-briefcase"></i> View Job Offers
@@ -57,5 +57,36 @@
     <div th:if="${session.usertype == 'candidate'}">
         <a th:href="@{/applications/create}" class="btn btn-primary">Create New Application</a>
     </div>
+
+    <!-- Popup -->
+    <div class="modal fade" id="companiesModal" tabindex="-1" aria-labelledby="companiesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="companiesModalLabel">Companies</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li th:each="company : ${companiesList}" th:text="${company.name}"></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let applicationCreated = /*[[${applicationCreated}]]*/ false;
+
+        if (applicationCreated) {
+            var modal = new bootstrap.Modal(document.getElementById('companiesModal'));
+            modal.show();
+        }
+        /*]]>*/
+    </script>
 </article>
 </html>

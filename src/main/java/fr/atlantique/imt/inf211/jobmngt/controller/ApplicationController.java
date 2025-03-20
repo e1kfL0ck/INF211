@@ -1,9 +1,6 @@
 package fr.atlantique.imt.inf211.jobmngt.controller;
 
-import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
-import fr.atlantique.imt.inf211.jobmngt.entity.Application;
-import fr.atlantique.imt.inf211.jobmngt.entity.QualificationLevel;
-import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
+import fr.atlantique.imt.inf211.jobmngt.entity.*;
 import fr.atlantique.imt.inf211.jobmngt.service.ApplicationService;
 import fr.atlantique.imt.inf211.jobmngt.service.JobOfferService;
 import fr.atlantique.imt.inf211.jobmngt.service.QualificationLevelService;
@@ -13,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,6 +46,7 @@ public class ApplicationController {
         List<Application> applications = applicationService.listOfApplications();
         mav.addObject(APPLICATIONS_LIST_OBJECT, applications);
 
+        mav.addObject("appUser", request.getSession().getAttribute("user"));
         return mav;
     }
 
@@ -64,17 +64,25 @@ public class ApplicationController {
     }
 
     @PostMapping("/createApplicationData")
-    public ModelAndView createApplicationData(@ModelAttribute Application application, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
+    public ModelAndView createApplicationData(@ModelAttribute Application application, @RequestParam List<Integer> selectedSectors, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (!request.getSession().getAttribute("usertype").equals("candidate")) {
             return new ModelAndView(HOME_REDIRECT);
         }
+
         AppUser appUser = (AppUser) request.getSession().getAttribute("user");
         Set<Sector> sectors = selectedSectors.stream().map(sectorService::getSectorById).collect(Collectors.toSet());
+
         application.setSectors(sectors);
         Application app = applicationService.createApplication(appUser.getCandidate().getId(), application.getQualificationlevel().getId(), application.getCv(), selectedSectors);
-        applicationService.sendMessageToCompany(app.getId(), app);
+
+        Set<Company> companies = new HashSet<>(applicationService.sendMessageToCompany(app.getId(), app));
+
+        redirectAttributes.addFlashAttribute("applicationCreated", true);
+        redirectAttributes.addFlashAttribute("companiesList", companies);
+
         return new ModelAndView(APPLICATIONS_REDIRECT);
     }
+
 
     @PostMapping("/remove")
     public ModelAndView removeApplication(@ModelAttribute Application application) {
