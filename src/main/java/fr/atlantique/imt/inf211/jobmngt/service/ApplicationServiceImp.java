@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 public class ApplicationServiceImp implements ApplicationService {
@@ -114,8 +113,8 @@ public class ApplicationServiceImp implements ApplicationService {
         for (JobOffer jobOffer : jobOfferList) {
             ApplicationMessage applicationMessage = new ApplicationMessage();
             applicationMessage.setJoboffer(jobOffer);
-            applicationMessage.setApplication(applicationDao.findById(id)); // fonctionne ?
-            applicationMessage.setMessage("New application:\n" + "Candidate Email: " + application.getCandidate().getAppuser().getMail() + "\n" + "Candidate Name: " + application.getCandidate().getFirstname() + " " + application.getCandidate().getLastname() + "\n" + "Application ID: " + application.getId() + "\n" + "Job Offer ID: " + jobOffer.getId() + "\n" + "Job Title: " + jobOffer.getTitle() + "\n" + "Job Description: " + jobOffer.getDescription() + "\n" + "Company: " + jobOffer.getCompany().getName() + "\n" + "Qualification Level: " + application.getQualificationlevel().getLabel() + "\n" + "Company Sectors: " + application.getSectors().stream().map(Sector::getLabel).collect(Collectors.joining(", ")) + "\n" + "Application Date: " + application.getApplicationdate() + "\n" + "Current Date: " + new java.util.Date().toString());
+            applicationMessage.setApplication(applicationDao.findById(id));
+            applicationMessage.setMessage("New application : " + application.getId());
             applicationMessage.setDate(new Date());
             applicationMessageDao.persist(applicationMessage);
             companyList.add(jobOffer.getCompany());

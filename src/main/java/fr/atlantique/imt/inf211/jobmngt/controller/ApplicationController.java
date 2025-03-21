@@ -77,6 +77,9 @@ public class ApplicationController {
 
         Set<Company> companies = new HashSet<>(applicationService.sendMessageToCompany(app.getId(), app));
 
+        // Log the companiesList for debugging
+        companies.forEach(company -> System.out.println("Company: " + company.getName()));
+
         redirectAttributes.addFlashAttribute("applicationCreated", true);
         redirectAttributes.addFlashAttribute("companiesList", companies);
 

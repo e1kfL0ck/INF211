@@ -3,7 +3,6 @@ package fr.atlantique.imt.inf211.jobmngt.controller;
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
 import fr.atlantique.imt.inf211.jobmngt.entity.ApplicationMessage;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOfferMessage;
-import fr.atlantique.imt.inf211.jobmngt.service.ApplicationService;
 import fr.atlantique.imt.inf211.jobmngt.service.MessageService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +24,12 @@ public class MessageController {
 
     @GetMapping
     public ModelAndView getAllMessages(HttpSession session) {
-        if(session.getAttribute("user") == null) {
+        if (session.getAttribute("user") == null) {
             return new ModelAndView(REDIRECT_HOME);
         }
         ModelAndView mav = new ModelAndView("message.html");
-        List<JobOfferMessage> messagesJobOffer = messageService.listOfMessagesJobOffer( (AppUser) session.getAttribute("user"));
-        List<ApplicationMessage> messagesApplication = messageService.listOfMessagesApplication( (AppUser) session.getAttribute("user"));
+        List<JobOfferMessage> messagesJobOffer = messageService.listOfMessagesJobOffer((AppUser) session.getAttribute("user"));
+        List<ApplicationMessage> messagesApplication = messageService.listOfMessagesApplication((AppUser) session.getAttribute("user"));
 
         mav.addObject("messagesJobOffer", messagesJobOffer);
         mav.addObject("messagesApplication", messagesApplication);

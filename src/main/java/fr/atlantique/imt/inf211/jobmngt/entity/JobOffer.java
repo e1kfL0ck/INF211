@@ -38,6 +38,8 @@ public class JobOffer implements java.io.Serializable {
      private QualificationLevel qualificationlevel;
      private String title;
      private Date publicationdate;
+
+     @Column(length = 1000)
      private String description;
      private Set<Sector> sectors = new HashSet<Sector>(0);
 //     private Set<ApplicationMessage> applicationMessages = new HashSet<ApplicationMessage>(0);

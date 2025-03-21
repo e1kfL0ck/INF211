@@ -32,7 +32,8 @@
             <td th:text="${job.company.name}"></td>
             <td th:text="${job.qualificationlevel.label}"></td>
             <td>
-                <span th:each="sector : ${job.sectors}" th:text="${sector.label} + ${!iterStat.last ? ', ' : ''}"></span>
+                <span th:each="sector : ${job.sectors}"
+                      th:text="${sector.label} + ${!iterStat.last ? ', ' : ''}"></span>
             </td>
             <td>
                 <span>
@@ -58,6 +59,39 @@
         </tr>
         </tbody>
     </table>
+
+    <div class="modal fade" id="candidatesModal" tabindex="-1" aria-labelledby="candidatesModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="candidatesModalLabel">Candidates</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li th:each="candidate : ${candidatesList}" th:text="${candidate.firstname}"></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let jobOfferCreated = /*[[${jobOfferCreated}]]*/ false;
+
+        if (jobOfferCreated) {
+            var modal = new bootstrap.Modal(document.getElementById('candidatesModal'));
+            modal.show();
+        }
+        /*]]>*/
+    </script>
+
+
     <footer>
         <div th:if="${session.usertype == 'company'}">
             <a href="/joboffers/create" class="btn btn-large btn-primary" title="add new job offer">

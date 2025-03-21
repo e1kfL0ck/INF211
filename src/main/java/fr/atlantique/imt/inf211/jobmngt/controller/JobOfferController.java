@@ -1,7 +1,9 @@
 package fr.atlantique.imt.inf211.jobmngt.controller;
 
 import fr.atlantique.imt.inf211.jobmngt.entity.AppUser;
+import fr.atlantique.imt.inf211.jobmngt.entity.Candidate;
 import fr.atlantique.imt.inf211.jobmngt.entity.JobOffer;
+import fr.atlantique.imt.inf211.jobmngt.entity.Sector;
 import fr.atlantique.imt.inf211.jobmngt.service.JobOfferService;
 import fr.atlantique.imt.inf211.jobmngt.service.QualificationLevelService;
 import fr.atlantique.imt.inf211.jobmngt.service.SectorService;
@@ -10,8 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/joboffers")
@@ -46,12 +52,21 @@ public class JobOfferController {
 
     @PostMapping(value = "/create")
     //TODO : Voir pour supprimer le selectedSectors
-    public ModelAndView createJobOffer(@ModelAttribute JobOffer jobOffer, @RequestParam List<Integer> selectedSectors, HttpServletRequest request) {
+    public ModelAndView createJobOffer(@ModelAttribute JobOffer jobOffer, @RequestParam List<Integer> selectedSectors, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (request.getSession().getAttribute("usertype") != "company") {
             return new ModelAndView("redirect:/joboffers");
         }
+
+        Set<Sector> sectors = selectedSectors.stream().map(sectorService::getSectorById).collect(Collectors.toSet());
+
+        jobOffer.setSectors(sectors);
         JobOffer jb = jobOfferService.createJobOffer(jobOffer, (AppUser) request.getSession().getAttribute("user"), selectedSectors);
-        jobOfferService.sendMessageToCandidate(jb.getId(), jb);
+
+        Set<Candidate> candidates = new HashSet<>(jobOfferService.sendMessageToCandidate(jb.getId(), jb));
+
+        redirectAttributes.addFlashAttribute("jobOfferCreated", true);
+        redirectAttributes.addFlashAttribute("candidatesList", candidates);
+
         return new ModelAndView("redirect:/joboffers");
     }
 
@@ -116,7 +131,8 @@ public class JobOfferController {
         JobOffer jobOffer = jobOfferService.getJobOfferById(id);
         if (jobOffer != null && jobOffer.getCompany().getAppuser().getId() == appUser.getId()) {
             mav.addObject("jobOffersList", List.of(jobOffer));
-        } else {
+        }
+        else {
             mav.addObject("jobOffersList", List.of());
         }
 
