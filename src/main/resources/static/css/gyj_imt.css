@@ -4,10 +4,6 @@
     --dark-blue-imt: rgb(0, 32, 65);
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-}
 
 #content {
     display: flex;
@@ -88,6 +84,16 @@ html, body {
 .widget_button {
     height: 70%;
     margin: 0 auto;
+}
+
+main {
+    flex: 1;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .widget_button img {

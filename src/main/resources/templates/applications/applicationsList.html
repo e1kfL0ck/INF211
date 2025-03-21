@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal-body">
                     <ul>
-                        <li th:each="company : ${companiesList}" th:text="${company.name}"></li>
+                        <li th:each="company : ${companiesList}" th:text="${company.id + ' - ' + company.name}"></li>
                     </ul>
                 </div>
                 <div class="modal-footer">

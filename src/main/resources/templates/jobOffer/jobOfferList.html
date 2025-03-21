@@ -70,7 +70,8 @@
                 </div>
                 <div class="modal-body">
                     <ul>
-                        <li th:each="candidate : ${candidatesList}" th:text="${candidate.firstname}"></li>
+                        <li th:each="candidate : ${candidatesList}"
+                            th:text="${candidate.id + ' - ' + candidate.firstname + ' ' + candidate.lastname}"></li>
                     </ul>
                 </div>
                 <div class="modal-footer">
